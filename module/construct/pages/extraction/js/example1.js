@@ -2,7 +2,7 @@ var labelType, useGradients, nativeTextSupport, animate;
 $(document).ready(function(){
     $.ajax({
         type : "GET",
-        url : 'http://' + ip + "/DomainTopicAPI/getTopicRelation?ClassName=%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&initTopic=%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84",
+        url : 'http://' + ip + "/DomainTopicAPI/getTopicRelation?ClassName=" + getCookie("NowClass") + "&initTopic=" + getCookie("NowClass"),
         datatype : "json",
         async : false,
         success : function(data,status){
@@ -12,7 +12,7 @@ $(document).ready(function(){
     })
 })
 
-function init(){
+function init() {
     //init data
     var json=topic1;
     //end

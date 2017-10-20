@@ -1,4 +1,4 @@
-var test1={
+var test1 = {
     "id": 21,
     "name": "数据结构",
     "data": "",
