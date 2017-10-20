@@ -26,7 +26,7 @@ var layer;
     var edges=new Array();
     for(var i=0;i<dep.length;i++){
         edges[i]={source:Number(dep[i].StartID)-1,sourceName:dep[i].Start,targetName:dep[i].End,target:Number(dep[i].EndID)-1,conf:Number(dep[i].Confidence)};
-        }
+    }
     // var nodes=new Array();
     // for(var i=0;i<layer.length;i++){
     //     nodes[i]={name:layer[i].TermName};
@@ -35,8 +35,8 @@ var layer;
     for(var i=0;i<edges.length;i++){
         $("#table").append(
           "<tr class='tr1' id="+i+"><td>"+edges[i].sourceName+"</td><td>"+edges[i].targetName+"</td></tr>"
-          );
-        }
+        );
+    }
 
         
 
