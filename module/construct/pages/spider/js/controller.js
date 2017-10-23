@@ -38,14 +38,15 @@ var quanju_textnum=0;
         }
     }
 //    console.log(checked_topics.length);
-
+var fragment=[];
     for(var i=0;i<checked_topics.length;i++){
+        //console.log(checked_topics[i]);
        $.ajax({
                 type:"GET",
                 url:'http://'+ip+"/SpiderAPI/getDomainTermFragment",
                 data:{ClassName:getCookie("NowClass"),TermName:checked_topics[i]},
                 dataType:"json",
-                async:false,
+                //async:false,
                 success:function(data){
                     console.log(data);
                 }
