@@ -173,7 +173,7 @@
       </div>
       <hr style="border:none;border-top:1px solid #428bca;margin-bottom:10px;width:100%;margin-left: 2px" />
           <div class="row">
-              <div class="col-md-8 mokuai" style="height:100%">
+              <div class="mokuai" style="height:100%">
               <div class="box box-primary">
                   <div class="row mokuai" style="margin-left:5px;height:50px">
                   <i class="glyphicon glyphicon-align-left"></i>
@@ -184,48 +184,9 @@
                       <div id="pic0" style="width: 97%;height:100%"></div>
                   </div>
               </div>
-              <!--div class="box box-primary">
-                  <div class="row mokuai"   id="suipianqu"  style="overflow-y: hidden;height:100%">
-                      <div class="col-md-8">
-                          <div class="row">
-                          <i class="glyphicon glyphicon-list-alt"style="margin-left: 30px"></i>
-                          <h3 style="margin-top: 10px;display: inline-block">文本碎片</h3>
-                          </div>
-                          <div class="col-md-4 wenbensuipian" ng-repeat="t in fragment" style="display:none">
-                              <div class={{t.termName}}>
-                                <div class="box box-primary" style="border:2px solid #428bca">
-                                  <div class="box-body">
-                                  <a href={{t.fragmentUrl}} style="color:black">
-                                    <div class="textclass" ng-bind="t.fragmentContent"></div>
-                                    </a>
-                                  </div>
-                                  <div class="box-footer">
-                                    <div class="textclass" ng-bind="t.fragmentPostTime.substring(0,10)"></div>
-                                  </div>
-                                </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-sm-4">
-                      <div class="row">
-                      <i class="glyphicon glyphicon-picture"></i>
-                      <h3 style="margin-top: 10px;display: inline-block">图片碎片</h3>
-                      </div>
-                      <div class="row">
-                            <div class=" img  tupiansuipian" ng-repeat="s in wangzhi"  style="display:none">
-                            <div class={{s.termName}}>
-                              <a href={{s.imageUrl}}  target="_blank">
-                                <img src={{s.imageUrl}}>
-                                <span class="picinfo">{{s.imageWidth}}*{{s.imageHeight}}<br>{{s.termName}}</span>
-                              </a>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                  </div>
-              </div-->
+              
               </div>
-              <div id="tongji" class="col-md-4 mokuai" style="height:100%">
+              <!--div id="tongji" class="col-md-4 mokuai" style="height:100%">
               <div class="box box-primary">
                   <div class="row mokuai" style="margin-left:5px;height:50px">
                   <i class="glyphicon glyphicon-align-left"></i>
@@ -240,7 +201,7 @@
                       <div id="pic2" style="width: 100%;height:160px;left:10px"></div>
                   </div>
                   </div>
-              </div>
+              </div-->
           </div>
           <div class="row">
               
@@ -248,20 +209,11 @@
               <div class="box-heading">
                   <div style="display: inline-block;">
                       <i class="glyphicon glyphicon-list-alt"style="margin-left: 30px"></i>
-                      <h3 style="margin-top: 10px;display: inline-block;">文本碎片</h3>
-                  </div>
-                  <div style="display: inline-block;margin-left: 53%">
-                      <i class="glyphicon glyphicon-picture"></i>
-                      <h3 style="margin-top: 10px;display: inline-block">图片碎片</h3>
+                      <h3 style="margin-top: 10px;display: inline-block;">碎片</h3>
                   </div>
               </div>
               <div class="box-body">
                   <div class="row mokuai"   id="suipianqu"  style="overflow-y: hidden;height:100%">
-                      <div class="col-md-8">
-                          <!--div class="row">
-                          <i class="glyphicon glyphicon-list-alt"style="margin-left: 30px"></i>
-                          <h3 style="margin-top: 10px;display: inline-block;">文本碎片</h3>
-                          </div-->
                           <div class="col-md-4 wenbensuipian" ng-repeat="t in fragment" style="display:none">
                               <div class={{t.termName}}>
                                 <div class="box box-primary" style="border:2px solid #428bca">
@@ -276,23 +228,6 @@
                                 </div>
                               </div>
                           </div>
-                      </div>
-                      <div class="col-sm-4">
-                      <!--div class="row">
-                      <i class="glyphicon glyphicon-picture"></i>
-                      <h3 style="margin-top: 10px;display: inline-block">图片碎片</h3>
-                      </div-->
-                      <div class="row">
-                            <div class=" img  tupiansuipian" ng-repeat="s in wangzhi"  style="display:none">
-                            <div class={{s.termName}}>
-                              <a href={{s.imageUrl}}  target="_blank">
-                                <img src={{s.imageUrl}}>
-                                <span class="picinfo">{{s.imageWidth}}*{{s.imageHeight}}<br>{{s.termName}}</span>
-                              </a>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
                   </div>
                   </div>
               </div>

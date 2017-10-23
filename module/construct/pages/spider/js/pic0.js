@@ -15,63 +15,11 @@ $(document).ready(function(){
     var shijian6=myDate6.toLocaleDateString();
     var shijian7=myDate7.toLocaleDateString();
 
- /*   var text;
-    var img;
-
-    $.ajax({
-        type:"GET",
-        timeout:10000,
-        async:false,
-        url:'http://'+ip+"/SpiderAPI/getCountByDomain2?ClassName="+getCookie("NowClass"),
-        cache:false,
-        data:{},
-        dataType:"json",
-        success:function(data){
-            text=data[0].number;
-            img=data[1].number;
-        }
-    });*/
+ 
 
 var myChart = echarts.init(document.getElementById('pic0'));
 
-        // 指定图表的配置项和数据
-/*    option = {
-    tooltip : {
-        trigger: 'axis',
-        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-        }
-    },
-    color :['steelblue'],
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis : [
-        {
-            type : 'category',
-            data : [shijian1, shijian2, shijian3, shijian4, shijian5, shijian6, shijian7],
-            axisTick: {
-                alignWithLabel: true
-            }
-        }
-    ],
-    yAxis : [
-        {
-            type : 'value'
-        }
-    ],
-    series : [
-        {
-            name:'直接访问',
-            type:'bar',
-            barWidth: '60%',
-            data:[10, 52, 200, 334, 390, 330, 220]
-        }
-    ]
-};*/
+       
 option = {
     tooltip : {
         trigger: 'axis'

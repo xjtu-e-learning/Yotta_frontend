@@ -29,95 +29,72 @@ var quanju_textnum=0;
     var num=0;//计算主题是否全选要用
     var checked_topics=[];
     var checked_topics1;
-//    quanju_img=[];
-//    quanju_text=[];
     quanju_imgnum=0;
     quanju_textnum=0;
-    console.log("success");
     var topics=document.getElementsByName("subject");
     for(var j=0;j<topics.length;j++){
         if(topics[j].checked){
             checked_topics=checked_topics.concat(topics[j].value);
         }
     }
-    checked_topics1=checked_topics.toString();
-    $.ajax({
-                type:"GET",
-                url:'http://'+ip+'/SpiderAPI/getTextByTopicArray?className='+getCookie("NowClass")+"&topicNames="+checked_topics1,
-                data:{},
-                dataType:"json",
-                async:false,
-                success:function(data){
-                    console.log(data);
-                    $scope.fragment=data;
-                }
-            });
-    $.ajax({
-                type:"GET",
-                url:'http://'+ip+'/SpiderAPI/getImageByTopicArray?ClassName='+getCookie("NowClass")+"&topicNames="+checked_topics1,
-                data:{},
-                dataType:"json",
-                async:false,
-                success:function(data){
-                    console.log(data);
-                    $scope.wangzhi=data;
-                }
-            });
+//    console.log(checked_topics.length);
+
     for(var i=0;i<checked_topics.length;i++){
-//            num++;
-//            console.log(num);
-/*            $.ajax({
+       $.ajax({
                 type:"GET",
-                url:'http://'+ip+"/SpiderAPI/getImageByTopic?ClassName="+getCookie("NowClass")+"&TermName="+checked_topics[i],
-                data:{},
+                url:'http://'+ip+"/SpiderAPI/getDomainTermFragment",
+                data:{ClassName:getCookie("NowClass"),TermName:checked_topics[i]},
                 dataType:"json",
                 async:false,
                 success:function(data){
-                    quanju_img=quanju_img.concat(data);
-                    ajaxCount1--;
-                    if(ajaxCount1==0){
-                        $scope.wangzhi=quanju_img;
-                    }
-//                    $scope.wangzhi=quanju_img;
+                    console.log(data);
                 }
-            });*/
+            }); 
+    }
+    // checked_topics1=checked_topics.toString();
+    // $.ajax({
+    //             type:"GET",
+    //             url:'http://'+ip+'/SpiderAPI/getTextByTopicArray?className='+getCookie("NowClass")+"&topicNames="+checked_topics1,
+    //             data:{},
+    //             dataType:"json",
+    //             async:false,
+    //             success:function(data){
+    //                 console.log(data);
+    //                 $scope.fragment=data;
+    //             }
+    //         });
+    // $.ajax({
+    //             type:"GET",
+    //             url:'http://'+ip+'/SpiderAPI/getImageByTopicArray?ClassName='+getCookie("NowClass")+"&topicNames="+checked_topics1,
+    //             data:{},
+    //             dataType:"json",
+    //             async:false,
+    //             success:function(data){
+    //                 console.log(data);
+    //                 $scope.wangzhi=data;
+    //             }
+    //         });
+    // for(var i=0;i<checked_topics.length;i++){
 
-/*           $.ajax({
-                type:"GET",
-                url:'http://'+ip+"/SpiderAPI/getTextByTopic?ClassName="+getCookie("NowClass")+"&TermName="+checked_topics[i],
-                data:{},
-                dataType:"json",
-                async:false,
-                success:function(data){
-                    quanju_text=quanju_text.concat(data);
-                    ajaxCount2--;
-                    if(ajaxCount2==0){
-                        $scope.fragment=quanju_text;
-                    }
-//                    console.log(quanju_text);
-//                    $scope.fragment=quanju_text;
-                }
-            });*/
-
-            $.ajax({
-                type:"GET",
-                url:'http://'+ip+"/SpiderAPI/getCountByTopic?ClassName="+getCookie("NowClass")+"&TermName="+checked_topics[i],
-                data:{},
-                dataType:"json",
-                success:function(data){
-                    if(checked_topics.length==84){//全选直接规定总数
-                        quanju_textnum=1410;
-                        quanju_imgnum=152;
-                    }
-                    else{
-                    quanju_textnum=quanju_textnum+data[0].number;
-                    quanju_imgnum=quanju_imgnum+data[1].number;
-                }
-                    }
-            });
+    //         $.ajax({
+    //             type:"GET",
+    //             url:'http://'+ip+"/SpiderAPI/getCountByTopic?ClassName="+getCookie("NowClass")+"&TermName="+checked_topics[i],
+    //             data:{},
+    //             dataType:"json",
+    //             success:function(data){
+    //                 if(checked_topics.length==84){//全选直接规定总数
+    //                     quanju_textnum=1410;
+    //                     quanju_imgnum=152;
+    //                 }
+    //                 else{
+    //                 quanju_textnum=quanju_textnum+data[0].number;
+    //                 quanju_imgnum=quanju_imgnum+data[1].number;
+    //             }
+    //                 }
+    //         });
         
 
-    }
+    // }
     $("#get").text("确定");
 
 }
