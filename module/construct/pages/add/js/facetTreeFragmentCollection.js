@@ -120,6 +120,11 @@ ykapp.controller('subjectController', function($scope, $http) {
         //var height=$(window).height()*0.9;
         $("#facetedTreeDiv").css("height",height+"px")
         //console.log($(window).height());
+
+        // 初始显示第一个主题的分面树结构
+        console.log(response[0].TermName);
+        SUBJECTNAME = response[0].TermName;
+        LoadBranch();
     });
     /*$.ajax({
          type: "GET",
@@ -197,23 +202,25 @@ function InitPictureFragment(){
 
 $(document).ready(function(){
 	//获取所有主题
-	$.ajax({
-             type: "GET",
-             url: 'http://'+ip+"/DomainTopicAPI/getDomainTopicAll",
-             data: {
-             	ClassName:getCookie("NowClass")
-             },
-             dataType: "json",
-             success: function(data){  
-             			//ObtainTrunk("抽象资料型别");
-                        //生成树枝
-                        LoadBranch();
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-          			//通常情况下textStatus和errorThrown只有其中一个包含信息
-          			alert(textStatus);
-       				}
-        });
+	// $.ajax({
+ //         type: "GET",
+ //         url: 'http://'+ip+"/DomainTopicAPI/getDomainTopicAll",
+ //         data: {
+ //         	ClassName:getCookie("NowClass")
+ //         },
+ //         dataType: "json",
+ //         success: function(data){  
+ //         			//ObtainTrunk("抽象资料型别");
+ //                    //生成树枝
+ //                    console.log(data[0].TermName);
+ //                    SUBJECTNAME = data[0].TermName;
+ //                    LoadBranch();
+ //                 },
+ //         error:function(XMLHttpRequest, textStatus, errorThrown){
+ //      			//通常情况下textStatus和errorThrown只有其中一个包含信息
+ //      			alert(textStatus);
+ //   				}
+ //    });
 	InitTextFragment();
 	InitPictureFragment();
 });
