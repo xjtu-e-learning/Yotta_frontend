@@ -1,9 +1,7 @@
 /**
  * 读取配置文件
  */
-// var ip='123.139.159.38:9218/Yotta'
-var ip = "localhost:8080/Yotta"; 
-// var ip = "202.117.54.125:8080/Yotta"; 
+var ip = "202.117.54.39:8080/Yotta"; 
 
 
 // setCookie("name","hayden");

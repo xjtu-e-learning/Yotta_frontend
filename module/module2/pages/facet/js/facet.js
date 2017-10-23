@@ -156,16 +156,6 @@ app.controller('myCon',function($scope,$http){
 
         });
 
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/getDomainInfo",
-        //      data: {ClassName:nowOperateClass},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //                  $scope.classInfo=data;
-        //               }
-        //  });
     }
 
     $scope.getTerm=function(){
@@ -195,30 +185,6 @@ app.controller('myCon',function($scope,$http){
         }, function errorCallback(response){
 
         });
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/getDomainTerm",
-        //      data: {ClassName:nowOperateClass},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //                  for(var i=0;i<data.length;i++){
-        //                     $.ajax({
-        //                        type: "GET",
-        //                        url: ip+"/DomainTopicAPI/getDomainTermInfo",
-        //                        data: {ClassName:nowOperateClass,TermName:data[i].TermName},
-        //                        dataType: "json",
-        //                        success: function(data1){
-        //                        if(data1[0].FacetNum==0){
-        //                        $("#"+data1[0].TermName+"_a").hide();
-        //                                                        }
-        //                                                                   }
-        //                      });
-        //                 }
-
-        //               }
-        //  });
         
         
     }
@@ -251,35 +217,6 @@ app.controller('myCon',function($scope,$http){
         }, function errorCallback(response){
 
         });
-
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/getDomainTerm",
-        //      data: {ClassName:nowOperateClass},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //                  $scope.topics=data;
-        //                  for(var i=0;i<data.length;i++){
-        //                     $.ajax({
-        //                        type: "GET",
-        //                        url: ip+"/DomainTopicAPI/getDomainTermInfo",
-        //                        data: {ClassName:nowOperateClass,TermName:data[i].TermName},
-        //                        dataType: "json",
-        //         //             async:false,
-        //                        success: function(data1){
-        //                        //console.log(data1);
-        //                        if(data1[0].FacetNum==0){
-        //                        //console.log($("#"+data1[0].TermName+"a"));
-        //                        $("#"+data1[0].TermName+"_a").hide();
-        //                                                        }
-        //                                                                   }
-        //                      });
-        //                 }
-
-        //               }
-        //  });
         
         
     }
@@ -332,30 +269,6 @@ app.controller('myCon',function($scope,$http){
         }, function errorCallback(response){
 
         });
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/getDomainTermFacet1",
-        //      data: {ClassName:a,TermName:b},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //                  for(var i=0;i<data.length;i++){
-        //                     $.ajax({
-        //                        type: "GET",
-        //                        url: ip+"/FacetAPI/getFacet1Facet2Num",
-        //                        data: {ClassName:a,TermName:b,Facet1Name:data[i].FacetName},
-        //                        dataType: "json",
-        //                        success: function(data1){
-        //                         if(data1.Facet2Num==0){
-        //                             $("#"+b+"_"+data1.Facet1Name+"_a").hide();
-        //                         }
-        //                     }
-        //                 });
-        //                  }
-        //               }
-        //  });
-
         
     }
 
@@ -376,23 +289,6 @@ app.controller('myCon',function($scope,$http){
         }, function errorCallback(response){
 
         });
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/getTermFacet",
-        //      data: {ClassName:a,TermName:b},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //         console.log(data);
-        //                  $scope.facets=data;
-        //                  $("#nowtype").text("主题");
-        //                  $("#getfacet").text(" "+b+" 下分面");
-        //                  $("#addfacetname").text("主题 "+b+" 添加分面");
-        //                  $("#topictree").text("主题 "+b+" 分面树");
-        //                  // $scope.$apply();
-        //               }
-        //  });
     }
 
     $scope.getfacet1href=function(a,b,c){
@@ -426,39 +322,6 @@ app.controller('myCon',function($scope,$http){
 
         });
         
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/getDomainTermFacet2",
-        //      data: {ClassName:a,TermName:b,Facet1Name:c},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //                  if(data.length!=0){
-        //             //$scope.facet2s=data;
-        //             for(var i=0;i<data.length;i++){
-        //                 $.ajax({
-        //                        type: "GET",
-        //                        url: ip+"/FacetAPI/getFacet2Facet3Num",
-        //                        data: {ClassName:a,TermName:b,Facet2Name:data[i].ChildFacet},
-        //                        dataType: "json",
-        //                        //async:false,
-        //                        success: function(data1){
-        //                         if(data1.Facet3Num==0){
-        //                             //console.log(data1.Facet2Name);
-        //                             $("#"+b+"_"+c+"_"+data1.Facet2Name+"_a").hide();
-        //                         }
-        //                     }
-        //                 });
-        //             }
-
-        //         }else{
-        //             $("#"+b+"_"+c+"_info").remove();
-                    
-        //         }
-        //               }
-        //  });
-
-        
     }
 
     $scope.getfacet1facet=function(a,b,c){
@@ -480,24 +343,6 @@ app.controller('myCon',function($scope,$http){
         }, function errorCallback(response){
 
         });
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/getTermFacet1",
-        //      data: {ClassName:a,TermName:b,Facet1Name:c},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //         //console.log(data);
-        //                  $scope.facets=data;
-        //                  $("#nowtype").text("一级分面");
-        //                  $("#getfacet").text(" "+c+" 下分面");
-        //                  $("#addfacetname").text("一级分面 "+c+" 添加分面");
-        //                  $("#topictree").text("主题 "+b+" 分面树");
-        //                  // $scope.$apply();
-        //               }
-                    
-        //  });
     }
 
     $scope.getfacet2facet=function(a,b,c,d){
@@ -519,21 +364,6 @@ app.controller('myCon',function($scope,$http){
         }, function errorCallback(response){
 
         });
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/getDomainTermFacet3",
-        //      data: {ClassName:a,TermName:b,Facet2Name:d},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //                  $scope.facets=data;
-        //                  $("#nowtype").text("二级分面");
-        //                  $("#getfacet").text(" "+d+" 下分面");
-        //                  $("#addfacetname").text("二级分面 "+d+" 添加分面");
-        //                  $("#topictree").text("主题 "+b+" 分面树");
-        //               }
-        //  });
     }
 
     $scope.getfacetinfo=function(a,b){
@@ -551,22 +381,6 @@ app.controller('myCon',function($scope,$http){
         }, function errorCallback(response){
 
         });
-
-         //    $.ajax({
-         //     type: "GET",
-         //     url: ip+"/FacetAPI/getTermFacet1Fragment",
-         //     data: {ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:a},
-         //     dataType: "json",
-         //     async:false,
-         //     success: function(data){
-         //                 $("#facet_name").text(data.FacetName);
-         //                 $("#facet_layer").text(data.FacetLayer);
-         //                 $("#facet_fragment_num").text(data.FragmentNum);
-         //                 $("#choseFacet").text(a+" 信息");
-         //                 TextNum=data.FragmentTextNum;
-         //                 ImageNum=data.FragmentImageNum;
-         //              }
-         // });
         }
         else if(b=="2"){
 
@@ -583,21 +397,6 @@ app.controller('myCon',function($scope,$http){
 
         });
 
-         //    $.ajax({
-         //     type: "GET",
-         //     url: ip+"/FacetAPI/getTermFacet2Fragment",
-         //     data: {ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:a},
-         //     dataType: "json",
-         //     async:false,
-         //     success: function(data){
-         //                 $("#facet_name").text(data.FacetName);
-         //                 $("#facet_layer").text(data.FacetLayer);
-         //                 $("#facet_fragment_num").text(data.FragmentNum);
-         //                 $("#choseFacet").text(a+" 信息");
-         //                 TextNum=data.FragmentTextNum;
-         //                 ImageNum=data.FragmentImageNum;
-         //              }
-         // });
         }
         else{
 
@@ -613,22 +412,6 @@ app.controller('myCon',function($scope,$http){
         }, function errorCallback(response){
 
         });
-
-         //   $.ajax({
-         //     type: "GET",
-         //     url: ip+"/FacetAPI/getTermFacet3Fragment",
-         //     data: {ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:a},
-         //     dataType: "json",
-         //     async:false,
-         //     success: function(data){
-         //                 $("#facet_name").text(data.FacetName);
-         //                 $("#facet_layer").text(data.FacetLayer);
-         //                 $("#facet_fragment_num").text(data.FragmentNum);
-         //                 $("#choseFacet").text(a+" 信息");
-         //                 TextNum=data.FragmentTextNum;
-         //                 ImageNum=data.FragmentImageNum;
-         //              }
-         // }); 
         }
         
     }
@@ -646,21 +429,11 @@ app.controller('myCon',function($scope,$http){
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
+            $scope.getInfo();
+            $scope.getTerm();
         }, function errorCallback(response){
 
         });
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/deleteFacet1",
-        //      data: {ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name},
-        //      dataType: "json",
-        //      //async:false,
-        //      success: function(data){
-        //                  alert(data.success);
-        //                  $scope.gettopicfacet(nowOperateTopic);
-        //               }
-        //  });
     }
     else if(layer=="2"){
 
@@ -671,20 +444,11 @@ app.controller('myCon',function($scope,$http){
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
+            $scope.getInfo();
+            $scope.getTerm();
         }, function errorCallback(response){
 
         });
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/deleteFacet2",
-        //      data: {ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //                  alert(data.success);
-        //               }
-        //  });
     }
     else{
 
@@ -695,21 +459,11 @@ app.controller('myCon',function($scope,$http){
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
+            $scope.getInfo();
+            $scope.getTerm();
         }, function errorCallback(response){
 
         });
-
-
-        // $.ajax({
-        //      type: "GET",
-        //      url: ip+"/FacetAPI/deleteFacet3",
-        //      data: {ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name},
-        //      dataType: "json",
-        //      async:false,
-        //      success: function(data){
-        //                  alert(data.success);
-        //               }
-        //  });
     }
     }
 

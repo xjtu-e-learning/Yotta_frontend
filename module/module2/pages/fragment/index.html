@@ -244,7 +244,7 @@
 
                   <div ng-repeat="unaddfragment in unaddfragments"  id={{unaddfragment.FragmentID}}_unadd>
                   <div class="box box-primary drag-object"  style="border:2px solid #428bca;width:20%;float:left;margin:5px;overflow-y: auto;cursor:move;" ng-drag="true" ng-drag-data="unaddfragment" ng-drag-success="dragFragment($data,$event)">
-                    <div class="box-body" style="height:150px;overflow: hidden" ng-bind-html="unaddfragment.FragmentContent">
+                    <div class="box-body" style="height:150px;overflow: auto" ng-bind-html="unaddfragment.FragmentContent">
                     </div>
                     <div class="box-footer">
                       <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteUnaddFragment(unaddfragment.FragmentID)"><i class="fa fa-times"></i></button>
@@ -263,7 +263,7 @@
             <div id="fragmentInfoDiv" class="box-body" style="display: block;overflow-y: auto" >
               <div ng-drop="true" ng-drop-success="dropFacetFragment($data,$event)">
                 <div class="box box-primary" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:20%;float:left;margin:1%" >
-                  <div class="box-body" style="height:150px;overflow:hidden" ng-bind-html="fragment.FragmentContent">
+                  <div class="box-body" style="height:150px;overflow:auto" ng-bind-html="fragment.FragmentContent">
                   </div>
                   <div class="box-footer">
                     <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteFragment(fragment.FragmentID)"><i class="fa fa-times"></i></button>
