@@ -37,10 +37,23 @@ var quanju_textnum=0;
             checked_topics=checked_topics.concat(topics[j].value);
         }
     }
-//    console.log(checked_topics.length);
+
+    checked_topicsArray=checked_topics.toString();
+    $.ajax({
+        type:"GET",
+        url:'http://'+ip+'/SpiderAPI/getFragmentByTopicArray',
+        data:{ClassName:getCookie("NowClass"),topicNames:checked_topicsArray},
+        dataType:"json",
+                //async:false,
+                success:function(data){
+                    console.log(data);
+                }
+            });
+
+
+
 var fragment=[];
     for(var i=0;i<checked_topics.length;i++){
-        //console.log(checked_topics[i]);
        $.ajax({
                 type:"GET",
                 url:'http://'+ip+"/SpiderAPI/getDomainTermFragment",
