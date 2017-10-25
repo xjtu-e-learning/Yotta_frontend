@@ -122,8 +122,8 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="row mokuai" style="margin-left: 2px;height:25px">
-                      <button class="btn btn-primary" style="margin-right:50px" data-toggle="modal" data-target="#myModal1">选择主题
+      <div id="guide" class="row mokuai" style="margin-left: 1%;">
+                      <button class="btn btn-primary" style="margin-right:5%" data-toggle="modal" data-target="#myModal1">选择主题
                   </button>
                   <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
                       <div class="modal-dialog">
@@ -136,7 +136,7 @@
                                       选项
                                   </h4>
                               </div>
-                              <div id="topic0" class="modal-body" style="height:300px;overflow-y:hidden">
+                              <div id="topic0" class="modal-body" style="overflow-y:auto">
                                   <form action="">
                                   <span   ng-repeat="top in tops">
                                           <input type="checkbox" name="subject" value={{top.TermName}}>
@@ -159,34 +159,35 @@
                       </div>
                   </div>
                   <label class="btn label-primary" for="topsel" style="cursor: default">选择数据源:</label>
-                  <select id="topsel" style="margin-right: 50px;height:35px">
+                  <select id="topsel" style="margin-right: 5%;height:120%">
                       <option value="百度百科">百度百科</option>
                       <option value="维基百科" selected>维基百科</option>
                   </select>
                   <label class="btn label-primary" for="numsel"  style="cursor: default">每页显示数量:</label>
-                  <select id="numsel" style="margin-right:50px;height:35px">
+                  <select id="numsel" style="margin-right:5%;height:120%">
                       <option value="10" selected>10</option>
                       <option value="15">15</option>
                       <option value="30">30</option>
                       <option value="60">60</option>
                   </select>
-                  <button id="yes" class="btn btn-primary" style="margin-right:50px"  onclick="showDivNum()">确定</button>
+                  <button id="yes" class="btn btn-primary" onclick="showDivNum()">确定</button>
       </div>
-      <hr style="border:none;border-top:1px solid #428bca;margin-bottom:10px;width:100%;margin-left: 2px" />
-          <div class="row">
-              <div class="mokuai" style="height:100%">
-              <div class="box box-primary">
-                  <div class="row mokuai" style="margin-left:5px;height:50px">
-                  <i class="glyphicon glyphicon-align-left"></i>
-                      <h3 style="margin-top: 10px;display: inline-block">碎片爬取状态</h3>
-                  </div>
-                  <div class="row mokuai" style="margin-left:5px;height:426px">
-                      
-                      <div id="pic0" style="width: 97%;height:100%"></div>
-                  </div>
-              </div>
+      <!-- <hr style="border:none;border-top:1px solid #428bca;margin-bottom:1%;width:100%;margin-left: 2px" /> -->
+          <div  class="row" style="margin-top:2%">
               
+              <div id="state" class="box box-primary"  style="margin-left: 2%;width:97%">
+
+                  <div class="box-heading">
+                  <div style="display: inline-block;margin-left: 1%">
+                      <i class="glyphicon glyphicon-align-left" style=""></i>
+                      <h3 style="margin-top: 1%;display: inline-block">碎片爬取状态</h3>
+                  </div>
               </div>
+              <div class="box-body" style="margin-left:1%;height:426px">
+                  <div id="pic0" style="width: 97%;height:100%"></div>
+                  </div>
+              </div>
+
               <!--div id="tongji" class="col-md-4 mokuai" style="height:100%">
               <div class="box box-primary">
                   <div class="row mokuai" style="margin-left:5px;height:50px">
@@ -204,28 +205,53 @@
                   </div>
               </div-->
           </div>
-          <div class="row">
+          <div  class="row">
               
-              <div class="box box-primary" style="margin-left: 15px;width:98%">
+              <div id="fragData" class="box box-primary" style="margin-left: 2%;width:97%;overflow-y:auto">
               <div class="box-heading">
-                  <div style="display: inline-block;">
-                      <i class="glyphicon glyphicon-list-alt"style="margin-left: 30px"></i>
-                      <h3 style="margin-top: 10px;display: inline-block;">碎片</h3>
+                  <div style="display: inline-block;margin-left: 1%">
+                      <i class="glyphicon glyphicon-list-alt" style=""></i>
+                      <h3 style="margin-top: 1%;display: inline-block;">碎片</h3>
                       <p style="display: inline-block;">已选主题下共<span id="fragmentNum">n</span>个碎片</p>
                   </div>
               </div>
-              <div class="box-body">
-                <div class="row mokuai"   id="suipianqu"  style="overflow-y: hidden;height:100%">
+              <div class="box-body" style="">
                   <div class="box box-primary fragment" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:15%;float:left;margin:1%" >
-                    <div class="box-body" style="height:200px;overflow-y: auto" ng-bind-html="fragment.fragmentContent">
+                    <div class="box-body" style="height:200px;overflow-y: hidden" ng-bind-html="fragment.fragmentContent">
                     </div>
                     <div class="box-footer">
+                      <button type="button" class="btn btn-primary" style="float:left" ng-click="getFragmentDetail(fragment)">
+                        详情
+                      </button>
                     </div>
                   </div>
-                </div>
                   </div>
               </div>
           </div>
+
+          <div class="modal fade" id="fragmentModel" tabindex="-1" role="dialog" aria-labelledby="fragmentModelLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                      &times;
+                                  </button>
+                                  <h4 class="modal-title" id="fragmentModalLabel">
+                                      碎片内容
+                                  </h4>
+                              </div>
+                              <div class="modal-body" style="">
+                                  <div id="fragmentModelContent">
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                              
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+
           <div class="row">
           <div  style="margin-left: 30%">
             <button class="btn btn-default" onclick="pre()">上一页</button>
@@ -278,8 +304,8 @@
   <!-- <script type="text/javascript" src="js/pic2.js"></script> -->
   <script type="text/javascript" src="js/pic0.js"></script>
   <script type="text/javascript" src="js/controller.js"></script>
-  <!-- <script type="text/javascript" src="js/pic1.js"></script> -->
-  <script type="text/javascript" src="js/jquery.slimscroll.min.js"></script>
+  <!-- <script type="text/javascript" src="js/pic1.js"></script> --><!-- 
+  <script type="text/javascript" src="js/jquery.slimscroll.min.js"></script> -->
   <script type="text/javascript" src="js/fenye.js"></script>
   <!--script type="text/javascript" src="js/function.js"></script-->
 

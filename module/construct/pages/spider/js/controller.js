@@ -3,16 +3,18 @@ var zidingyi_height
 $(document).ready(function(){
            var header=$(".content-header").offset().top+$(".content-header").height()
             var footer=$(".main-footer").offset().top
-           zidingyi_height=footer-header
+           zidingyi_height=footer-header;
+           console.log(zidingyi_height);
+           $("#guide").css("height",zidingyi_height*0.04+"px");
+           $("#state").css("height",zidingyi_height*0.7+"px");
+           $("#fragData").css("height",zidingyi_height*0.8+"px");
+           $("#topic0").css("height",zidingyi_height*0.4+"px");
+           // $("#fragDataContent").css("height",zidingyi_height*0.1+"px");
 })
 
 
 
-//四个全局变量
-//var quanju_img=[];
-//var quanju_text=[];
-var quanju_imgnum=0;
-var quanju_textnum=0;
+
 //根据所选主题从后台get碎片函数，主题多时需要时间长，提前执行下一函数会导致结果出错
 
 
@@ -58,64 +60,15 @@ var quanju_textnum=0;
 
 
 
-// var fragment=[];
-//     for(var i=0;i<checked_topics.length;i++){
-//        $.ajax({
-//                 type:"GET",
-//                 url:'http://'+ip+"/SpiderAPI/getDomainTermFragment",
-//                 data:{ClassName:getCookie("NowClass"),TermName:checked_topics[i]},
-//                 dataType:"json",
-//                 //async:false,
-//                 success:function(data){
-//                     console.log(data);
-//                 }
-//             }); 
-//     }
-    // checked_topics1=checked_topics.toString();
-    // $.ajax({
-    //             type:"GET",
-    //             url:'http://'+ip+'/SpiderAPI/getTextByTopicArray?className='+getCookie("NowClass")+"&topicNames="+checked_topics1,
-    //             data:{},
-    //             dataType:"json",
-    //             async:false,
-    //             success:function(data){
-    //                 console.log(data);
-    //                 $scope.fragment=data;
-    //             }
-    //         });
-    // $.ajax({
-    //             type:"GET",
-    //             url:'http://'+ip+'/SpiderAPI/getImageByTopicArray?ClassName='+getCookie("NowClass")+"&topicNames="+checked_topics1,
-    //             data:{},
-    //             dataType:"json",
-    //             async:false,
-    //             success:function(data){
-    //                 console.log(data);
-    //                 $scope.wangzhi=data;
-    //             }
-    //         });
-    // for(var i=0;i<checked_topics.length;i++){
 
-    //         $.ajax({
-    //             type:"GET",
-    //             url:'http://'+ip+"/SpiderAPI/getCountByTopic?ClassName="+getCookie("NowClass")+"&TermName="+checked_topics[i],
-    //             data:{},
-    //             dataType:"json",
-    //             success:function(data){
-    //                 if(checked_topics.length==84){//全选直接规定总数
-    //                     quanju_textnum=1410;
-    //                     quanju_imgnum=152;
-    //                 }
-    //                 else{
-    //                 quanju_textnum=quanju_textnum+data[0].number;
-    //                 quanju_imgnum=quanju_imgnum+data[1].number;
-    //             }
-    //                 }
-    //         });
-        
-
-    // }
     $("#get").text("确定");
+
+}
+
+$scope.getFragmentDetail=function(obj){
+    console.log(obj);
+    $('#fragmentModel').modal('show');
+    document.getElementById("fragmentModelContent").innerHTML=obj.fragmentContent;
 
 }
     
