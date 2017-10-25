@@ -1,44 +1,61 @@
 //点确定键之后的初始化显示函数
 function showDivNum(){ 
-     var wen=document.getElementsByClassName("wenbensuipian").length;
-     var tu=document.getElementsByClassName("img").length;
-    var sum=wen>tu?wen:tu;
-    console.log(wen);
-    console.log(tu);
-//    console.log(sum);
+    var fragmentNum=document.getElementsByClassName("fragment").length;
+    console.log(fragmentNum);
     var count=document.getElementById("numsel").value;//每页显示个数
-    var index=Math.ceil(sum/count);
-//    console.log(index);
-    $("#page").text(index);
+    var pageNum=Math.ceil(fragmentNum/count);
+    console.log(pageNum);
+    $("#page").text(pageNum);
     $("#nowpage").text(1);
     var source=document.getElementById("topsel").value;
     $("#sourcefrom").text(source);
-    if(wen>count){
+    if(fragmentNum>count){
         for(var i=0;i<count;i++){
-            $(".wenbensuipian")[i].style.display="block";
-        }
-        for(var i=count;i<wen;i++){
-            $(".wenbensuipian")[i].style.display="none";
-        }
+             $(".fragment")[i].style.display="block";
+         }
+         for(var i=count;i<fragmentNum;i++){
+            $(".fragment")[i].style.display="none";
+         }
     }
-    else{
-        for(var i=0;i<wen;i++){
-            $(".wenbensuipian")[i].style.display="block";
-        }
-    }
-    if(tu>count){
-        for(var i=0;i<count;i++){
-            $(".tupiansuipian")[i].style.display="block";
-        }
-        for(var i=count;i<tu;i++){
-            $(".tupiansuipian")[i].style.display="none";
-        }
-    }
-    else{
-        for(var i=0;i<tu;i++){
-            $(".tupiansuipian")[i].style.display="block";
-        }
-    }
+//      var wen=document.getElementsByClassName("wenbensuipian").length;
+//      var tu=document.getElementsByClassName("img").length;
+//     var sum=wen>tu?wen:tu;
+//     console.log(wen);
+//     console.log(tu);
+// //    console.log(sum);
+//     var count=document.getElementById("numsel").value;//每页显示个数
+//     var index=Math.ceil(sum/count);
+// //    console.log(index);
+//     $("#page").text(index);
+//     $("#nowpage").text(1);
+//     var source=document.getElementById("topsel").value;
+//     $("#sourcefrom").text(source);
+//     if(wen>count){
+//         for(var i=0;i<count;i++){
+//             $(".wenbensuipian")[i].style.display="block";
+//         }
+//         for(var i=count;i<wen;i++){
+//             $(".wenbensuipian")[i].style.display="none";
+//         }
+//     }
+//     else{
+//         for(var i=0;i<wen;i++){
+//             $(".wenbensuipian")[i].style.display="block";
+//         }
+//     }
+//     if(tu>count){
+//         for(var i=0;i<count;i++){
+//             $(".tupiansuipian")[i].style.display="block";
+//         }
+//         for(var i=count;i<tu;i++){
+//             $(".tupiansuipian")[i].style.display="none";
+//         }
+//     }
+//     else{
+//         for(var i=0;i<tu;i++){
+//             $(".tupiansuipian")[i].style.display="block";
+//         }
+//     }
 }
 //根据页码跳转函数
 function go(){
@@ -46,11 +63,12 @@ function go(){
     var sumpage=$("#page").text();
     console.log(gopage);
     console.log(sumpage);
-    var wen=document.getElementsByClassName("wenbensuipian").length;
-    var tu=document.getElementsByClassName("img").length;
-    var sum=wen>tu?wen:tu;
+    var fragmentNum=document.getElementsByClassName("fragment").length;
+    // var wen=document.getElementsByClassName("wenbensuipian").length;
+    // var tu=document.getElementsByClassName("img").length;
+    // var sum=wen>tu?wen:tu;
     var count=document.getElementById("numsel").value;//每页显示个数
-    var index=Math.ceil(sum/count);
+    var index=Math.ceil(fragmentNum/count);
     if(sumpage==1){
         alert("无效页码");
     }
@@ -64,42 +82,42 @@ function go(){
     var end=Number(begin)+Number(count);
     console.log(begin);
     console.log(end);
-    if(begin<wen&&end<wen){
+    if(begin<fragmentNum&&end<fragmentNum){
         for(var i=0;i<begin;i++)
-            $(".wenbensuipian")[i].style.display="none";
+            $(".fragment")[i].style.display="none";
         for(var i=begin;i<end;i++)
-            $(".wenbensuipian")[i].style.display="block";
-        for(var i=end;i<wen;i++)
-            $(".wenbensuipian")[i].style.display="none";
+            $(".fragment")[i].style.display="block";
+        for(var i=end;i<fragmentNum;i++)
+            $(".fragment")[i].style.display="none";
     }
-    if(begin<wen&&end>wen){
+    if(begin<fragmentNum&&end>fragmentNum){
         for(var i=0;i<begin;i++)
-            $(".wenbensuipian")[i].style.display="none";
-        for(var i=begin;i<wen;i++)
-            $(".wenbensuipian")[i].style.display="block";
+            $(".fragment")[i].style.display="none";
+        for(var i=begin;i<fragmentNum;i++)
+            $(".fragment")[i].style.display="block";
     }
-    if(begin>wen){
+    if(begin>fragmentNum){
         for(var i=0;i<tu;i++)
-            $(".wenbensuipian")[i].style.display="none";
+            $(".fragment")[i].style.display="none";
     }
-    if(begin<tu&&end<tu){
-        for(var i=0;i<begin;i++)
-            $(".img")[i].style.display="none";
-        for(var i=begin;i<end;i++)
-            $(".img")[i].style.display="block";
-        for(var i=end;i<tu;i++)
-            $(".img")[i].style.display="none";
-    }
-    if(begin<tu&&end>tu){
-        for(var i=0;i<begin;i++)
-            $(".img")[i].style.display="none";
-        for(var i=begin;i<tu;i++)
-            $(".img")[i].style.display="block";
-    }
-    if(begin>tu){
-        for(var i=0;i<tu;i++)
-            $(".img")[i].style.display="none";
-    }
+    // if(begin<tu&&end<tu){
+    //     for(var i=0;i<begin;i++)
+    //         $(".img")[i].style.display="none";
+    //     for(var i=begin;i<end;i++)
+    //         $(".img")[i].style.display="block";
+    //     for(var i=end;i<tu;i++)
+    //         $(".img")[i].style.display="none";
+    // }
+    // if(begin<tu&&end>tu){
+    //     for(var i=0;i<begin;i++)
+    //         $(".img")[i].style.display="none";
+    //     for(var i=begin;i<tu;i++)
+    //         $(".img")[i].style.display="block";
+    // }
+    // if(begin>tu){
+    //     for(var i=0;i<tu;i++)
+    //         $(".img")[i].style.display="none";
+    // }
 }
 }
 }
@@ -107,49 +125,50 @@ function go(){
 function pre(){
     var nowpage=$("#nowpage").text();
     console.log(nowpage);
-    var wen=document.getElementsByClassName("wenbensuipian").length;
-    var tu=document.getElementsByClassName("img").length;
-    var sum=wen>tu?wen:tu;
+    var fragmentNum=document.getElementsByClassName("fragment").length;
+    // var wen=document.getElementsByClassName("wenbensuipian").length;
+    // var tu=document.getElementsByClassName("img").length;
+    // var sum=wen>tu?wen:tu;
     var count=document.getElementById("numsel").value;//每页显示个数
-    var index=Math.ceil(sum/count);
+    var index=Math.ceil(fragmentNum/count);
     if(nowpage==1){
         alert("当前已经是第一页");
     }
     else{
     var begin=count*(nowpage-2);
     var end=Number(begin)+Number(count);
-    if(begin<wen&&end<wen){
+    if(begin<fragmentNum&&end<fragmentNum){
         for(var i=0;i<begin;i++)
-            $(".wenbensuipian")[i].style.display="none";
+            $(".fragment")[i].style.display="none";
         for(var i=begin;i<end;i++)
-            $(".wenbensuipian")[i].style.display="block";
-        for(var i=end;i<wen;i++)
-            $(".wenbensuipian")[i].style.display="none";
+            $(".fragment")[i].style.display="block";
+        for(var i=end;i<fragmentNum;i++)
+            $(".fragment")[i].style.display="none";
     }
-    if(begin<wen&&end>wen){
+    if(begin<fragmentNum&&end>fragmentNum){
         for(var i=0;i<begin;i++)
-            $(".wenbensuipian")[i].style.display="none";
-        for(var i=begin;i<wen;i++)
-            $(".wenbensuipian")[i].style.display="block";
+            $(".fragment")[i].style.display="none";
+        for(var i=begin;i<fragmentNum;i++)
+            $(".fragment")[i].style.display="block";
     }
-    if(begin<tu&&end<tu){
-        for(var i=0;i<begin;i++)
-            $(".img")[i].style.display="none";
-        for(var i=begin;i<end;i++)
-            $(".img")[i].style.display="block";
-        for(var i=end;i<tu;i++)
-            $(".img")[i].style.display="none";
-    }
-    if(begin<tu&&end>tu){
-        for(var i=0;i<begin;i++)
-            $(".img")[i].style.display="none";
-        for(var i=begin;i<tu;i++)
-            $(".img")[i].style.display="block";
-    }
-    if(begin>tu){
-        for(var i=0;i<tu;i++)
-            $(".img")[i].style.display="none";
-    }
+    // if(begin<tu&&end<tu){
+    //     for(var i=0;i<begin;i++)
+    //         $(".img")[i].style.display="none";
+    //     for(var i=begin;i<end;i++)
+    //         $(".img")[i].style.display="block";
+    //     for(var i=end;i<tu;i++)
+    //         $(".img")[i].style.display="none";
+    // }
+    // if(begin<tu&&end>tu){
+    //     for(var i=0;i<begin;i++)
+    //         $(".img")[i].style.display="none";
+    //     for(var i=begin;i<tu;i++)
+    //         $(".img")[i].style.display="block";
+    // }
+    // if(begin>tu){
+    //     for(var i=0;i<tu;i++)
+    //         $(".img")[i].style.display="none";
+    // }
     nowpage=nowpage-1;
     $("#nowpage").text(nowpage);
     }
@@ -158,49 +177,50 @@ function pre(){
 function nex(){
     var nowpage=$("#nowpage").text();
     var sumpage=$("#page").text();
-    var wen=document.getElementsByClassName("wenbensuipian").length;
-    var tu=document.getElementsByClassName("img").length;
-    var sum=wen>tu?wen:tu;
+    var fragmentNum=document.getElementsByClassName("fragment").length;
+    // var wen=document.getElementsByClassName("wenbensuipian").length;
+    // var tu=document.getElementsByClassName("img").length;
+    // var sum=wen>tu?wen:tu;
     var count=document.getElementById("numsel").value;//每页显示个数
-    var index=Math.ceil(sum/count);
+    var index=Math.ceil(fragmentNum/count);
      if(nowpage==sumpage){
          alert("当前已经是最后一页");
      }
      else{
     var begin=count*nowpage;
     var end=Number(begin)+Number(count);
-    if(begin<wen&&end<wen){
+    if(begin<fragmentNum&&end<fragmentNum){
         for(var i=0;i<begin;i++)
-            $(".wenbensuipian")[i].style.display="none";
+            $(".fragment")[i].style.display="none";
         for(var i=begin;i<end;i++)
-            $(".wenbensuipian")[i].style.display="block";
-        for(var i=end;i<wen;i++)
-            $(".wenbensuipian")[i].style.display="none";
+            $(".fragment")[i].style.display="block";
+        for(var i=end;i<fragmentNum;i++)
+            $(".fragment")[i].style.display="none";
     }
-    if(begin<wen&&end>wen){
+    if(begin<fragmentNum&&end>fragmentNum){
         for(var i=0;i<begin;i++)
-            $(".wenbensuipian")[i].style.display="none";
-        for(var i=begin;i<wen;i++)
-            $(".wenbensuipian")[i].style.display="block";
+            $(".fragment")[i].style.display="none";
+        for(var i=begin;i<fragmentNum;i++)
+            $(".fragment")[i].style.display="block";
     }
-    if(begin<tu&&end<tu){
-        for(var i=0;i<begin;i++)
-            $(".img")[i].style.display="none";
-        for(var i=begin;i<end;i++)
-            $(".img")[i].style.display="block";
-        for(var i=end;i<tu;i++)
-            $(".img")[i].style.display="none";
-    }
-    if(begin<tu&&end>tu){
-        for(var i=0;i<begin;i++)
-            $(".img")[i].style.display="none";
-        for(var i=begin;i<tu;i++)
-            $(".img")[i].style.display="block";
-    }
-    if(begin>tu){
-        for(var i=0;i<tu;i++)
-            $(".img")[i].style.display="none";
-    }
+    // if(begin<tu&&end<tu){
+    //     for(var i=0;i<begin;i++)
+    //         $(".img")[i].style.display="none";
+    //     for(var i=begin;i<end;i++)
+    //         $(".img")[i].style.display="block";
+    //     for(var i=end;i<tu;i++)
+    //         $(".img")[i].style.display="none";
+    // }
+    // if(begin<tu&&end>tu){
+    //     for(var i=0;i<begin;i++)
+    //         $(".img")[i].style.display="none";
+    //     for(var i=begin;i<tu;i++)
+    //         $(".img")[i].style.display="block";
+    // }
+    // if(begin>tu){
+    //     for(var i=0;i<tu;i++)
+    //         $(".img")[i].style.display="none";
+    // }
     nowpage=Number(nowpage)+1;
     $("#nowpage").text(nowpage);
     }

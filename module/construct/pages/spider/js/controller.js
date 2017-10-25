@@ -19,7 +19,7 @@ var quanju_textnum=0;
 
 //控制器，初始get所有主题，点击模态框的关闭时，通过上述函数get的碎片会绑定到前台
  var app=angular.module('myApp',[]);
- app.controller('myCon',function($scope,$http){
+ app.controller('myCon',function($scope,$http,$sce){
 
     console.log('当前课程为：' + getCookie("NowClass"));
     $scope.NowClass = getCookie("NowClass");
@@ -39,32 +39,38 @@ var quanju_textnum=0;
     }
 
     checked_topicsArray=checked_topics.toString();
+    console.log(checked_topicsArray);
     $.ajax({
         type:"GET",
         url:'http://'+ip+'/SpiderAPI/getFragmentByTopicArray',
-        data:{ClassName:getCookie("NowClass"),topicNames:checked_topicsArray},
+        data:{className:getCookie("NowClass"),topicNames:checked_topicsArray},
         dataType:"json",
-                //async:false,
+                async:false,
                 success:function(data){
-                    console.log(data);
+                    // console.log(data.length);
+                    $("#fragmentNum").text(data.length);
+                    $scope.fragments=data;
+                    for(var i=0;i<$scope.fragments.length;i++){
+                     $scope.fragments[i].fragmentContent=$sce.trustAsHtml($scope.fragments[i].fragmentContent);
+                 }
                 }
             });
 
 
 
-var fragment=[];
-    for(var i=0;i<checked_topics.length;i++){
-       $.ajax({
-                type:"GET",
-                url:'http://'+ip+"/SpiderAPI/getDomainTermFragment",
-                data:{ClassName:getCookie("NowClass"),TermName:checked_topics[i]},
-                dataType:"json",
-                //async:false,
-                success:function(data){
-                    console.log(data);
-                }
-            }); 
-    }
+// var fragment=[];
+//     for(var i=0;i<checked_topics.length;i++){
+//        $.ajax({
+//                 type:"GET",
+//                 url:'http://'+ip+"/SpiderAPI/getDomainTermFragment",
+//                 data:{ClassName:getCookie("NowClass"),TermName:checked_topics[i]},
+//                 dataType:"json",
+//                 //async:false,
+//                 success:function(data){
+//                     console.log(data);
+//                 }
+//             }); 
+//     }
     // checked_topics1=checked_topics.toString();
     // $.ajax({
     //             type:"GET",

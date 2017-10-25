@@ -20,13 +20,61 @@ $(document).ready(function(){
 var myChart = echarts.init(document.getElementById('pic0'));
 
        
+// option = {
+//     tooltip : {
+//         trigger: 'axis'
+//     },
+//     color :['steelblue','#c3272b'],
+//     legend: {
+//         data:['文本','图片']
+//     },
+//     toolbox: {
+//         show : true,
+//         feature : {
+//             mark : {show: true},
+//             dataView : {show: true, readOnly: false},
+//             magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+//             restore : {show: true},
+//             saveAsImage : {show: true}
+//         }
+//     },
+//     calculable : true,
+//     xAxis : [
+//         {
+//             type : 'category',
+//             boundaryGap : false,
+//             data : [shijian1,shijian2,shijian3,shijian4,shijian5,shijian6,shijian7]
+//         }
+//     ],
+//     yAxis : [
+//         {
+//             type : 'value'
+//         }
+//     ],
+//     series : [
+//         {
+//             name:'文本',
+//             type:'line',
+//             stack: '总量',
+//             itemStyle: {normal: {areaStyle: {type: 'default'}}},
+//             data:[120, 132, 101, 134, 90, 230, 210]
+//         },
+//         {
+//             name:'图片',
+//             type:'line',
+//             stack: '总量',
+//             itemStyle: {normal: {areaStyle: {type: 'default'}}},
+//             data:[20, 32, 11, 34, 20, 30, 18]
+//         }
+//     ]
+// };
 option = {
     tooltip : {
         trigger: 'axis'
     },
-    color :['steelblue','#c3272b'],
+    color :['steelblue'],
     legend: {
-        data:['文本','图片']
+        data:['碎片']
     },
     toolbox: {
         show : true,
@@ -53,22 +101,14 @@ option = {
     ],
     series : [
         {
-            name:'文本',
+            name:'碎片',
             type:'line',
             stack: '总量',
             itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data:[120, 132, 101, 134, 90, 230, 210]
-        },
-        {
-            name:'图片',
-            type:'line',
-            stack: '总量',
-            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-            data:[20, 32, 11, 34, 20, 30, 18]
         }
     ]
 };
-
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);

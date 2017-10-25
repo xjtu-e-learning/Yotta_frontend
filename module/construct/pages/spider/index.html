@@ -165,8 +165,9 @@
                   </select>
                   <label class="btn label-primary" for="numsel"  style="cursor: default">每页显示数量:</label>
                   <select id="numsel" style="margin-right:50px;height:35px">
+                      <option value="10" selected>10</option>
                       <option value="15">15</option>
-                      <option value="30" selected>30</option>
+                      <option value="30">30</option>
                       <option value="60">60</option>
                   </select>
                   <button id="yes" class="btn btn-primary" style="margin-right:50px"  onclick="showDivNum()">确定</button>
@@ -210,25 +211,18 @@
                   <div style="display: inline-block;">
                       <i class="glyphicon glyphicon-list-alt"style="margin-left: 30px"></i>
                       <h3 style="margin-top: 10px;display: inline-block;">碎片</h3>
+                      <p style="display: inline-block;">已选主题下共<span id="fragmentNum">n</span>个碎片</p>
                   </div>
               </div>
               <div class="box-body">
-                  <div class="row mokuai"   id="suipianqu"  style="overflow-y: hidden;height:100%">
-                          <div class="col-md-4 wenbensuipian" ng-repeat="t in fragment" style="display:none">
-                              <div class={{t.termName}}>
-                                <div class="box box-primary" style="border:2px solid #428bca">
-                                  <div class="box-body">
-                                  <a href={{t.fragmentUrl}} style="color:black">
-                                    <div class="textclass" ng-bind="t.fragmentContent"></div>
-                                    </a>
-                                  </div>
-                                  <div class="box-footer">
-                                    <div class="textclass" ng-bind="t.fragmentScratchTime"></div>
-                                  </div>
-                                </div>
-                              </div>
-                          </div>
+                <div class="row mokuai"   id="suipianqu"  style="overflow-y: hidden;height:100%">
+                  <div class="box box-primary fragment" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:15%;float:left;margin:1%" >
+                    <div class="box-body" style="height:200px;overflow-y: auto" ng-bind-html="fragment.fragmentContent">
+                    </div>
+                    <div class="box-footer">
+                    </div>
                   </div>
+                </div>
                   </div>
               </div>
           </div>
