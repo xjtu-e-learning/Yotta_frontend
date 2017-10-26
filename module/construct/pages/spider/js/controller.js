@@ -46,6 +46,7 @@ var quanju_textnum=0;
                 url:'http://'+ip+'/SpiderAPI/getTextByTopicArray?className='+getCookie("NowClass")+"&topicNames="+checked_topics1,
                 data:{},
                 dataType:"json",
+                cache:true,
                 async:false,
                 success:function(data){
                     console.log(data);
@@ -57,6 +58,7 @@ var quanju_textnum=0;
                 url:'http://'+ip+'/SpiderAPI/getImageByTopicArray?ClassName='+getCookie("NowClass")+"&topicNames="+checked_topics1,
                 data:{},
                 dataType:"json",
+                cache:true,
                 async:false,
                 success:function(data){
                     console.log(data);
@@ -103,6 +105,7 @@ var quanju_textnum=0;
                 type:"GET",
                 url:'http://'+ip+"/SpiderAPI/getCountByTopic?ClassName="+getCookie("NowClass")+"&TermName="+checked_topics[i],
                 data:{},
+                cache:true,
                 dataType:"json",
                 success:function(data){
                     if(checked_topics.length==84){//全选直接规定总数
