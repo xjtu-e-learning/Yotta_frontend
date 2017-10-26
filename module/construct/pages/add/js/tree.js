@@ -341,7 +341,7 @@ function showTPFragment(branchName,type){
 	$("#pictureFragmentDiv").empty();
 	$.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
              	ClassName:getCookie("NowClass"),
              	TermName:SUBJECTNAME
@@ -614,7 +614,7 @@ document.getElementById("facetedTreeDiv").innerHTML='';
 
 $.ajax({
          type: "GET",
-         url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+         url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
          data: {
          	ClassName:getCookie("NowClass"),
          	TermName:SUBJECTNAME

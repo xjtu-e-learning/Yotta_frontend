@@ -120,6 +120,11 @@ ykapp.controller('subjectController', function($scope, $http) {
         //var height=$(window).height()*0.9;
         $("#facetedTreeDiv").css("height",height*1.2+"px")
         //console.log($(window).height());
+
+        // 每次选择一门新的课程时，展示这门新的课程的第一个主题的分面树
+        console.log(response[0].TermName);
+        SUBJECTNAME = response[0].TermName;
+        LoadBranch();
     });
     /*$.ajax({
          type: "GET",
@@ -166,7 +171,7 @@ function DisplayTrunk(dataset){
 function ObtainTrunk(subjectName){
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:subjectName
@@ -197,23 +202,23 @@ function ObtainTrunk(subjectName){
 
 $(document).ready(function(){
     //获取所有主题
-    $.ajax({
-             type: "GET",
-             url: 'http://'+ip+"/DomainTopicAPI/getDomainTopicAll",
-             data: {
-                ClassName:getCookie("NowClass")
-             },
-             dataType: "json",
-             success: function(data){  
-                        //ObtainTrunk("抽象资料型别");
-                        //生成树枝
-                        LoadBranch();
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-                    //通常情况下textStatus和errorThrown只有其中一个包含信息
-                    alert(textStatus);
-                    }
-        });
+    // $.ajax({
+    //          type: "GET",
+    //          url: 'http://'+ip+"/DomainTopicAPI/getDomainTopicAll",
+    //          data: {
+    //             ClassName:getCookie("NowClass")
+    //          },
+    //          dataType: "json",
+    //          success: function(data){  
+    //                     //ObtainTrunk("抽象资料型别");
+    //                     //生成树枝
+    //                     LoadBranch();
+    //                  },
+    //          error:function(XMLHttpRequest, textStatus, errorThrown){
+    //                 //通常情况下textStatus和errorThrown只有其中一个包含信息
+    //                 alert(textStatus);
+    //                 }
+    //     });
     // InitTextFragment();
     // InitPictureFragment();
 });
@@ -315,7 +320,7 @@ $(document).ready(function(){
 function LoadBranch(){
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:SUBJECTNAME
