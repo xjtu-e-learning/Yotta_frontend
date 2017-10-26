@@ -6,9 +6,9 @@ var SUBJECTNAME = "抽象资料型别";
 
 //文本图片碎片栏滚动条设置
 $(function() {
-    $(".textSlimscroll").slimScroll({
+    $(".fragmentSlimscroll").slimScroll({
         width: 'auto', //可滚动区域宽度
-        height: '290px', //可滚动区域高度
+        height: '300px', //可滚动区域高度
         size: '10px', //组件宽度
         color: '#000', //滚动条颜色
         position: 'right', //组件位置：left/right
@@ -118,7 +118,7 @@ ykapp.controller('subjectController', function($scope, $http) {
         //console.log($('.box-header').height());
         var height=$("#rightDiv").height()-$('.box-header').height()-8;
         //var height=$(window).height()*0.9;
-        $("#facetedTreeDiv").css("height",height+"px")
+        $("#facetedTreeDiv").css("height",height*1.2+"px")
         //console.log($(window).height());
     });
     /*$.ajax({
@@ -184,16 +184,16 @@ function ObtainTrunk(subjectName){
 }
 
 //3
-function InitTextFragment(){
-	appendTextFragment("文本碎片内容1","文本碎片爬取时间1");
-	appendTextFragment("文本碎片内容2","文本碎片爬取时间2");
-}
+// function InitTextFragment(){
+// 	appendTextFragment("文本碎片内容1","文本碎片爬取时间1");
+// 	appendTextFragment("文本碎片内容2","文本碎片爬取时间2");
+// }
 
 //4
-function InitPictureFragment(){
-	appendPictureFragment("http://pic1.cxtuku.com/00/13/03/b0968e72e10f.jpg");
-	appendPictureFragment("http://img.juimg.com/tuku/yulantu/140214/330686-140214105F352.jpg");
-}
+// function InitPictureFragment(){
+// 	appendPictureFragment("http://pic1.cxtuku.com/00/13/03/b0968e72e10f.jpg");
+// 	appendPictureFragment("http://img.juimg.com/tuku/yulantu/140214/330686-140214105F352.jpg");
+// }
 
 $(document).ready(function(){
 	//获取所有主题
@@ -214,8 +214,8 @@ $(document).ready(function(){
           			alert(textStatus);
        				}
         });
-	InitTextFragment();
-	InitPictureFragment();
+	// InitTextFragment();
+	// InitPictureFragment();
 });
 
 //二、提交所选主题
@@ -356,14 +356,16 @@ function DisplayBranch(dataset){
 //显示文本、图片碎片比例
 function DisplayAllFragment(){
 	//清空文本和图片碎片
-	$("#textFragmentDiv").empty();
-	$("#pictureFragmentDiv").empty();
-	var picNum=0;
-	var textNum=0;
+	// $("#textFragmentDiv").empty();
+	// $("#pictureFragmentDiv").empty();
+	// var picNum=0;
+	// var textNum=0;
+    $("#fragmentDiv").empty();
+    var fragmentNum=0; 
 
 	$.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
              	ClassName:getCookie("NowClass"),
              	TermName:SUBJECTNAME
@@ -377,28 +379,32 @@ function DisplayAllFragment(){
 								if (value2.type==="branch"){
 									//遍历树叶
 									$.each(value2.children,function(index3,value3){
-										if(value3.flag==="text"){
-											appendTextFragment(value3.content,value3.scratchTime);
-											textNum++;
-										}
-										else{
-											appendPictureFragment(value3.content);
-											picNum++;
-										}
+										// if(value3.flag==="text"){
+										// 	appendTextFragment(value3.content,value3.scratchTime);
+										// 	textNum++;
+										// }
+										// else{
+										// 	appendPictureFragment(value3.content);
+										// 	picNum++;
+										// }
+                                        appendFragment(value3.content,value3.scratchTime);
+                                        fragmentNum++;
 									});
 								} 
 								else{
-									if(value2.flag==="text"){
-										appendTextFragment(value2.content,value2.scratchTime);
-										textNum++;
-									}
-									else{
-										appendPictureFragment(value2.content);
-										picNum++;
-									}
+									// if(value2.flag==="text"){
+									// 	appendTextFragment(value2.content,value2.scratchTime);
+									// 	textNum++;
+									// }
+									// else{
+									// 	appendPictureFragment(value2.content);
+									// 	picNum++;
+									// }
+                                    appendFragment(value2.content,value2.scratchTime);
+                                        fragmentNum++;
 								}
 							});
-							showFragmentRatio(textNum,picNum);
+							showFragmentRatio(fragmentNum);
 							//找到所有叶子，结束
 							//return;
 						});
@@ -411,15 +417,15 @@ function DisplayAllFragment(){
 }
 
 //展示文本碎片和图形碎片的数量
-function showFragmentRatio(text,picture){
+function showFragmentRatio(num){
 	//获得文本碎片和图片碎片数量
-    var text_ratio=text/(text+picture)*100;
-    var piture_ratio=picture/(text+picture)*100;
+    // var text_ratio=text/(text+picture)*100;
+    // var piture_ratio=picture/(text+picture)*100;
 	//显示碎片
-	document.getElementById("textCount").innerHTML=text; 
-	document.getElementById('textRatio').style.width=""+text_ratio+"%";
-	document.getElementById("pictureCount").innerHTML=picture; 
-	document.getElementById('pictureRatio').style.width=""+piture_ratio+"%";
+	document.getElementById("textCount").innerHTML=num; 
+	// document.getElementById('textRatio').style.width=""+text_ratio+"%";
+	// document.getElementById("pictureCount").innerHTML=picture; 
+	// document.getElementById('pictureRatio').style.width=""+piture_ratio+"%";
 }
 
 
