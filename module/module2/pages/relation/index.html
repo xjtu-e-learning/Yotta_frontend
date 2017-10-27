@@ -121,12 +121,12 @@ text-align: center;
           <div class="col-md-4"></div>
           <div class="col-md-4">
           <div id="relationClassDiv" style="width:120%;background-color:#3c8dbc ;border-radius: 30px;text-align: center;color:white;">
-          <form  style="font-size: 20px;padding-top: 3%">
+          <form  style="font-size: 25px;padding-top: 5%">
               选择课程:
-              <select id="nameofclass" style="color:black">
+              <select id="nameofclass" style="color:white;background-color: #4682B4">
                 <option ng-repeat="subject in subjects" value={{subject.ClassName}}>{{subject.ClassName}}</option>
               </select>
-              <input type="button" value="确定" style="color:#3c8dbc" ng-click="getDependence()">
+              <input type="button" value="确定" style="color:#3c8dbc;height:35px" ng-click="getDependence()">
             </form>
           </div>
           </div>
