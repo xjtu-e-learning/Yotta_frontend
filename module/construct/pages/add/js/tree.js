@@ -341,7 +341,7 @@ function showTPFragment(branchName,type){
 	$("#pictureFragmentDiv").empty();
 	$.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
              	ClassName:getCookie("NowClass"),
              	TermName:SUBJECTNAME
@@ -419,6 +419,37 @@ function ErgodicBranch(data,branchName){
 		}
 	});
 }
+
+
+function appendFragment(content,time){
+			// var div1 = d3.select("#fragmentDiv")
+			// .append("div");
+			// div1.attr("class","col-sm-6")
+			// 	.style("height","140px")
+			// 	.style("margin-top","10px");
+
+			var div2=d3.select("#fragmentDiv").append("div");
+			div2.attr("class","box box-primary box-solid")
+			div2.style("width","45%");
+			div2.style("border","2px solid #428bca");
+			div2.style("float","left");
+			div2.style("margin","1%");
+				// .style("height","150%")
+				//.style("overflow","hidden");
+
+			var contentDiv=div2.append("div");
+			contentDiv.attr("class","box-body");
+			contentDiv.style("height","200px");
+			contentDiv.style("overflow","hidden");
+			contentDiv.html(content);
+
+			var timeDiv=div2.append("div");
+			timeDiv.attr("class","box-body");
+
+			timeDiv.text(time);
+		}
+
+
 //添加文本碎片
 function appendTextFragment(content,time){
 			var div1 = d3.select("#textFragmentDiv")
@@ -583,7 +614,7 @@ document.getElementById("facetedTreeDiv").innerHTML='';
 
 $.ajax({
          type: "GET",
-         url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+         url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
          data: {
          	ClassName:getCookie("NowClass"),
          	TermName:SUBJECTNAME

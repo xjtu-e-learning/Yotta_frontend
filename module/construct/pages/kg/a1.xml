@@ -32,7 +32,8 @@
           <attvalue for="modularity_class" value="2"></attvalue>
         </attvalues>
         <viz:size value="47.5"></viz:size>
-        <viz:position x="-241.0145" y="-927.7289"></viz:position>
+        <!-- <viz:position x="-241.0145" y="-927.7289"></viz:position> -->
+        <viz:position x="-1209.6278" y="-918.2927"></viz:position>
         <viz:color r="0" g="175" b="135"></viz:color>
       </node>
       <node id="序列" label="序列">
@@ -56,7 +57,8 @@
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
         <viz:size value="60.0"></viz:size>
-        <viz:position x="-1209.6278" y="-918.2927"></viz:position>
+        <!-- <viz:position x="-1209.6278" y="-918.2927"></viz:position> -->
+        <viz:position x="-241.0145" y="-927.7289"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
       </node>
       <node id="抽象资料型别" label="抽象资料型别">

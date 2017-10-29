@@ -6,9 +6,9 @@ var SUBJECTNAME = "抽象资料型别";
 
 //文本图片碎片栏滚动条设置
 $(function() {
-    $(".textSlimscroll").slimScroll({
+    $(".fragmentSlimscroll").slimScroll({
         width: 'auto', //可滚动区域宽度
-        height: '290px', //可滚动区域高度
+        height: '300px', //可滚动区域高度
         size: '10px', //组件宽度
         color: '#000', //滚动条颜色
         position: 'right', //组件位置：left/right
@@ -99,12 +99,12 @@ $(function() {
 //1
 //添加主题单选框进模态框
 function AppendSubjectNameIntoModal(subjectName){
-	var div_head='<div class="col-md-4" style="padding:10px;">';
-	var div_tail='</div>';
-	var input='<input type="radio" name="subject" class="subjectRadio" value='+subjectName+'>'+subjectName;
+    var div_head='<div class="col-md-4" style="padding:10px;">';
+    var div_tail='</div>';
+    var input='<input type="radio" name="subject" class="subjectRadio" value='+subjectName+'>'+subjectName;
 
-	var div=div_head+input+div_tail;
-	$("#subjectModalBody").append(div);
+    var div=div_head+input+div_tail;
+    $("#subjectModalBody").append(div);
 }
 
 var ykapp = angular.module('subjectApp', []);
@@ -118,8 +118,13 @@ ykapp.controller('subjectController', function($scope, $http) {
         //console.log($('.box-header').height());
         var height=$("#rightDiv").height()-$('.box-header').height()-8;
         //var height=$(window).height()*0.9;
-        $("#facetedTreeDiv").css("height",height+"px")
+        $("#facetedTreeDiv").css("height",height*1.2+"px")
         //console.log($(window).height());
+
+        // 每次选择一门新的课程时，展示这门新的课程的第一个主题的分面树
+        console.log(response[0].TermName);
+        SUBJECTNAME = response[0].TermName;
+        LoadBranch();
     });
     /*$.ajax({
          type: "GET",
@@ -144,138 +149,138 @@ ykapp.controller('subjectController', function($scope, $http) {
 //2
 function DisplayTrunk(dataset){
 
-	document.getElementById("facetedTreeDiv").innerHTML='';
-	var datas = [];	
-	multiple=1;
-	datas.push(dataset);
-	//分面树所占空间大小
-	svg = d3.select("div#facetedTreeDiv")
-				.append("svg")
-				.attr("width", "100%")
-				.attr("height","100%");
-	//分面树的位置
-	$("svg").draggable();
+    document.getElementById("facetedTreeDiv").innerHTML='';
+    var datas = []; 
+    multiple=1;
+    datas.push(dataset);
+    //分面树所占空间大小
+    svg = d3.select("div#facetedTreeDiv")
+                .append("svg")
+                .attr("width", "100%")
+                .attr("height","100%");
+    //分面树的位置
+    $("svg").draggable();
     var root_x=$("#facetedTreeDiv").width()/2;
     var root_y=$("#facetedTreeDiv").height()-30;
-	var seed4 = {x: root_x* multiple, y: root_y* multiple, name:dataset.name}; 
-	var tree4 = buildTree(dataset, seed4, multiple);
-    draw_trunk(tree4, seed4, svg, multiple);	
+    var seed4 = {x: root_x* multiple, y: root_y* multiple, name:dataset.name}; 
+    var tree4 = buildTree(dataset, seed4, multiple);
+    draw_trunk(tree4, seed4, svg, multiple);    
 }
 
 
 function ObtainTrunk(subjectName){
-	$.ajax({
+    $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
-             	ClassName:getCookie("NowClass"),
-         		TermName:subjectName
+                ClassName:getCookie("NowClass"),
+                TermName:subjectName
              },
              dataType: "json",
              success: function(data){
-             			DisplayTrunk(data);
+                        DisplayTrunk(data);
                      },
              error:function(XMLHttpRequest, textStatus, errorThrown){
-          			//通常情况下textStatus和errorThrown只有其中一个包含信息
-          			alert(textStatus);
-       				}
+                    //通常情况下textStatus和errorThrown只有其中一个包含信息
+                    alert(textStatus);
+                    }
         });
  
 }
 
 //3
-function InitTextFragment(){
-	appendTextFragment("文本碎片内容1","文本碎片爬取时间1");
-	appendTextFragment("文本碎片内容2","文本碎片爬取时间2");
-}
+// function InitTextFragment(){
+//  appendTextFragment("文本碎片内容1","文本碎片爬取时间1");
+//  appendTextFragment("文本碎片内容2","文本碎片爬取时间2");
+// }
 
 //4
-function InitPictureFragment(){
-	appendPictureFragment("http://pic1.cxtuku.com/00/13/03/b0968e72e10f.jpg");
-	appendPictureFragment("http://img.juimg.com/tuku/yulantu/140214/330686-140214105F352.jpg");
-}
+// function InitPictureFragment(){
+//  appendPictureFragment("http://pic1.cxtuku.com/00/13/03/b0968e72e10f.jpg");
+//  appendPictureFragment("http://img.juimg.com/tuku/yulantu/140214/330686-140214105F352.jpg");
+// }
 
 $(document).ready(function(){
-	//获取所有主题
-	$.ajax({
-             type: "GET",
-             url: 'http://'+ip+"/DomainTopicAPI/getDomainTopicAll",
-             data: {
-             	ClassName:getCookie("NowClass")
-             },
-             dataType: "json",
-             success: function(data){  
-             			//ObtainTrunk("抽象资料型别");
-                        //生成树枝
-                        LoadBranch();
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-          			//通常情况下textStatus和errorThrown只有其中一个包含信息
-          			alert(textStatus);
-       				}
-        });
-	InitTextFragment();
-	InitPictureFragment();
+    //获取所有主题
+    // $.ajax({
+    //          type: "GET",
+    //          url: 'http://'+ip+"/DomainTopicAPI/getDomainTopicAll",
+    //          data: {
+    //             ClassName:getCookie("NowClass")
+    //          },
+    //          dataType: "json",
+    //          success: function(data){  
+    //                     //ObtainTrunk("抽象资料型别");
+    //                     //生成树枝
+    //                     LoadBranch();
+    //                  },
+    //          error:function(XMLHttpRequest, textStatus, errorThrown){
+    //                 //通常情况下textStatus和errorThrown只有其中一个包含信息
+    //                 alert(textStatus);
+    //                 }
+    //     });
+    // InitTextFragment();
+    // InitPictureFragment();
 });
 
 //二、提交所选主题
 //
 $(document).ready(function(){
-	$("button#subjectSubmit").click(function(){
-		//获取被选中主题
-		$("input.subjectRadio").each(function(index,value){
-			if($(this).prop("checked")===true){
-				SUBJECTNAME=$(this).val();
-				console.log($(this));
+    $("button#subjectSubmit").click(function(){
+        //获取被选中主题
+        $("input.subjectRadio").each(function(index,value){
+            if($(this).prop("checked")===true){
+                SUBJECTNAME=$(this).val();
+                console.log($(this));
 
-				//提交主题，获取对应主题的分面及json数据
-				//画树干
-				//ObtainTrunk(SUBJECTNAME);
-				//LoadFacetModal(SUBJECTNAME);
+                //提交主题，获取对应主题的分面及json数据
+                //画树干
+                //ObtainTrunk(SUBJECTNAME);
+                //LoadFacetModal(SUBJECTNAME);
       
                 //生成树枝
                 LoadBranch();
-				//关闭主题模态框
-				$("#subjectModal").modal("hide");
-				return;
-			}
-		});
-	});
+                //关闭主题模态框
+                $("#subjectModal").modal("hide");
+                return;
+            }
+        });
+    });
 });
 
 function LoadFacetModal(subjectName){
-	// 清空分面模态框
-	$("#facetModalBody").empty();
+    // 清空分面模态框
+    $("#facetModalBody").empty();
 
-	$.ajax({
+    $.ajax({
              type: "GET",
              url: 'http://'+ip+"/FacetAPI/getFacet",
              data: {
-             	ClassName:getCookie("NowClass"),
-             	TermName:subjectName,
-             	FacetLayer:1
+                ClassName:getCookie("NowClass"),
+                TermName:subjectName,
+                FacetLayer:1
              },
              dataType: "json",
              success: function(data){
-             			$.each(data,function(index,value){
-             				AppendFacetNameIntoModal(value.facetName);
-             			});
+                        $.each(data,function(index,value){
+                            AppendFacetNameIntoModal(value.facetName);
+                        });
                      },
              error:function(XMLHttpRequest, textStatus, errorThrown){
-          			//通常情况下textStatus和errorThrown只有其中一个包含信息
-          			alert(textStatus);
-       				}
+                    //通常情况下textStatus和errorThrown只有其中一个包含信息
+                    alert(textStatus);
+                    }
         });
 }
 
 //添加分面复选框进模态框
 function AppendFacetNameIntoModal(facetName){
-	var div_head='<div class="col-md-3" style="padding:5px;">';
-	var div_tail='</div>';
-	var input='<input type="checkbox" class="facetCheckbox" checked="true" value='+facetName+'>'+facetName;
+    var div_head='<div class="col-md-3" style="padding:5px;">';
+    var div_tail='</div>';
+    var input='<input type="checkbox" class="facetCheckbox" checked="true" value='+facetName+'>'+facetName;
 
-	var div=div_head+input+div_tail;
-	$("#facetModalBody").append(div);
+    var div=div_head+input+div_tail;
+    $("#facetModalBody").append(div);
 }
 
 
@@ -285,68 +290,68 @@ function AppendFacetNameIntoModal(facetName){
 
 //分面复选框的全选
 $(document).ready(function(){
-	$("button#selectAll").click(function(){
-		$("input.facetCheckbox").each(function(){
-			$(this).prop("checked",true);
-		}); 
-	});
+    $("button#selectAll").click(function(){
+        $("input.facetCheckbox").each(function(){
+            $(this).prop("checked",true);
+        }); 
+    });
 });
 
 $(document).ready(function(){
-	var facetList=[];
-	$("button#facetSubmit").click(function(){
-		//获取被选中主题
-		$("input.facetCheckbox").each(function(index,value){
-			if($(this).prop("checked")===true){
-				facetList.push($(this).val());
+    var facetList=[];
+    $("button#facetSubmit").click(function(){
+        //获取被选中主题
+        $("input.facetCheckbox").each(function(index,value){
+            if($(this).prop("checked")===true){
+                facetList.push($(this).val());
 
-				//提交所选分面，获取对应的json数据
-				//生成树枝
-				LoadBranch();
+                //提交所选分面，获取对应的json数据
+                //生成树枝
+                LoadBranch();
 
-				//关闭主题模态框
-				$("#facetModal").modal("hide");
-			}
-		});
-		console.log(facetList);
-	});
+                //关闭主题模态框
+                $("#facetModal").modal("hide");
+            }
+        });
+        console.log(facetList);
+    });
 });
 
 function LoadBranch(){
-	$.ajax({
+    $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
-             	ClassName:getCookie("NowClass"),
-             	TermName:SUBJECTNAME
+                ClassName:getCookie("NowClass"),
+                TermName:SUBJECTNAME
              },
              dataType: "json",
              success: function(data){
-             			DisplayBranch(data);
+                        DisplayBranch(data);
                      },
              error:function(XMLHttpRequest, textStatus, errorThrown){
-          			//通常情况下textStatus和errorThrown只有其中一个包含信息
-          			alert(textStatus);
-       				}
+                    //通常情况下textStatus和errorThrown只有其中一个包含信息
+                    alert(textStatus);
+                    }
         });
 }
 
 function DisplayBranch(dataset){
-	document.getElementById("facetedTreeDiv").innerHTML='';
-	var datas = [];	
-	multiple=1;
-	datas.push(dataset);
-	//分面树所占空间大小
-	svg = d3.select("div#facetedTreeDiv")
-				.append("svg")
-				.attr("width", "100%")
-				.attr("height","100%");
-	//分面树的位置	
+    document.getElementById("facetedTreeDiv").innerHTML='';
+    var datas = []; 
+    multiple=1;
+    datas.push(dataset);
+    //分面树所占空间大小
+    svg = d3.select("div#facetedTreeDiv")
+                .append("svg")
+                .attr("width", "100%")
+                .attr("height","100%");
+    //分面树的位置    
     var root_x=$("#facetedTreeDiv").width()/2;
     var root_y=$("#facetedTreeDiv").height()-30; //
-	$("svg").draggable();
-	var seed = {x: root_x* multiple, y: root_y* multiple, name:dataset.name}; 
-	var tree = buildBranch(dataset, seed, multiple);
+    $("svg").draggable();
+    var seed = {x: root_x* multiple, y: root_y* multiple, name:dataset.name}; 
+    var tree = buildBranch(dataset, seed, multiple);
     draw_tree(tree, seed, svg, multiple);
 }
 
@@ -355,72 +360,77 @@ function DisplayBranch(dataset){
 //四、点击装配按钮，在右侧栏显示所有文本碎片和图片碎片
 //显示文本、图片碎片比例
 function DisplayAllFragment(){
-	//清空文本和图片碎片
-	$("#textFragmentDiv").empty();
-	$("#pictureFragmentDiv").empty();
-	var picNum=0;
-	var textNum=0;
+    //清空文本和图片碎片
+    // $("#textFragmentDiv").empty();
+    // $("#pictureFragmentDiv").empty();
+    // var picNum=0;
+    // var textNum=0;
+    $("#fragmentDiv").empty();
+    var fragmentNum=0; 
 
-	$.ajax({
+    $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
-             	ClassName:getCookie("NowClass"),
-             	TermName:SUBJECTNAME
+                ClassName:getCookie("NowClass"),
+                TermName:SUBJECTNAME
              },
              dataType: "json",
              success: function(data){
-             			//进入一级分面
-						$.each(data.children,function(index1,value1){
-							//进入二级分面
-							$.each(value1.children,function(index2,value2){
-								if (value2.type==="branch"){
-									//遍历树叶
-									$.each(value2.children,function(index3,value3){
-										if(value3.flag==="text"){
-											appendTextFragment(value3.content,value3.scratchTime);
-											textNum++;
-										}
-										else{
-											appendPictureFragment(value3.content);
-											picNum++;
-										}
-									});
-								} 
-								else{
-									if(value2.flag==="text"){
-										appendTextFragment(value2.content,value2.scratchTime);
-										textNum++;
-									}
-									else{
-										appendPictureFragment(value2.content);
-										picNum++;
-									}
-								}
-							});
-							showFragmentRatio(textNum,picNum);
-							//找到所有叶子，结束
-							//return;
-						});
+                        //进入一级分面
+                        $.each(data.children,function(index1,value1){
+                            //进入二级分面
+                            $.each(value1.children,function(index2,value2){
+                                if (value2.type==="branch"){
+                                    //遍历树叶
+                                    $.each(value2.children,function(index3,value3){
+                                        // if(value3.flag==="text"){
+                                        //  appendTextFragment(value3.content,value3.scratchTime);
+                                        //  textNum++;
+                                        // }
+                                        // else{
+                                        //  appendPictureFragment(value3.content);
+                                        //  picNum++;
+                                        // }
+                                        appendFragment(value3.content,value3.scratchTime);
+                                        fragmentNum++;
+                                    });
+                                } 
+                                else{
+                                    // if(value2.flag==="text"){
+                                    //  appendTextFragment(value2.content,value2.scratchTime);
+                                    //  textNum++;
+                                    // }
+                                    // else{
+                                    //  appendPictureFragment(value2.content);
+                                    //  picNum++;
+                                    // }
+                                    appendFragment(value2.content,value2.scratchTime);
+                                        fragmentNum++;
+                                }
+                            });
+                            showFragmentRatio(fragmentNum);
+                            //找到所有叶子，结束
+                            //return;
+                        });
                      },
              error:function(XMLHttpRequest, textStatus, errorThrown){
-          			//通常情况下textStatus和errorThrown只有其中一个包含信息
-          			alert(textStatus);
-       				}
+                    //通常情况下textStatus和errorThrown只有其中一个包含信息
+                    alert(textStatus);
+                    }
         });
 }
 
 //展示文本碎片和图形碎片的数量
-function showFragmentRatio(text,picture){
-	//获得文本碎片和图片碎片数量
-    var text_ratio=text/(text+picture)*100;
-    var piture_ratio=picture/(text+picture)*100;
-	//显示碎片
-	document.getElementById("textCount").innerHTML=text; 
-	document.getElementById('textRatio').style.width=""+text_ratio+"%";
-	document.getElementById("pictureCount").innerHTML=picture; 
-	document.getElementById('pictureRatio').style.width=""+piture_ratio+"%";
+function showFragmentRatio(num){
+    //获得文本碎片和图片碎片数量
+    // var text_ratio=text/(text+picture)*100;
+    // var piture_ratio=picture/(text+picture)*100;
+    //显示碎片
+    document.getElementById("textCount").innerHTML=num; 
+    // document.getElementById('textRatio').style.width=""+text_ratio+"%";
+    // document.getElementById("pictureCount").innerHTML=picture; 
+    // document.getElementById('pictureRatio').style.width=""+piture_ratio+"%";
 }
-
 
 
