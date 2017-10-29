@@ -294,6 +294,7 @@ function highlight(d) {
 				}
 			},
 			show: {
+				// event: 'mousemove',
 				event: 'click',
 				solo: true
 			},

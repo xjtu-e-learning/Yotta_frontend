@@ -79,7 +79,7 @@ function init() {
                 //         }
                 //     },
                 //     type: "GET",
-                //     url: 'http://' + ip + "/AssembleAPI/getTreeByTopic?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
+                //     url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
                 //     data: {},
                 //     dataType: "json",
                 //     success: function (data) {
@@ -310,7 +310,7 @@ function thirdLayer(name) {
                     }
                 },
                 type: "GET",
-                url: 'http://' + ip + "/AssembleAPI/getTreeByTopic?ClassName=" + "数据结构" + "&TermName=" + params.name,
+                url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
                 data: {},
                 dataType: "json",
                 success: function (data) {
