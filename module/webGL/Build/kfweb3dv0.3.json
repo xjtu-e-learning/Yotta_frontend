@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 536870912,
+"dataUrl": "kfweb3dv0.3.data.unityweb",
+"asmCodeUrl": "kfweb3dv0.3.asm.code.unityweb",
+"asmMemoryUrl": "kfweb3dv0.3.asm.memory.unityweb",
+"asmFrameworkUrl": "kfweb3dv0.3.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#222C36"
+}
