@@ -28,9 +28,9 @@ var app=angular.module('myApp',[
 app.controller('myCon',function($scope,$http){
     $http.get(ip+'/DomainAPI/getDomainManage').success(function(response){
         $scope.subjects=response;
-        $scope.getTopic(getCookie("NowClass"));
-        $scope.gettopicfacet(getCookie("NowClass"),getCookie("NowTopic"));
-        $scope.getfacetinfo(getCookie("NowFacet"),getCookie("NowFacetLayer"));
+        // $scope.getTopic(getCookie("NowClass"));
+        // $scope.gettopicfacet(getCookie("NowClass"),getCookie("NowTopic"));
+        // $scope.getfacetinfo(getCookie("NowFacet"),getCookie("NowFacetLayer"));
         $("#class_name").text(nowOperateClass);
     });
 
