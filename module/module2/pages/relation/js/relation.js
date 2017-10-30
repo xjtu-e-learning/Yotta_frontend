@@ -1,14 +1,13 @@
 // 自适应程序
 var zidingyi_height;
 $(document).ready(function(){
-           var header=$(".content-header").height();
-          var mainheader=$(".main-header").height();
-          var footer=$(".main-footer").height();
-          zidingyi_height=window.innerHeight-footer-header-mainheader;
-           console.log(zidingyi_height);
-           $("#relationClassDiv").css("height",zidingyi_height*0.1+"px");
-           $("#relationInfoDiv").css("height",zidingyi_height*0.7+"px");
-           $("#relationTreeDiv").css("height",zidingyi_height*0.7+"px");
+ var header=$(".content-header").offset().top+$(".content-header").height()
+ var footer=$(".main-footer").offset().top
+ zidingyi_height=footer-header;
+ console.log(zidingyi_height);
+ $("#relationClassDiv").css("height",zidingyi_height*0.1+"px");
+ $("#relationInfoDiv").css("height",zidingyi_height*0.8+"px");
+ $("#relationTreeDiv").css("height",zidingyi_height*0.8+"px");
 })
 
 var nowOperateClass;

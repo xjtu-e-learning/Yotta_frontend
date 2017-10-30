@@ -384,28 +384,16 @@ function DisplayAllFragment(){
                                 if (value2.type==="branch"){
                                     //遍历树叶
                                     $.each(value2.children,function(index3,value3){
-                                        // if(value3.flag==="text"){
-                                        //  appendTextFragment(value3.content,value3.scratchTime);
-                                        //  textNum++;
-                                        // }
-                                        // else{
-                                        //  appendPictureFragment(value3.content);
-                                        //  picNum++;
-                                        // }
-                                        appendFragment(value3.content,value3.scratchTime);
+                                        // 碎片api返回的api接口形式为：2017-10-28 15:29:02.0。需要去除最后的不用的时间字段
+                                        fragmentScratchTime = value3.scratchTime.split('.')[0];
+                                        appendFragment(value3.content, fragmentScratchTime);
                                         fragmentNum++;
                                     });
                                 } 
                                 else{
-                                    // if(value2.flag==="text"){
-                                    //  appendTextFragment(value2.content,value2.scratchTime);
-                                    //  textNum++;
-                                    // }
-                                    // else{
-                                    //  appendPictureFragment(value2.content);
-                                    //  picNum++;
-                                    // }
-                                    appendFragment(value2.content,value2.scratchTime);
+                                    // 碎片api返回的api接口形式为：2017-10-28 15:29:02.0。需要去除最后的不用的时间字
+                                    fragmentScratchTime = value2.scratchTime.split('.')[0];
+                                    appendFragment(value2.content, fragmentScratchTime);
                                         fragmentNum++;
                                 }
                             });
