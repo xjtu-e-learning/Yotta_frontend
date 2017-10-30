@@ -90,8 +90,10 @@ app.controller("facetTreeController",function($scope,$http){
 
 function important(div){
     $(".top").css("background","white");
+    $(".top").css("color","black");
     console.log(div);
     div.style.background="#428bca";
+    div.style.color="white";
 
 var fenmian=document.getElementsByClassName("fenmian");
 console.log(fenmian.length);

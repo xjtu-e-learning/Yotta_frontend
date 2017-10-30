@@ -1,14 +1,13 @@
 // 自适应程序
 var zidingyi_height;
 $(document).ready(function(){
-           var header=$(".content-header").height();
-          var mainheader=$(".main-header").height();
-          var footer=$(".main-footer").height();
-          zidingyi_height=window.innerHeight-footer-header-mainheader;
-           console.log(zidingyi_height);
-           $("#fragmentClassDiv").css("height",zidingyi_height*1.1+"px");
-           $("#fragmentUnaddDiv").css("height",zidingyi_height*0.5+"px");
-           $("#fragmentInfoDiv").css("height",zidingyi_height*0.5+"px");
+ var header=$(".content-header").offset().top+$(".content-header").height()
+ var footer=$(".main-footer").offset().top
+ zidingyi_height=footer-header;
+ console.log(zidingyi_height);
+ $("#fragmentClassDiv").css("height",zidingyi_height*0.85+"px");
+ $("#fragmentUnaddDiv").css("height",zidingyi_height*0.4+"px");
+ $("#fragmentInfoDiv").css("height",zidingyi_height*0.4+"px");
 })
 
 var editor = new wangEditor('wang');

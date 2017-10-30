@@ -3,16 +3,15 @@
 // 自适应程序
 var zidingyi_height;
 $(document).ready(function(){
-           var header=$(".content-header").height();
-          var mainheader=$(".main-header").height();
-          var footer=$(".main-footer").height();
-          zidingyi_height=window.innerHeight-footer-header-mainheader;
-           console.log(zidingyi_height);
-           $("#facetClassDiv").css("height",zidingyi_height*0.98+"px");
-           $("#facetAddDiv").css("height",zidingyi_height*0.2+"px");
-           $("#facetTreeDiv").css("height",zidingyi_height*0.67+"px");
-           $("#facetFacetDiv").css("height",zidingyi_height*0.67+"px");
-           $("#facetInfoDiv").css("height",zidingyi_height*0.2+"px");
+ var header=$(".content-header").offset().top+$(".content-header").height()
+ var footer=$(".main-footer").offset().top
+ zidingyi_height=footer-header;
+ console.log(zidingyi_height);
+ $("#facetClassDiv").css("height",zidingyi_height*0.85+"px");
+ $("#facetAddDiv").css("height",zidingyi_height*0.15+"px");
+ $("#facetTreeDiv").css("height",zidingyi_height*0.64+"px");
+ $("#facetFacetDiv").css("height",zidingyi_height*0.64+"px");
+ $("#facetInfoDiv").css("height",zidingyi_height*0.15+"px");
 })
 
 
