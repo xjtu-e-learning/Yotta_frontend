@@ -144,6 +144,7 @@ app.controller('myCon',function($scope,$http){
 
     $scope.getInfo=function(){
         nowOperateClass=document.getElementById("nameofclass").value;
+        $("#class_name").text(nowOperateClass);
 
         $http({
             method:'GET',
@@ -157,36 +158,6 @@ app.controller('myCon',function($scope,$http){
 
     }
 
-    $scope.getTerm=function(){
-        
-        nowOperateClass=document.getElementById("nameofclass").value;
-        $("#class_name").text(nowOperateClass);
-
-         $http({
-            method:'GET',
-            url:ip+"/FacetAPI/getDomainTerm",
-            params:{ClassName:nowOperateClass}
-        }).then(function successCallback(response){
-            for(var i=0;i<response.data.length;i++){
-
-                $http({
-                    method:'GET',
-                    url:ip+"/DomainTopicAPI/getDomainTermInfo",
-                    params:{ClassName:nowOperateClass,TermName:response.data[i].TermName}
-                }).then(function successCallback(response1){
-                    if(response1.data[0].FacetNum==0){
-                         $("#"+response1.data[0].TermName+"_a").hide();
-                     }
-                }, function errorCallback(response1){
-
-                });
-            }
-        }, function errorCallback(response){
-
-        });
-        
-        
-    }
 
 
     $scope.getTopic=function(a){
@@ -195,24 +166,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/getDomainTerm",
-            params:{ClassName:nowOperateClass}
+            url:ip+"/FacetAPI/getDomainInfo",
+            params:{ClassName:a}
         }).then(function successCallback(response){
-            $scope.topics=response.data;
-            for(var i=0;i<response.data.length;i++){
-
-                $http({
-                    method:'GET',
-                    url:ip+"/DomainTopicAPI/getDomainTermInfo",
-                    params:{ClassName:nowOperateClass,TermName:response.data[i].TermName}
-                }).then(function successCallback(response1){
-                    if(response1.data[0].FacetNum==0){
-                               $("#"+response1.data[0].TermName+"_a").hide();
-                                                               }
-                }, function errorCallback(response1){
-
-                });
-            }
+            $scope.classInfo=response.data;
         }, function errorCallback(response){
 
         });
@@ -244,32 +201,32 @@ app.controller('myCon',function($scope,$http){
     }
     
 
-    $scope.gettopichref=function(a,b){
+    // $scope.gettopichref=function(a,b){
 
-        $http({
-            method:'GET',
-            url:ip+"/FacetAPI/getDomainTermFacet1",
-            params:{ClassName:a,TermName:b}
-        }).then(function successCallback(response){
-            for(var i=0;i<response.data.length;i++){
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/FacetAPI/getDomainTermFacet1",
+    //         params:{ClassName:a,TermName:b}
+    //     }).then(function successCallback(response){
+    //         for(var i=0;i<response.data.length;i++){
 
-                $http({
-                    method:'GET',
-                    url:ip+"/FacetAPI/getFacet1Facet2Num",
-                    params:{ClassName:a,TermName:b,Facet1Name:response.data[i].FacetName}
-                }).then(function successCallback(response1){
-                    if(response1.data.Facet2Num==0){
-                               $("#"+b+"_"+response1.data.Facet1Name+"_a").hide();
-                                                               }
-                }, function errorCallback(response1){
+    //             $http({
+    //                 method:'GET',
+    //                 url:ip+"/FacetAPI/getFacet1Facet2Num",
+    //                 params:{ClassName:a,TermName:b,Facet1Name:response.data[i].FacetName}
+    //             }).then(function successCallback(response1){
+    //                 if(response1.data.Facet2Num==0){
+    //                            $("#"+b+"_"+response1.data.Facet1Name+"_a").hide();
+    //                                                            }
+    //             }, function errorCallback(response1){
 
-                });
-            }
-        }, function errorCallback(response){
+    //             });
+    //         }
+    //     }, function errorCallback(response){
 
-        });
+    //     });
         
-    }
+    // }
 
     $scope.gettopicfacet=function(a,b){
         nowOperateClass=a;
@@ -290,38 +247,38 @@ app.controller('myCon',function($scope,$http){
         });
     }
 
-    $scope.getfacet1href=function(a,b,c){
-        $("#"+b+"_"+c+"_info").collapse();
+    // $scope.getfacet1href=function(a,b,c){
+    //     $("#"+b+"_"+c+"_info").collapse();
 
 
-        $http({
-            method:'GET',
-            url:ip+"/FacetAPI/getDomainTermFacet2",
-            params:{ClassName:a,TermName:b,Facet1Name:c}
-        }).then(function successCallback(response){
-            if(response.data.length!=0){
-                for(var i=0;i<response.data.length;i++){
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/FacetAPI/getDomainTermFacet2",
+    //         params:{ClassName:a,TermName:b,Facet1Name:c}
+    //     }).then(function successCallback(response){
+    //         if(response.data.length!=0){
+    //             for(var i=0;i<response.data.length;i++){
 
-                $http({
-                    method:'GET',
-                    url:ip+"/FacetAPI/getFacet2Facet3Num",
-                    params:{ClassName:a,TermName:b,Facet2Name:response.data[i].ChildFacet}
-                }).then(function successCallback(response1){
-                    if(response1.data.Facet3Num==0){
-                               $("#"+b+"_"+c+"_"+response1.data.Facet2Name+"_a").hide();
-                                                               }
-                }, function errorCallback(response1){
+    //             $http({
+    //                 method:'GET',
+    //                 url:ip+"/FacetAPI/getFacet2Facet3Num",
+    //                 params:{ClassName:a,TermName:b,Facet2Name:response.data[i].ChildFacet}
+    //             }).then(function successCallback(response1){
+    //                 if(response1.data.Facet3Num==0){
+    //                            $("#"+b+"_"+c+"_"+response1.data.Facet2Name+"_a").hide();
+    //                                                            }
+    //             }, function errorCallback(response1){
 
-                });
-            }}else{
-                    $("#"+b+"_"+c+"_info").remove();
+    //             });
+    //         }}else{
+    //                 $("#"+b+"_"+c+"_info").remove();
                     
-                }
-        }, function errorCallback(response){
+    //             }
+    //     }, function errorCallback(response){
 
-        });
+    //     });
         
-    }
+    // }
 
     $scope.getfacet1facet=function(a,b,c){
         //console.log(this.id);
