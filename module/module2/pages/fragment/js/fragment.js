@@ -43,6 +43,7 @@ app.controller('myCon',function($scope,$http,$sce){
 
     $http.get(ip+'/SpiderAPI/getFragment').success(function(response){
         $scope.unaddfragments=response;
+        $scope.getTopic(getCookie("NowClass"));
         for(var i=0;i<$scope.unaddfragments.length;i++){
             $scope.unaddfragments[i].FragmentContent=$sce.trustAsHtml($scope.unaddfragments[i].FragmentContent);
         }
@@ -126,17 +127,19 @@ app.controller('myCon',function($scope,$http,$sce){
 
     $scope.addFrag=function(){
         console.log("success");
-        var html = editor.$txt.html();
+        var html = editor.$txt.html() + "";
 
         $http({
-            method:'GET',
+            method:'POST',
             url:ip+"/SpiderAPI/createFragment",
-            params:{FragmentContent:html}
+            data : $.param( {FragmentContent : html}),
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
         }).then(function successCallback(response){
             alert("添加碎片成功");
             $scope.getUnaddFragment();
         }, function errorCallback(response){
-
+            console.log(html);
+            alert("添加碎片失败");
         });
     }
 
@@ -178,88 +181,74 @@ app.controller('myCon',function($scope,$http,$sce){
 
 
 
-    $scope.getTerm=function(){
-        nowOperateClass=document.getElementById("nameofclass").value;
+    // $scope.getTerm=function(){
+    //     nowOperateClass=document.getElementById("nameofclass").value;
 
-        $http({
-            method:'GET',
-            url:ip+"/SpiderAPI/getDomainTerm",
-            params:{ClassName:nowOperateClass}
-        }).then(function successCallback(response){
-            for(var i=0;i<response.data.length;i++){
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/SpiderAPI/getDomainTerm",
+    //         params:{ClassName:nowOperateClass}
+    //     }).then(function successCallback(response){
+    //         for(var i=0;i<response.data.length;i++){
 
-                $http({
-                    method:'GET',
-                    url:ip+"/DomainTopicAPI/getDomainTermInfo",
-                    params:{ClassName:nowOperateClass,TermName:response.data[i].TermName}
-                }).then(function successCallback(response1){
-                    if(response1.data[0].FacetNum==0){
-                         $("#"+response1.data[0].TermName+"_a").hide();
-                     }
-                }, function errorCallback(response1){
+    //             $http({
+    //                 method:'GET',
+    //                 url:ip+"/DomainTopicAPI/getDomainTermInfo",
+    //                 params:{ClassName:nowOperateClass,TermName:response.data[i].TermName}
+    //             }).then(function successCallback(response1){
+    //                 if(response1.data[0].FacetNum==0){
+    //                      $("#"+response1.data[0].TermName+"_a").hide();
+    //                  }
+    //             }, function errorCallback(response1){
 
-                });
-            }
-        }, function errorCallback(response){
+    //             });
+    //         }
+    //     }, function errorCallback(response){
 
-        });
-    }
+    //     });
+    // }
 
     $scope.getTopic=function(a){
         nowOperateClass=a;
 
         $http({
             method:'GET',
-            url:ip+"/SpiderAPI/getDomainTerm",
+            url:ip+"/FacetAPI/getDomainInfo",
             params:{ClassName:nowOperateClass}
         }).then(function successCallback(response){
-            $scope.topics=response.data;
-            for(var i=0;i<response.data.length;i++){
-
-                $http({
-                    method:'GET',
-                    url:ip+"/DomainTopicAPI/getDomainTermInfo",
-                    params:{ClassName:nowOperateClass,TermName:response.data[i].TermName}
-                }).then(function successCallback(response1){
-                    if(response1.data[0].FacetNum==0){
-                               $("#"+response1.data[0].TermName+"_a").hide();
-                                                               }
-                }, function errorCallback(response1){
-
-                });
-            }
+            $scope.classInfo=response.data;
         }, function errorCallback(response){
 
         });
     }
 
 
-    $scope.gettopichref=function(a,b){
-        $http({
-            method:'GET',
-            url:ip+"/SpiderAPI/getDomainTermFacet1",
-            params:{ClassName:a,TermName:b}
-        }).then(function successCallback(response){
-            for(var i=0;i<response.data.length;i++){
+    // $scope.gettopichref=function(a,b){
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/SpiderAPI/getDomainTermFacet1",
+    //         params:{ClassName:a,TermName:b}
+    //     }).then(function successCallback(response){
+    //         for(var i=0;i<response.data.length;i++){
 
-                $http({
-                    method:'GET',
-                    url:ip+"/FacetAPI/getFacet1Facet2Num",
-                    params:{ClassName:a,TermName:b,Facet1Name:response.data[i].FacetName}
-                }).then(function successCallback(response1){
-                    if(response1.data.Facet2Num==0){
-                               $("#"+b+"_"+response1.data.Facet1Name+"_a").hide();
-                                                               }
-                }, function errorCallback(response1){
+    //             $http({
+    //                 method:'GET',
+    //                 url:ip+"/FacetAPI/getFacet1Facet2Num",
+    //                 params:{ClassName:a,TermName:b,Facet1Name:response.data[i].FacetName}
+    //             }).then(function successCallback(response1){
+    //                 if(response1.data.Facet2Num==0){
+    //                            $("#"+b+"_"+response1.data.Facet1Name+"_a").hide();
+    //                                                            }
+    //             }, function errorCallback(response1){
 
-                });
-            }
-        }, function errorCallback(response){
+    //             });
+    //         }
+    //     }, function errorCallback(response){
 
-        });
+    //     });
 
         
-    }
+    // }
 
     $scope.gettopicfragment=function(a,b){
         nowOperateClass=a;
@@ -281,37 +270,37 @@ app.controller('myCon',function($scope,$http,$sce){
         });
     }
 
-    $scope.getfacet1href=function(a,b,c){
+    // $scope.getfacet1href=function(a,b,c){
         
-        $http({
-            method:'GET',
-            url:ip+"/SpiderAPI/getDomainTermFacet2",
-            params:{ClassName:a,TermName:b,Facet1Name:c}
-        }).then(function successCallback(response){
-            if(response.data.length!=0){
-                for(var i=0;i<response.data.length;i++){
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/SpiderAPI/getDomainTermFacet2",
+    //         params:{ClassName:a,TermName:b,Facet1Name:c}
+    //     }).then(function successCallback(response){
+    //         if(response.data.length!=0){
+    //             for(var i=0;i<response.data.length;i++){
 
-                $http({
-                    method:'GET',
-                    url:ip+"/FacetAPI/getFacet2Facet3Num",
-                    params:{ClassName:a,TermName:b,Facet2Name:response.data[i].ChildFacet}
-                }).then(function successCallback(response1){
-                    if(response1.data.Facet3Num==0){
-                               $("#"+b+"_"+c+"_"+response1.data.Facet2Name+"_a").hide();
-                                                               }
-                }, function errorCallback(response1){
+    //             $http({
+    //                 method:'GET',
+    //                 url:ip+"/FacetAPI/getFacet2Facet3Num",
+    //                 params:{ClassName:a,TermName:b,Facet2Name:response.data[i].ChildFacet}
+    //             }).then(function successCallback(response1){
+    //                 if(response1.data.Facet3Num==0){
+    //                            $("#"+b+"_"+c+"_"+response1.data.Facet2Name+"_a").hide();
+    //                                                            }
+    //             }, function errorCallback(response1){
 
-                });
-            }}else{
-                    $("#"+b+"_"+c+"_info").remove();
+    //             });
+    //         }}else{
+    //                 $("#"+b+"_"+c+"_info").remove();
                     
-                }
-        }, function errorCallback(response){
+    //             }
+    //     }, function errorCallback(response){
 
-        });
+    //     });
 
         
-    }
+    // }
 
     $scope.getfacet1fragment=function(a,b,c){
         nowOperateClass=a;
@@ -334,20 +323,20 @@ app.controller('myCon',function($scope,$http,$sce){
         });
     }
 
-    $scope.getfacet2href=function(a,b,c,d){
-        $http({
-            method:'GET',
-            url:ip+"/SpiderAPI/getDomainTermFacet3",
-            params:{ClassName:a,TermName:b,Facet2Name:d}
-        }).then(function successCallback(response){
-            if(response.data.length!=0){
-                }else{
-                    $("#"+b+"_"+c+"_"+d+"_info").remove();
-                }
-        }, function errorCallback(response){
+    // $scope.getfacet2href=function(a,b,c,d){
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/SpiderAPI/getDomainTermFacet3",
+    //         params:{ClassName:a,TermName:b,Facet2Name:d}
+    //     }).then(function successCallback(response){
+    //         if(response.data.length!=0){
+    //             }else{
+    //                 $("#"+b+"_"+c+"_"+d+"_info").remove();
+    //             }
+    //     }, function errorCallback(response){
 
-        });
-    }
+    //     });
+    // }
     $scope.getfacet2fragment=function(a,b,c){
         nowOperateClass=a;
         nowOperateTopic=b;

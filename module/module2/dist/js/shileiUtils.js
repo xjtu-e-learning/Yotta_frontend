@@ -1,7 +1,7 @@
 /**
  * 读取配置文件
  */
-var ip = "http://202.117.54.39:8080/Yotta";
+var ip = "http://202.117.54.39:8080/Yotta";  // 服务器域名(ip) + http端口(9218)
 
 // setCookie("name","hayden");
 // alert(getCookie("name"));
