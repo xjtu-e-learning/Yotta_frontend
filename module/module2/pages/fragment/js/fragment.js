@@ -126,17 +126,19 @@ app.controller('myCon',function($scope,$http,$sce){
 
     $scope.addFrag=function(){
         console.log("success");
-        var html = editor.$txt.html();
+        var html = editor.$txt.html() + "";
 
         $http({
-            method:'GET',
+            method:'POST',
             url:ip+"/SpiderAPI/createFragment",
-            params:{FragmentContent:html}
+            data : $.param( {FragmentContent : html}),
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
         }).then(function successCallback(response){
             alert("添加碎片成功");
             $scope.getUnaddFragment();
         }, function errorCallback(response){
-
+            console.log(html);
+            alert("添加碎片失败");
         });
     }
 
