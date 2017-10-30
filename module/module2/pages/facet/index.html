@@ -122,7 +122,7 @@
                   <select id="nameofclass" style="color:black">
                     <option ng-repeat="subject in subjects" value={{subject.ClassName}} >{{subject.ClassName}}</option>
                   </select>
-                  <input type="button" value="确定" style="color:#3c8dbc" ng-click="getInfo();getTerm()">
+                  <input type="button" value="确定" style="color:#3c8dbc" ng-click="getInfo();">
                 </form>
               </div>
               <div id="facetClassDiv" class="box-body" style="display: block;overflow-y: auto">
@@ -132,20 +132,20 @@
                   <li class=" list-group-item" ng-repeat="x in classInfo " style="margin-left: -10%;background-color: ">
                     <div class=" list-group-item" style="background-color:#4682B4;">
                      <a id={{x.TermName}}_choose ng-click="gettopicfacet(x.ClassName,x.TermName);showFacetTreeWithoutLeaves(x.ClassName,x.TermName);" ondrop="dropFacet1(event,this.id)" ondragover="allowDrop(event)" style="color:white;cursor:pointer">{{x.TermName}}</a>
-                     <a id={{x.TermName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;gettopichref(x.ClassName,x.TermName)"></a>
+                     <a id={{x.TermName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.Facet1.length==0"></a>
                    </div>
                    <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.Facet1">
                     <div class="list-group-item " style="background-color: #3c8dbc;margin:2px 0;">
                      <a id={{x.TermName}}_{{y.Facet1Name}}_choose style="color:white;cursor:pointer"
                      ng-click="getfacet1facet(x.ClassName,x.TermName,y.Facet1Name);showFacetTreeWithoutLeaves(x.ClassName,x.TermName);"  ondrop="dropFacet2(event,this.id)" ondragover="allowDrop(event)">{{y.Facet1Name}}</a>
-                     <a id={{x.TermName}}_{{y.Facet1Name}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;getfacet1href(x.ClassName,x.TermName,y.Facet1Name)"></a>
+                     <a id={{x.TermName}}_{{y.Facet1Name}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;" ng-hide="y.Facet2.length==0"></a>
                    </div>
 
                    <ul uib-collapse="isCollapsedchildren" class="level3"
                    ng-repeat="z in y.Facet2">
                    <div class="list-group-item " style="background-color: #6495ED;margin:2px 0;">
                      <a id={{x.TermName}}_{{y.Facet1Name}}_{{z.Facet2Name}}_choose style="color:white;cursor:pointer" ng-click="getfacet2facet(x.ClassName,x.TermName,y.Facet1Name,z.Facet2Name);showFacetTreeWithoutLeaves(x.ClassName,x.TermName);" ondrop="dropFacet3(event,this.id)" ondragover="allowDrop(event)">{{z.Facet2Name}}</a>
-                     <i class="fa fa-fw fa-chevron-left" style="float:right;color:white" id={{x.TermName}}_{{y.Facet1Name}}_{{z.Facet2Name}}_a></i>
+                     <i class="fa fa-fw fa-chevron-left" style="float:right;color:white" id={{x.TermName}}_{{y.Facet1Name}}_{{z.Facet2Name}}_a ng-hide="z.Facet3.length==0"></i>
                    </div>
                  </ul>
                </ul>
