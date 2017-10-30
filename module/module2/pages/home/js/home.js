@@ -1,16 +1,19 @@
 // 自适应程序
 var zidingyi_height;
 $(document).ready(function(){
-           var header=$(".content-header").height();
-          var mainheader=$(".main-header").height();
-          var footer=$(".main-footer").height();
-          zidingyi_height=window.innerHeight-footer-header-mainheader;
+    var header=$(".content-header").offset().top+$(".content-header").height()
+    var footer=$(".main-footer").offset().top
+    zidingyi_height=footer-header;
+          //  var header=$(".content-header").height();
+          // var mainheader=$(".main-header").height();
+          // var footer=$(".main-footer").height();
+          // zidingyi_height=window.innerHeight-footer-header-mainheader;
            console.log(zidingyi_height);
-           $("#classNumDiv").css("height",zidingyi_height*0.1+"px");
-           $("#classInfoDiv").css("height",zidingyi_height*0.85+"px");
-           $("#classAddDiv").css("height",zidingyi_height*0.2+"px");
-           $("#classQueryDiv").css("height",zidingyi_height*0.54+"px");
-           $("#Select_result").css("height",zidingyi_height*0.38+"px");
+           $("#classNumDiv").css("height",zidingyi_height*0.07+"px");
+           $("#classInfoDiv").css("height",zidingyi_height*0.9+"px");
+           $("#classAddDiv").css("height",zidingyi_height*0.1+"px");
+           $("#classQueryDiv").css("height",zidingyi_height*0.74+"px");
+           $("#Select_result").css("height",zidingyi_height*0.58+"px");
 })
 
 
