@@ -8,7 +8,7 @@ var SUBJECTNAME = "抽象资料型别";
 $(function() {
     $(".fragmentSlimscroll").slimScroll({
         width: 'auto', //可滚动区域宽度
-        height: '300px', //可滚动区域高度
+        height: '850px', //可滚动区域高度
         size: '10px', //组件宽度
         color: '#000', //滚动条颜色
         position: 'right', //组件位置：left/right
@@ -36,7 +36,7 @@ $(function() {
 $(function() {
     $(".pictureSlimscroll").slimScroll({
         width: 'auto', //可滚动区域宽度
-        height: '130px', //可滚动区域高度
+        height: '680px', //可滚动区域高度
         size: '10px', //组件宽度
         color: '#000', //滚动条颜色
         position: 'right', //组件位置：left/right
@@ -118,7 +118,7 @@ ykapp.controller('subjectController', function($scope, $http) {
         //console.log($('.box-header').height());
         var height=$("#rightDiv").height()-$('.box-header').height()-8;
         //var height=$(window).height()*0.9;
-        $("#facetedTreeDiv").css("height",height*1.2+"px")
+        $("#facetedTreeDiv").css("height",height+"px");
         //console.log($(window).height());
 
         // 每次选择一门新的课程时，展示这门新的课程的第一个主题的分面树

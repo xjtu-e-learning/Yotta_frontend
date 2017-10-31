@@ -69,7 +69,7 @@ function DisplayBranch(dataset){
 				.attr("height",$("#RightfacetTree").height());
 	//分面树的位置	
 	$("svg").draggable();
-	var seed = {x: $("#RightfacetTree").width()*0.5, y: $("#RightfacetTree").height()-30, name:dataset.name}; 
+	var seed = {x: $("#RightfacetTree").width()*0.5, y: $("#RightfacetTree").height()-260, name:dataset.name}; 
 	var tree = buildBranch(dataset, seed, multiple);
   draw_tree(tree, seed, svg, multiple);
 }

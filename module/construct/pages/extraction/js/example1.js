@@ -24,7 +24,7 @@ function init() {
         //id of viz container element
         injectInto: 'infovis',
         //set duration for the animation
-        duration: 300,
+        duration: 200,
         //set animation transition type
         transition: $jit.Trans.Quart.easeInOut,
         //set distance between node and its children

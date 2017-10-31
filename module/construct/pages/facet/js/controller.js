@@ -7,7 +7,7 @@ $(document).ready(function(){
            $("#div1").css("height",zidingyi_height*0.9+"px")
            $("#div2").css("height",zidingyi_height*0.9+"px")
            $("#div3").css("height",zidingyi_height*0.9+"px")
-           $("#RightfacetTree").css("height",zidingyi_height*0.85+"px")
+           $("#RightfacetTree").css("height",zidingyi_height*0.862+"px")
            console.log(zidingyi_height)
            console.log($("#div1").css("height"))
 

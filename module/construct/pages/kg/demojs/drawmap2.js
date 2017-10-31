@@ -318,7 +318,7 @@ function thirdLayer(name) {
                     d3.select("g.tree").remove();
                     //pd2 = 0;
                     var seed4 = {
-                        x: 150,
+                        x: 300,
                         y: 450,
                         name: data.name
                     };

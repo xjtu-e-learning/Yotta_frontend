@@ -125,32 +125,17 @@
               选择主题
               </button>
           </li>
-          <!-- <li>
-            <button type="button" class="btn btn-block btn-link btn-lg" data-toggle="modal" data-target="#facetModal">选择分面
-            </button>
-          </li> -->
-      <!--     <li>
-      <div class="btn-group">
-          <button type="button" class="btn btn-block btn-link btn-lg dropdown-toggle"  data-toggle="dropdown">
-          选择数据源<span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu" style="background-color:#3c8dbc;border:2px solid ##f4f4f4;min-width:140px;box-shadow:0 3px 3px rgba(0,0,0,0.1);">
-            <li style="text-align:center;"><input type="radio" name="dataSource" checked="" value="维基百科">维基百科</li>
-            <li style="text-align:center;"><input type="radio" name="dataSource" value="百度百科">百度百科</li>
-          </ul>
-        </div>
-      </li> -->
           <li><button type="button" class="btn btn-block btn-link btn-lg" id="confirm" onclick="initTree();DisplayAllFragment();showFragmentRatio();">装配</button></li>
         </ul>
       </div>
-      <div class="row" style="margin-top:5px;">
+      <div class="row" style="margin-top:5px; ">
           <div class="col-md-7">
             <div class="box-header" style="cursor: move;">
             <i class="glyphicon glyphicon-tree-deciduous"></i>
             <h3 class="box-title">实例化主题分面树</h3>
             </div>
           <!-- 显示分面树 -->
-            <div id="facetedTreeDiv" style="overflow:hidden;" ></div>  
+            <div id="facetedTreeDiv" style="overflow:auto;" ></div>  
           </div>
           
           <div class="col-md-5" id="rightDiv">
@@ -170,22 +155,8 @@
                     </tr>
                     <tr>
                       <td>碎片</td>
-                      <!-- <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar progress-bar-danger" id="textRatio" style=""></div>
-                        </div>
-                      </td> -->
                       <td><span class="badge bg-red" id="textCount"></span></td>
                     </tr>
-                    <!-- <tr>
-                      <td>图片</td>
-                      <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar progress-bar-yellow" id="pictureRatio" style=""></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-yellow" id="pictureCount"></span></td>
-                    </tr> -->
                   </tbody>
                 </table>
               </div> 
@@ -201,16 +172,6 @@
                 <!-- 显示碎片 -->
               </div>
             </div>
-
-            <!-- <div class="box-header" style="cursor: move;">
-            <i class="glyphicon glyphicon-picture"></i>
-            <h3 class="box-title">图片碎片</h3>
-            </div>
-
-            <div  class="pictureSlimscroll" style="border:1px solid #ddd; height:300px;">
-              <div id="pictureFragmentDiv">
-              </div>
-            </div> --> 
 
           </div>
       </div> 
@@ -245,33 +206,6 @@
         </div><!-- /.modal -->
       </div> 
 
-      <!-- 分面模态框 -->
-      <div class="modal fade" id="facetModal" tabindex="-1" role="dialog" aria-labelledby="facetModalTitle" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                &times;
-              </button>
-              <h4 class="modal-title" id="facetModalTitle">
-                分面选择
-              </h4>
-            </div>
-            <div class="modal-body model-slimscroll" id="facetModalBody">
-              <!-- 分面 复选框-->
-            </div>
-            <div class="modal-footer" id="facetModalFooter">
-              <button id="selectAll" type="button" class="btn btn-default">全选
-              </button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-              </button>
-              <button type="button" class="btn btn-primary" id="facetSubmit">
-                提交
-              </button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-      </div>    
 
     </section>
     <!-- /.content -->
