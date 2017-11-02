@@ -8,6 +8,7 @@ var categories = [];
 $(document).ready(function(){
     svg2 = d3.select("#mysvg2")
     .append("svg")
+    .attr("id","svg2")
     .attr("width", "100%")
     .attr("height", "100%");
 });
@@ -86,8 +87,8 @@ function init() {
                         d3.select("g.tree").remove();
                         pd2 = 0;
                         var seed4 = {
-                            x: 280,
-                            y: 450,
+                            x: document.getElementById("svg2").width.animVal.value/2,
+                            y: document.getElementById("svg2").height.animVal.value*5/6,
                             name: data.name
                         };
                         var tree4 = buildTree(data, seed4, 0.8);
@@ -220,8 +221,8 @@ function secondLayer(category) {
                     d3.select("g.tree").remove();
                     //pd2 = 0;
                     var seed4 = {
-                        x: 280,
-                        y: 450,
+                        x: document.getElementById("svg2").width.animVal.value/2,
+                        y: document.getElementById("svg2").height.animVal.value*5/6,
                         name: data.name
                     };
                     var tree4 = buildTree(data, seed4, 0.8);
@@ -343,8 +344,8 @@ function thirdLayer(name) {
                     d3.select("g.tree").remove();
                     //pd2 = 0;
                     var seed4 = {
-                        x: 280,
-                        y: 450,
+                        x: document.getElementById("svg2").width.animVal.value/2,
+                        y: document.getElementById("svg2").height.animVal.value*5/6,
                         name: data.name
                     };
                     var tree4 = buildTree(data, seed4, 0.8);
