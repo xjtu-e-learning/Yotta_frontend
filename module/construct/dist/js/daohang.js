@@ -33,7 +33,7 @@ app.controller('menu', function($scope, $http) {
     //         setCookie("NowClass",json[0].ClassName,"d900")
     // });
 
-    $http.get('http://'+ip+"/DomainAPI/getDomain").success(
+    $http.get(ip+"/DomainAPI/getDomain").success(
         function(data) { 
             $scope.ClassList = data;
             // console.log(data);

@@ -79,14 +79,14 @@ function init() {
                         }
                     },
                     type: "GET",
-                    url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
+                    url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
                     data: {},
                     dataType: "json",
                     success: function (data) {
                         d3.select("g.tree").remove();
                         pd2 = 0;
                         var seed4 = {
-                            x: 150,
+                            x: 280,
                             y: 450,
                             name: data.name
                         };
@@ -212,7 +212,7 @@ function secondLayer(category) {
                     }
                 },
                 type: "GET",
-                url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
+                url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
                 data: {},
                 dataType: "json",
                 success: function (data) {
@@ -220,7 +220,7 @@ function secondLayer(category) {
                     d3.select("g.tree").remove();
                     //pd2 = 0;
                     var seed4 = {
-                        x: 150,
+                        x: 280,
                         y: 450,
                         name: data.name
                     };
@@ -335,7 +335,7 @@ function thirdLayer(name) {
                     }
                 },
                 type: "GET",
-                url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
+                url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
                 data: {},
                 dataType: "json",
                 success: function (data) {
@@ -343,7 +343,7 @@ function thirdLayer(name) {
                     d3.select("g.tree").remove();
                     //pd2 = 0;
                     var seed4 = {
-                        x: 150,
+                        x: 280,
                         y: 450,
                         name: data.name
                     };

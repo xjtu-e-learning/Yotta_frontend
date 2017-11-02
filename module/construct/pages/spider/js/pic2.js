@@ -7,7 +7,7 @@ $(document).ready(function(){
         type:"GET",
         timeout:10000,
         async:false,
-        url:'http://'+ip+"/SpiderAPI/getCountByDomain2?ClassName="+getCookie("NowClass"),
+        url:ip+"/SpiderAPI/getCountByDomain2?ClassName="+getCookie("NowClass"),
         cache:false,
         data:{},
         dataType:"json",

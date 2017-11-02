@@ -6,6 +6,10 @@
   <title>New Yotta</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+     <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../../../login/';
+  </script>
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -265,7 +269,6 @@
 
 
 <!-- 个人的插件 -->
-<script src="../../dist/js/shileiUtils.js"></script>
 
 <script src="../../plugins/angularjs/angular.min.js"></script>
 <script src="../../plugins/jQuery/jquery.qtip.min.js"></script>

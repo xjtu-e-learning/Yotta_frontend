@@ -8,7 +8,7 @@ var SUBJECTNAME = "抽象资料型别";
 $(function() {
     $(".fragmentSlimscroll").slimScroll({
         width: 'auto', //可滚动区域宽度
-        height: '300px', //可滚动区域高度
+        height: '500px', //可滚动区域高度
         size: '10px', //组件宽度
         color: '#000', //滚动条颜色
         position: 'right', //组件位置：left/right
@@ -111,14 +111,14 @@ var ykapp = angular.module('subjectApp', []);
 ykapp.controller('subjectController', function($scope, $http) {
     console.log('当前课程为：' + getCookie("NowClass"));
     $scope.NowClass = getCookie("NowClass");
-    $http.get('http://'+ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
+    $http.get(ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
         $scope.Topics = response;
 
         //console.log($("#rightDiv").height());
         //console.log($('.box-header').height());
         var height=$("#rightDiv").height()-$('.box-header').height()-8;
         //var height=$(window).height()*0.9;
-        $("#facetedTreeDiv").css("height",height*1.2+"px")
+        $("#facetedTreeDiv").css("height",height*0.93+"px")
         //console.log($(window).height());
 
         // 每次选择一门新的课程时，展示这门新的课程的第一个主题的分面树
@@ -126,23 +126,7 @@ ykapp.controller('subjectController', function($scope, $http) {
         SUBJECTNAME = response[0].TermName;
         LoadBranch();
     });
-    /*$.ajax({
-         type: "GET",
-         url: 'http://' + ip + "/DomainTopicAPI/getDomainTopicAll",
-         data: {
-            ClassName:"数据结构"
-         },
-         dataType: "json",
-         success: function(data){
-                    $scope.Topics=data;
-                    console.log($scope.Topics);
-                    console.log("yangkuan");
-                 },
-         error:function(XMLHttpRequest, textStatus, errorThrown){
-                //通常情况下textStatus和errorThrown只有其中一个包含信息
-                alert(textStatus);
-                }
-    });*/
+
 
 });
 
@@ -171,7 +155,7 @@ function DisplayTrunk(dataset){
 function ObtainTrunk(subjectName){
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
+             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:subjectName
@@ -204,7 +188,7 @@ $(document).ready(function(){
     //获取所有主题
     // $.ajax({
     //          type: "GET",
-    //          url: 'http://'+ip+"/DomainTopicAPI/getDomainTopicAll",
+    //          url: ip+"/DomainTopicAPI/getDomainTopicAll",
     //          data: {
     //             ClassName:getCookie("NowClass")
     //          },
@@ -254,7 +238,7 @@ function LoadFacetModal(subjectName){
 
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/FacetAPI/getFacet",
+             url: ip+"/FacetAPI/getFacet",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:subjectName,
@@ -320,7 +304,7 @@ $(document).ready(function(){
 function LoadBranch(){
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
+             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:SUBJECTNAME
@@ -370,7 +354,7 @@ function DisplayAllFragment(){
 
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
+             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:SUBJECTNAME

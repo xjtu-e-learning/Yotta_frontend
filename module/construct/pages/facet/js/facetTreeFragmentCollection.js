@@ -21,7 +21,7 @@ function DisplayTrunk(dataset){
 function ObtainTrunk(subjectName){
 	$.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: ip+"/AssembleAPI/getTreeByTopic",
              data: {
              	ClassName:getCookie("NowClass"),
          		TermName:subjectName
@@ -41,7 +41,7 @@ function ObtainTrunk(subjectName){
 function LoadBranch(){
 	$.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopic",
+             url: ip+"/AssembleAPI/getTreeByTopic",
              data: {
              	ClassName:getCookie("NowClass"),
              	TermName:SUBJECTNAME

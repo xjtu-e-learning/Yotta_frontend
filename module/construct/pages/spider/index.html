@@ -123,54 +123,57 @@
     <!-- Main content -->
     <section class="content">
       <div id="guide" class="row mokuai" style="margin-left: 1%;">
-                      <button class="btn btn-primary" style="margin-right:5%" data-toggle="modal" data-target="#myModal1">选择主题
-                  </button>
-                  <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                      &times;
-                                  </button>
-                                  <h4 class="modal-title" id="myModalLabel1">
-                                      选项
-                                  </h4>
-                              </div>
-                              <div id="topic0" class="modal-body" style="overflow-y:auto">
-                                  <form action="">
-                                  <span   ng-repeat="top in tops">
-                                          <input type="checkbox" name="subject" value={{top.TermName}}>
-                                          {{top.TermName}}<br>
-                                  </span>
-                                  </form>
-                              </div>
-                              <div class="modal-footer">
-                              <button type="button" class="btn btn-primary" onclick="select_all()" style="float:left">
-                                      全选
-                                  </button>
-                                  <button type="button" class="btn btn-primary" onclick="clear_all()" style="float:left">
-                                      清除全选
-                                  </button>
-                                  <button id="get" type="button" class="btn btn-primary" ng-click="getinfo()" data-dismiss="modal">
-                                      确定
-                                  </button>
-                              </div>
-                          </div>
+          <button class="btn btn-primary" style="margin-right:5%" data-toggle="modal" data-target="#myModal1">
+            选择主题
+          </button>
+          <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                              &times;
+                          </button>
+                          <h4 class="modal-title" id="myModalLabel1">
+                              选项
+                          </h4>
+                      </div>
+                      <div id="topic0" class="modal-body" style="overflow-y:auto">
+                          <form action="">
+                          <span   ng-repeat="top in tops">
+                                  <label  style="font-size: 1.2em">
+                                    <input type="checkbox" name="subject" value={{top.TermName}}> {{top.TermName}}
+                                  </label>
+                                  <br>
+                          </span>
+                          </form>
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" onclick="select_all()" style="float:left">
+                              全选
+                          </button>
+                          <button type="button" class="btn btn-primary" onclick="clear_all()" style="float:left">
+                              清除全选
+                          </button>
+                          <button id="get" type="button" class="btn btn-primary" ng-click="getinfo()" data-dismiss="modal">
+                              确定
+                          </button>
                       </div>
                   </div>
-                  <label class="btn label-primary" for="topsel" style="cursor: default">选择数据源:</label>
-                  <select id="topsel" style="margin-right: 5%;height:120%">
-                      <option value="百度百科">百度百科</option>
-                      <option value="维基百科" selected>维基百科</option>
-                  </select>
-                  <label class="btn label-primary" for="numsel"  style="cursor: default">每页显示数量:</label>
-                  <select id="numsel" style="margin-right:5%;height:120%">
-                      <option value="10" selected>10</option>
-                      <option value="15">15</option>
-                      <option value="30">30</option>
-                      <option value="60">60</option>
-                  </select>
-                  <button id="yes" class="btn btn-primary" onclick="showDivNum()">确定</button>
+              </div>
+          </div>
+          <label  for="topsel" style="cursor: default">选择数据源:</label>
+          <select class="btn label-primary" id="topsel" style="margin-right: 5%;">
+              <option value="百度百科">百度百科</option>
+              <option value="维基百科" selected>维基百科</option>
+          </select>
+          <label  for="numsel"  style="cursor: default">每页显示数量:</label>
+          <select class="btn label-primary"id="numsel" style="margin-right:5%;">
+              <option value="10" selected>10</option>
+              <option value="15">15</option>
+              <option value="30">30</option>
+              <option value="60">60</option>
+          </select>
+          <button id="yes" class="btn btn-primary" onclick="showDivNum()">确定</button>
       </div>
       <!-- <hr style="border:none;border-top:1px solid #428bca;margin-bottom:1%;width:100%;margin-left: 2px" /> -->
           <div  class="row" style="margin-top:2%">
@@ -296,7 +299,7 @@
 
 <!-- 个人的插件 -->
 <!-- 自己写的js -->
-<script src="../../dist/js/shileiUtils.js"></script>
+<script type="text/javascript" src="../../../../config/ipconfig.js"></script>
   <link rel="stylesheet" href="js/meihua.css" type="text/css">
   <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
   <script type="text/javascript" src="js/echarts.js"></script>
