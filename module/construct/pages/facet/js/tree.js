@@ -36,13 +36,13 @@ var color_hilight_twig = 'brown';
 var color_leaf = 'green';
 var color_hilight_leaf = 'yellow';
 //树干宽度
-var width_trunk = 5;
+var width_trunk = 7;
 //枝干宽度
-var width_branch = 5;
+var width_branch = 7;
 //树枝宽度
-var width_twig = 5;
+var width_twig = 7;
 //高亮树枝宽度 
-var width_hilight_twig = 6;
+var width_hilight_twig = 8;
 //树叶宽度
 var width_leaf = 5;
 //高亮树叶宽度
