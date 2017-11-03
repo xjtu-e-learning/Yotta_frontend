@@ -1,6 +1,6 @@
 ﻿{
     "totalbranchlevel": 2,
-    "branchnum": 3,
+    "branchnum": 5,
     "term_id": 45,
     "name": "K-d树",
     "children": [
@@ -39,6 +39,39 @@
         },
         {
             "totalbranchlevel": 0,
+            "facet_name": "定义",
+            "totalbranchnum": 0,
+            "type": "branch",
+            "totalleafnum": 3,
+            "children": [
+                {
+                    "url": "https://zh.wikipedia.org/wiki/K-d%E6%A0%91",
+                    "content": "k-d树（k-维树的缩写）是在k维欧几里德空间组织点的数据结构。",
+                    "fragment_id": "摘要_1",
+                    "scratchTime": "2016-12-20 09:45:03.0",
+                    "type": "leaf",
+                    "flag": "text"
+                },
+                {
+                    "url": "https://zh.wikipedia.org/wiki/K-d%E6%A0%91",
+                    "content": "在计算机科学里，k-d树可以使用在多种应用场合，如多维键值搜索。k-d树是二叉树的一种特殊情况。",
+                    "fragment_id": "摘要_2",
+                    "scratchTime": "2016-12-20 09:45:03.0",
+                    "type": "leaf",
+                    "flag": "text"
+                },
+                {
+                    "url": "https://zh.wikipedia.org/wiki/K-d%E6%A0%91",
+                    "content": "k-d树是每个节点都为k维点的二叉树。所有非叶子节点可以视作用一个超平面把空间分割成两部分。在超平面左边的点代表节点的左子树，在超平面右边的点代表节点的右子树。超平面的方向可以用下述方法来选择：每个节点都与k维中垂直于超平面的那一维有关。因此，如果选择按照x轴划分，所有x值小于指定值的节点都会出现在左子树，所有x值大于指定值的节点都会出现在右子树。这样，超平面可以用该x值来确定，其法矢为x轴的单位向量。",
+                    "fragment_id": "摘要_1",
+                    "scratchTime": "2016-12-20 09:45:03.0",
+                    "type": "leaf",
+                    "flag": "image"
+                }
+            ]
+        },
+        {
+            "totalbranchlevel": 0,
             "facet_name": "简介",
             "totalbranchnum": 0,
             "type": "branch",
@@ -57,9 +90,9 @@
         {
             "totalbranchlevel": 1,
             "facet_name": "k-d树的运算",
-            "totalbranchnum": 5,
+            "totalbranchnum": 2,
             "type": "branch",
-            "totalleafnum": 5,
+            "totalleafnum": 2,
             "children": [
                 {
                     "totalbranchlevel": 0,
@@ -101,30 +134,6 @@
                             "flag": "text"
                         }
                     ]
-                },
-                {
-                    "totalbranchlevel": 0,
-                    "facet_name": "插入元素",
-                    "totalbranchnum": 0,
-                    "type": "branch",
-                    "totalleafnum": 0,
-                    "children": [ ]
-                },
-                {
-                    "totalbranchlevel": 0,
-                    "facet_name": "移除元素",
-                    "totalbranchnum": 0,
-                    "type": "branch",
-                    "totalleafnum": 0,
-                    "children": [ ]
-                },
-                {
-                    "totalbranchlevel": 0,
-                    "facet_name": "平衡",
-                    "totalbranchnum": 0,
-                    "type": "branch",
-                    "totalleafnum": 0,
-                    "children": [ ]
                 },
                 {
                     "totalbranchlevel": 0,
