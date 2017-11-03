@@ -3,7 +3,7 @@ var layer;
     $(document).ready(function(){
         $.ajax(
             {type :"GET",
-                url :'http://'+ip+"/DependencyAPI/getDependencyByDomain?ClassName="+getCookie("NowClass"),
+                url :ip+"/DependencyAPI/getDependencyByDomain?ClassName="+getCookie("NowClass"),
                 datatype :"json",
                 async:false,
                 success : function(data,status){
@@ -13,7 +13,7 @@ var layer;
             })
         // $.ajax(
         //         {type :"GET",
-        //             url :'http://'+ip+"/DomainTopicAPI/getDomainTopicAll?ClassName="+getCookie("NowClass"),
+        //             url :ip+"/DomainTopicAPI/getDomainTopicAll?ClassName="+getCookie("NowClass"),
         //             datatype :"json",
         //             async:false,
         //             success : function(data,status){

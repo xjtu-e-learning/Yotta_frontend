@@ -18,8 +18,10 @@ var fixedTwig = 35;
 var twigLength = 20;
 var twig_space = 50;
 var fixedLeaf = 8;
-var leafLength = 8;
-var leaf_space = 8;
+//树叶长度
+var leafLength = 12;
+//树叶间距
+var leaf_space = 12;
 var space_time_leaf = 2;
 var space_time_twig = 2;
 var length_text_line = 15;//碎片知识每行的字数
@@ -33,19 +35,25 @@ var color_twig = '#330000'
 var color_hilight_twig = 'brown';
 var color_leaf = 'green';
 var color_hilight_leaf = 'yellow';
-var width_trunk = 2;
-var width_branch = 2;
-var width_twig = 2;
-var width_hilight_twig = 3;
-var width_leaf = 2;
-var width_hilight_leaf = 3;
+//树干宽度
+var width_trunk = 5;
+//枝干宽度
+var width_branch = 5;
+//树枝宽度
+var width_twig = 5;
+//高亮树枝宽度 
+var width_hilight_twig = 6;
+//树叶宽度
+var width_leaf = 5;
+//高亮树叶宽度
+var width_hilight_leaf = 6;
 var width_qtip = 350;
 var length_start_leaf_x_level_0=55;
 var length_start_leaf_x_level_1=25;
 //Width and height
 var multiple = 0.5;
 var w = 2000;
-var h = 2000;	
+var h = 2000;
 /*var svg = d3.select("div#treeDis")
 				.append("svg")
 				.attr("width", w)

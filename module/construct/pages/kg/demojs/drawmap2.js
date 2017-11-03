@@ -8,6 +8,7 @@ var categories = [];
 $(document).ready(function(){
     svg2 = d3.select("#mysvg2")
     .append("svg")
+    .attr("id","svg2")
     .attr("width", "100%")
     .attr("height", "100%");
 });
@@ -72,28 +73,28 @@ function init() {
         // var sum = 0;
         myChart.on('click', function (params) {
             if (params.dataType == 'node') {
-                // $.ajax({
-                //     statusCode: {
-                //         200: function () {
-                //             console.log("success")
-                //         }
-                //     },
-                //     type: "GET",
-                //     url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
-                //     data: {},
-                //     dataType: "json",
-                //     success: function (data) {
-                //         d3.select("g.tree").remove();
-                //         pd2 = 0;
-                //         var seed4 = {
-                //             x: 150,
-                //             y: 450,
-                //             name: data.name
-                //         };
-                //         var tree4 = buildTree(data, seed4, 0.8);
-                //         draw_tree(tree4, seed4, svg2, 0.8);
-                //     }
-                // });
+                $.ajax({
+                    statusCode: {
+                        200: function () {
+                            console.log("success")
+                        }
+                    },
+                    type: "GET",
+                    url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
+                    data: {},
+                    dataType: "json",
+                    success: function (data) {
+                        d3.select("g.tree").remove();
+                        pd2 = 0;
+                        var seed4 = {
+                            x: document.getElementById("svg2").width.animVal.value/2,
+                            y: document.getElementById("svg2").height.animVal.value*5/6,
+                            name: data.name
+                        };
+                        var tree4 = buildTree(data, seed4, 0.8);
+                        draw_tree(tree4, seed4, svg2, 0.8);
+                    }
+                });
 
                 //console.log(params)
 
@@ -205,9 +206,34 @@ function secondLayer(category) {
             // secondLayer(params.data.category);
             // category = params.data.category;
             // console.log(params.data.name)
+            $.ajax({
+                statusCode: {
+                    200: function () {
+                        console.log("success")
+                    }
+                },
+                type: "GET",
+                url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    console.log(data)
+                    d3.select("g.tree").remove();
+                    //pd2 = 0;
+                    var seed4 = {
+                        x: document.getElementById("svg2").width.animVal.value/2,
+                        y: document.getElementById("svg2").height.animVal.value*5/6,
+                        name: data.name
+                    };
+                    var tree4 = buildTree(data, seed4, 0.8);
+                    draw_tree(tree4, seed4, svg2, 0.8);
+                }
+            });
             nodename = params.data.name;
             layer++;
             thirdLayer(nodename);
+
+            
         }
     });
     option = {
@@ -310,7 +336,7 @@ function thirdLayer(name) {
                     }
                 },
                 type: "GET",
-                url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
+                url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
                 data: {},
                 dataType: "json",
                 success: function (data) {
@@ -318,8 +344,8 @@ function thirdLayer(name) {
                     d3.select("g.tree").remove();
                     //pd2 = 0;
                     var seed4 = {
-                        x: 150,
-                        y: 450,
+                        x: document.getElementById("svg2").width.animVal.value/2,
+                        y: document.getElementById("svg2").height.animVal.value*5/6,
                         name: data.name
                     };
                     var tree4 = buildTree(data, seed4, 0.8);
