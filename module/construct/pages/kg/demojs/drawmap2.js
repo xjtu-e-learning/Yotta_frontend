@@ -5,13 +5,13 @@ var category = "";
 var nodename = "";
 var svg2;
 var categories = [];
-$(document).ready(function(){
+/*$(document).ready(function(){
     svg2 = d3.select("#mysvg2")
     .append("svg")
     .attr("id","svg2")
     .attr("width", "100%")
     .attr("height", "100%");
-});
+});*/
 
 
 //初始化界面
@@ -84,15 +84,59 @@ function init() {
                     data: {},
                     dataType: "json",
                     success: function (data) {
-                        d3.select("g.tree").remove();
+                        /*d3.select("g.tree").remove();
                         pd2 = 0;
+
                         var seed4 = {
-                            x: document.getElementById("svg2").width.animVal.value/2,
-                            y: document.getElementById("svg2").height.animVal.value*5/6,
+                            x: $("#mysvg2").width()/2,
+                            y: $("#mysvg2").height()-30,
+                            name: data.name
+                        };
+                        var tree4 = buildTree(data, seed4, 0.8);
+                        draw_tree(tree4, seed4, svg2, 0.8);*/
+                        d3.selectAll("svg").remove();
+                        svg2 = d3.select("div#mysvg2")
+                                        .append("svg")
+                                        .attr("width", "100%")
+                                        .attr("height", "100%");
+                        //分面树根的位置   
+                        var root_x=$("#mysvg2").width()/2;
+                        var root_y=$("#mysvg2").height()*7/8; //
+                        var seed4 = {
+                            x: root_x,
+                            y: root_y,
                             name: data.name
                         };
                         var tree4 = buildTree(data, seed4, 0.8);
                         draw_tree(tree4, seed4, svg2, 0.8);
+                        /*****************************************************/
+                        //对分面树进行缩放
+                        multiple = 1;
+                        $(window).bind('mousewheel', function(evt) {
+                            var temp = multiple;//判断是保持0.25或者1.25不变
+                            if( 0.3< multiple && multiple<1){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }else if(multiple < 0.3){
+                                if(evt.originalEvent.wheelDelta>0){
+                                    multiple+=evt.originalEvent.wheelDelta/5000;
+                                }
+                            }else{
+                                if(evt.originalEvent.wheelDelta<0){
+                                    multiple+=evt.originalEvent.wheelDelta/5000;
+                                }
+                            }
+                            //if(multiple<0.25){return;}
+                            d3.selectAll("svg").remove(); //删除之前的svg
+                            svg = d3.select("div#mysvg2")
+                                        .append("svg")
+                                        .attr("width", "100%")
+                                        .attr("height", "100%");
+                            //$("svg").draggable();
+                            var seed0 = {x: root_x, y: root_y, name:data.name};
+                            var tree0 = buildTree(data, seed0, multiple);
+                            draw_tree(tree0, seed0, svg, multiple);
+                        }); 
+                    /*****************************************************/ 
                     }
                 });
 
@@ -217,16 +261,49 @@ function secondLayer(category) {
                 data: {},
                 dataType: "json",
                 success: function (data) {
-                    console.log(data)
-                    d3.select("g.tree").remove();
-                    //pd2 = 0;
+                    d3.selectAll("svg").remove();
+                    svg2 = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
+                    //分面树根的位置   
+                    var root_x=$("#mysvg2").width()/2;
+                    var root_y=$("#mysvg2").height()*7/8; //
                     var seed4 = {
-                        x: document.getElementById("svg2").width.animVal.value/2,
-                        y: document.getElementById("svg2").height.animVal.value*5/6,
+                        x: root_x,
+                        y: root_y,
                         name: data.name
                     };
                     var tree4 = buildTree(data, seed4, 0.8);
                     draw_tree(tree4, seed4, svg2, 0.8);
+                    /*****************************************************/
+                    //对分面树进行缩放
+                    multiple = 1;
+                    $(window).bind('mousewheel', function(evt) {
+                        var temp = multiple;//判断是保持0.25或者1.25不变
+                        if( 0.3< multiple && multiple<1){
+                            multiple+=evt.originalEvent.wheelDelta/5000;
+                        }else if(multiple < 0.3){
+                            if(evt.originalEvent.wheelDelta>0){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }
+                        }else{
+                            if(evt.originalEvent.wheelDelta<0){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }
+                        }
+                        //if(multiple<0.25){return;}
+                        d3.selectAll("svg").remove(); //删除之前的svg
+                        svg = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
+                        //$("svg").draggable();
+                        var seed0 = {x: root_x, y: root_y, name:data.name};
+                        var tree0 = buildTree(data, seed0, multiple);
+                        draw_tree(tree0, seed0, svg, multiple);
+                    }); 
+                    /*****************************************************/ 
                 }
             });
             nodename = params.data.name;
@@ -340,16 +417,63 @@ function thirdLayer(name) {
                 data: {},
                 dataType: "json",
                 success: function (data) {
-                    console.log(data)
+                    /*console.log(data)
                     d3.select("g.tree").remove();
+                    svg2 = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
                     //pd2 = 0;
                     var seed4 = {
-                        x: document.getElementById("svg2").width.animVal.value/2,
-                        y: document.getElementById("svg2").height.animVal.value*5/6,
+                        x: $("#mysvg2").width()/2,
+                        y: $("#mysvg2").height()-30,
+                        name: data.name
+                    };
+                    var tree4 = buildTree(data, seed4, 0.8);
+                    draw_tree(tree4, seed4, svg2, 0.8);*/
+                    d3.selectAll("svg").remove();
+                    svg2 = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
+                    //分面树根的位置   
+                    var root_x=$("#mysvg2").width()/2;
+                    var root_y=$("#mysvg2").height()*7/8; //
+                    var seed4 = {
+                        x: root_x,
+                        y: root_y,
                         name: data.name
                     };
                     var tree4 = buildTree(data, seed4, 0.8);
                     draw_tree(tree4, seed4, svg2, 0.8);
+                    /*****************************************************/
+                    //对分面树进行缩放
+                    multiple = 1;
+                    $(window).bind('mousewheel', function(evt) {
+                        var temp = multiple;//判断是保持0.25或者1.25不变
+                        if( 0.3< multiple && multiple<1){
+                            multiple+=evt.originalEvent.wheelDelta/5000;
+                        }else if(multiple < 0.3){
+                            if(evt.originalEvent.wheelDelta>0){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }
+                        }else{
+                            if(evt.originalEvent.wheelDelta<0){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }
+                        }
+                        //if(multiple<0.25){return;}
+                        d3.selectAll("svg").remove(); //删除之前的svg
+                        svg = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
+                        //$("svg").draggable();
+                        var seed0 = {x: root_x, y: root_y, name:data.name};
+                        var tree0 = buildTree(data, seed0, multiple);
+                        draw_tree(tree0, seed0, svg, multiple);
+                    }); 
+                    /*****************************************************/ 
                 }
             });
         }

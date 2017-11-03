@@ -333,10 +333,35 @@ function DisplayBranch(dataset){
     //分面树的位置    
     var root_x=$("#facetedTreeDiv").width()/2;
     var root_y=$("#facetedTreeDiv").height()-30; //
-    $("svg").draggable();
-    var seed = {x: root_x* multiple, y: root_y* multiple, name:dataset.name}; 
+    //$("svg").draggable();
+    var seed = {x: root_x, y: root_y, name:dataset.name}; 
     var tree = buildBranch(dataset, seed, multiple);
     draw_tree(tree, seed, svg, multiple);
+        /*****************************************************/
+    //对分面树进行缩放
+    $(window).bind('mousewheel', function(evt) {
+        var temp = multiple;//判断是保持0.25或者1.25不变
+        if( 0.3< multiple && multiple<1){
+            multiple+=evt.originalEvent.wheelDelta/5000;
+        }else if(multiple < 0.3){
+            if(evt.originalEvent.wheelDelta>0){
+                multiple+=evt.originalEvent.wheelDelta/5000;
+            }
+        }else{
+            if(evt.originalEvent.wheelDelta<0){
+                multiple+=evt.originalEvent.wheelDelta/5000;
+            }
+        }
+        d3.selectAll("svg").remove(); //删除之前的svg
+        svg = d3.select("div#facetedTreeDiv")
+                    .append("svg")
+                    .attr("width", w * multiple)
+                    .attr("height", h * multiple);
+        var seed0 = {x: root_x, y: root_y, name:dataset.name};
+        var tree0 = buildBranch(dataset, seed0, multiple);
+        draw_tree(tree0, seed0, svg, multiple);
+    }); 
+    /*****************************************************/ 
 }
 
 
