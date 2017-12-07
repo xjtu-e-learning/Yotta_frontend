@@ -2,7 +2,7 @@ var labelType, useGradients, nativeTextSupport, animate;
 $(document).ready(function(){
     $.ajax({
         type : "GET",
-        url : 'http://' + ip + "/DomainTopicAPI/getTopicRelation?ClassName=" + getCookie("NowClass") + "&initTopic=" + getCookie("NowClass"),
+        url :  ip + "/DomainTopicAPI/getTopicRelation?ClassName=" + getCookie("NowClass") + "&initTopic=" + getCookie("NowClass"),
         datatype : "json",
         async : false,
         success : function(data,status){
@@ -24,7 +24,7 @@ function init() {
         //id of viz container element
         injectInto: 'infovis',
         //set duration for the animation
-        duration: 300,
+        duration: 250,
         //set animation transition type
         transition: $jit.Trans.Quart.easeInOut,
         //set distance between node and its children

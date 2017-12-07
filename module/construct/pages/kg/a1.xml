@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gexf xmlns="http://www.gexf.net/1.3" version="1.3" xmlns:viz="http://www.gexf.net/1.3/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.3 http://www.gexf.net/1.3/gexf.xsd">
-  <meta lastmodifieddate="2016-12-26">
+  <meta lastmodifieddate="2017-11-01">
     <creator>Gephi 0.9</creator>
     <description></description>
   </meta>
@@ -11,142 +11,364 @@
       </attribute>
     </attributes>
     <nodes>
-      <node id="(Start)数据结构" label="(Start)数据结构">
+      <node id="树 (数据结构)" label="树 (数据结构)">
         <attvalues>
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
-        <viz:size value="35.0"></viz:size>
-        <viz:position x="-1940.6752" y="-950.921"></viz:position>
+        <viz:size value="60.0"></viz:size>
+        <viz:position x="-829.0828" y="-1561.3488"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
       </node>
-      <node id="资料类型" label="资料类型">
+      <node id="关联数组" label="关联数组">
         <attvalues>
-          <attvalue for="modularity_class" value="6"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
         </attvalues>
-        <viz:size value="28.75"></viz:size>
-        <viz:position x="1330.5247" y="-901.4939"></viz:position>
+        <viz:size value="60.0"></viz:size>
+        <viz:position x="-200.06778" y="782.6719"></viz:position>
         <viz:color r="128" g="107" b="104"></viz:color>
       </node>
       <node id="数组" label="数组">
         <attvalues>
           <attvalue for="modularity_class" value="2"></attvalue>
         </attvalues>
-        <viz:size value="47.5"></viz:size>
-        <!-- <viz:position x="-241.0145" y="-927.7289"></viz:position> -->
-        <viz:position x="-1209.6278" y="-918.2927"></viz:position>
+        <viz:size value="52.857143"></viz:size>
+        <viz:position x="-2627.8933" y="-1307.2089"></viz:position>
         <viz:color r="0" g="175" b="135"></viz:color>
       </node>
-      <node id="序列" label="序列">
+      <node id="链表" label="链表">
+        <attvalues>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="52.857143"></viz:size>
+        <viz:position x="949.03125" y="635.6672"></viz:position>
+        <viz:color r="105" g="196" b="4"></viz:color>
+      </node>
+      <node id="二叉树" label="二叉树">
+        <attvalues>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="52.857143"></viz:size>
+        <viz:position x="310.12097" y="57.99292"></viz:position>
+        <viz:color r="105" g="196" b="4"></viz:color>
+      </node>
+      <node id="二元搜寻树" label="二元搜寻树">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="45.714287"></viz:size>
+        <viz:position x="-2506.6907" y="148.40295"></viz:position>
+        <viz:color r="226" g="139" b="255"></viz:color>
+      </node>
+      <node id="平衡树" label="平衡树">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="45.714287"></viz:size>
+        <viz:position x="-1679.4261" y="1129.812"></viz:position>
+        <viz:color r="226" g="139" b="255"></viz:color>
+      </node>
+      <node id="树旋转" label="树旋转">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="45.714287"></viz:size>
+        <viz:position x="-452.87228" y="-33.633595"></viz:position>
+        <viz:color r="226" g="139" b="255"></viz:color>
+      </node>
+      <node id="(Start)数据结构" label="(Start)数据结构">
         <attvalues>
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
-        <viz:size value="28.75"></viz:size>
-        <viz:position x="-740.7472" y="-595.8204"></viz:position>
+        <viz:size value="31.428572"></viz:size>
+        <viz:position x="-3940.2554" y="-1473.8477"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
       </node>
       <node id="堆 (数据结构)" label="堆 (数据结构)">
         <attvalues>
-          <attvalue for="modularity_class" value="0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
         </attvalues>
-        <viz:size value="35.0"></viz:size>
-        <viz:position x="-1624.9424" y="-595.96454"></viz:position>
-        <viz:color r="0" g="199" b="255"></viz:color>
-      </node>
-      <node id="树 (数据结构)" label="树 (数据结构)">
-        <attvalues>
-          <attvalue for="modularity_class" value="0"></attvalue>
-        </attvalues>
-        <viz:size value="60.0"></viz:size>
-        <!-- <viz:position x="-1209.6278" y="-918.2927"></viz:position> -->
-        <viz:position x="-241.0145" y="-927.7289"></viz:position>
+        <viz:size value="38.57143"></viz:size>
+        <viz:position x="-3282.1858" y="-442.9279"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
       </node>
       <node id="抽象资料型别" label="抽象资料型别">
         <attvalues>
           <attvalue for="modularity_class" value="6"></attvalue>
         </attvalues>
-        <viz:size value="35.0"></viz:size>
-        <viz:position x="1309.6537" y="-561.1913"></viz:position>
+        <viz:size value="38.57143"></viz:size>
+        <viz:position x="2198.075" y="-737.37067"></viz:position>
+        <viz:color r="255" g="93" b="133"></viz:color>
+      </node>
+      <node id="正则图" label="正则图">
+        <attvalues>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="38.57143"></viz:size>
+        <viz:position x="883.98676" y="-1439.3491"></viz:position>
+        <viz:color r="250" g="146" b="0"></viz:color>
+      </node>
+      <node id="哈希表" label="哈希表">
+        <attvalues>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="38.57143"></viz:size>
+        <viz:position x="604.2283" y="1115.5098"></viz:position>
         <viz:color r="128" g="107" b="104"></viz:color>
+      </node>
+      <node id="资料类型" label="资料类型">
+        <attvalues>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="31.428572"></viz:size>
+        <viz:position x="2238.1472" y="-1390.7517"></viz:position>
+        <viz:color r="255" g="93" b="133"></viz:color>
+      </node>
+      <node id="序列" label="序列">
+        <attvalues>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="31.428572"></viz:size>
+        <viz:position x="-1836.3615" y="-1048.717"></viz:position>
+        <viz:color r="0" g="199" b="255"></viz:color>
+      </node>
+      <node id="散列函数" label="散列函数">
+        <attvalues>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="31.428572"></viz:size>
+        <viz:position x="-571.14685" y="1634.9592"></viz:position>
+        <viz:color r="128" g="107" b="104"></viz:color>
+      </node>
+      <node id="B树" label="B树">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="31.428572"></viz:size>
+        <viz:position x="-2039.3309" y="-165.06241"></viz:position>
+        <viz:color r="226" g="139" b="255"></viz:color>
+      </node>
+      <node id="记录" label="记录">
+        <attvalues>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="1057.5999" y="1051.506"></viz:position>
+        <viz:color r="105" g="196" b="4"></viz:color>
+      </node>
+      <node id="二叉堆" label="二叉堆">
+        <attvalues>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="24.285715"></viz:size>
+        <viz:position x="-2756.1055" y="-648.32275"></viz:position>
+        <viz:color r="0" g="175" b="135"></viz:color>
+      </node>
+      <node id="邻接矩阵" label="邻接矩阵">
+        <attvalues>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="24.285715"></viz:size>
+        <viz:position x="180.87186" y="-1253.2927"></viz:position>
+        <viz:color r="250" g="146" b="0"></viz:color>
+      </node>
+      <node id="树堆" label="树堆">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="24.285715"></viz:size>
+        <viz:position x="-2955.788" y="318.88882"></viz:position>
+        <viz:color r="226" g="139" b="255"></viz:color>
+      </node>
+      <node id="道路 (图论)" label="道路 (图论)">
+        <attvalues>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="24.285715"></viz:size>
+        <viz:position x="261.8652" y="-691.7852"></viz:position>
+        <viz:color r="250" g="146" b="0"></viz:color>
+      </node>
+      <node id="字符串" label="字符串">
+        <attvalues>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="24.285715"></viz:size>
+        <viz:position x="-1470.6509" y="-610.6306"></viz:position>
+        <viz:color r="0" g="199" b="255"></viz:color>
+      </node>
+      <node id="线段树" label="线段树">
+        <attvalues>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="24.285715"></viz:size>
+        <viz:position x="2250.2617" y="747.0593"></viz:position>
+        <viz:color r="105" g="196" b="4"></viz:color>
+      </node>
+      <node id="多重关连数组" label="多重关连数组">
+        <attvalues>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="2971.9893" y="-418.79483"></viz:position>
+        <viz:color r="255" g="93" b="133"></viz:color>
+      </node>
+      <node id="二分图" label="二分图">
+        <attvalues>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="1564.9028" y="-765.6717"></viz:position>
+        <viz:color r="250" g="146" b="0"></viz:color>
+      </node>
+      <node id="布隆过滤器" label="布隆过滤器">
+        <attvalues>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="83.4141" y="1468.9402"></viz:position>
+        <viz:color r="128" g="107" b="104"></viz:color>
+      </node>
+      <node id="二项堆" label="二项堆">
+        <attvalues>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="556.46454" y="584.28973"></viz:position>
+        <viz:color r="105" g="196" b="4"></viz:color>
+      </node>
+      <node id="斐波那契堆" label="斐波那契堆">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="10.0"></viz:size>
+        <viz:position x="-2824.7585" y="-71.06989"></viz:position>
+        <viz:color r="0" g="199" b="255"></viz:color>
+      </node>
+      <node id="后缀树" label="后缀树">
+        <attvalues>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="-767.33997" y="-382.049"></viz:position>
+        <viz:color r="0" g="199" b="255"></viz:color>
+      </node>
+      <node id="笛卡尔树" label="笛卡尔树">
+        <attvalues>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="-2344.6548" y="-462.4236"></viz:position>
+        <viz:color r="0" g="175" b="135"></viz:color>
+      </node>
+      <node id="伸展树" label="伸展树">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="-1986.2809" y="515.5826"></viz:position>
+        <viz:color r="226" g="139" b="255"></viz:color>
+      </node>
+      <node id="替罪羊树" label="替罪羊树">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="-2449.259" y="646.36346"></viz:position>
+        <viz:color r="226" g="139" b="255"></viz:color>
+      </node>
+      <node id="红黑树" label="红黑树">
+        <attvalues>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="-1091.9802" y="247.4011"></viz:position>
+        <viz:color r="226" g="139" b="255"></viz:color>
+      </node>
+      <node id="线性探测" label="线性探测">
+        <attvalues>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="719.4393" y="1607.1964"></viz:position>
+        <viz:color r="128" g="107" b="104"></viz:color>
+      </node>
+      <node id="线性杂凑" label="线性杂凑">
+        <attvalues>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="383.5277" y="1850.9199"></viz:position>
+        <viz:color r="128" g="107" b="104"></viz:color>
+      </node>
+      <node id="双向链表" label="双向链表">
+        <attvalues>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="1723.698" y="1634.8721"></viz:position>
+        <viz:color r="105" g="196" b="4"></viz:color>
+      </node>
+      <node id="广度优先搜索" label="广度优先搜索">
+        <attvalues>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="1408.331" y="562.3762"></viz:position>
+        <viz:color r="105" g="196" b="4"></viz:color>
+      </node>
+      <node id="哈密顿图" label="哈密顿图">
+        <attvalues>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="17.142857"></viz:size>
+        <viz:position x="532.2751" y="-920.2234"></viz:position>
+        <viz:color r="250" g="146" b="0"></viz:color>
       </node>
       <node id="递归类型" label="递归类型">
         <attvalues>
           <attvalue for="modularity_class" value="6"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1595.2188" y="-912.7613"></viz:position>
-        <viz:color r="128" g="107" b="104"></viz:color>
+        <viz:position x="2746.3599" y="-1412.3851"></viz:position>
+        <viz:color r="255" g="93" b="133"></viz:color>
       </node>
       <node id="堆栈" label="堆栈">
         <attvalues>
           <attvalue for="modularity_class" value="6"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1577.4253" y="-654.07007"></viz:position>
-        <viz:color r="128" g="107" b="104"></viz:color>
-      </node>
-      <node id="多重关连数组" label="多重关连数组">
-        <attvalues>
-          <attvalue for="modularity_class" value="6"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="1619.8674" y="-385.56387"></viz:position>
-        <viz:color r="128" g="107" b="104"></viz:color>
+        <viz:position x="2712.1963" y="-915.69794"></viz:position>
+        <viz:color r="255" g="93" b="133"></viz:color>
       </node>
       <node id="复合型别" label="复合型别">
         <attvalues>
           <attvalue for="modularity_class" value="6"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1365.168" y="-16.29599"></viz:position>
-        <viz:color r="128" g="107" b="104"></viz:color>
+        <viz:position x="2304.6624" y="308.82828"></viz:position>
+        <viz:color r="255" g="93" b="133"></viz:color>
       </node>
       <node id="集合 (资料结构)" label="集合 (资料结构)">
         <attvalues>
           <attvalue for="modularity_class" value="6"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1573.2898" y="-121.99649"></viz:position>
-        <viz:color r="128" g="107" b="104"></viz:color>
+        <viz:position x="2704.256" y="105.88333"></viz:position>
+        <viz:color r="255" g="93" b="133"></viz:color>
       </node>
       <node id="串列 (抽象资料型别)" label="串列 (抽象资料型别)">
         <attvalues>
           <attvalue for="modularity_class" value="6"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1348.307" y="-300.12805"></viz:position>
-        <viz:color r="128" g="107" b="104"></viz:color>
-      </node>
-      <node id="关联数组" label="关联数组">
-        <attvalues>
-          <attvalue for="modularity_class" value="5"></attvalue>
-        </attvalues>
-        <viz:size value="53.75"></viz:size>
-        <viz:position x="139.11392" y="344.69098"></viz:position>
+        <viz:position x="2272.2893" y="-236.12926"></viz:position>
         <viz:color r="255" g="93" b="133"></viz:color>
-      </node>
-      <node id="记录" label="记录">
-        <attvalues>
-          <attvalue for="modularity_class" value="4"></attvalue>
-        </attvalues>
-        <viz:size value="22.5"></viz:size>
-        <viz:position x="804.42957" y="429.71036"></viz:position>
-        <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="可变长数组" label="可变长数组">
         <attvalues>
           <attvalue for="modularity_class" value="2"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-107.30153" y="-582.7359"></viz:position>
-        <viz:color r="0" g="175" b="135"></viz:color>
-      </node>
-      <node id="二叉堆" label="二叉堆">
-        <attvalues>
-          <attvalue for="modularity_class" value="2"></attvalue>
-        </attvalues>
-        <viz:size value="22.5"></viz:size>
-        <viz:position x="-336.95187" y="-599.3625"></viz:position>
+        <viz:position x="-3231.368" y="-1033.6229"></viz:position>
         <viz:color r="0" g="175" b="135"></viz:color>
       </node>
       <node id="相位阵列" label="相位阵列">
@@ -154,143 +376,23 @@
           <attvalue for="modularity_class" value="2"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="9.908684" y="-720.2945"></viz:position>
+        <viz:position x="-2464.3586" y="-868.71405"></viz:position>
         <viz:color r="0" g="175" b="135"></viz:color>
-      </node>
-      <node id="邻接矩阵" label="邻接矩阵">
-        <attvalues>
-          <attvalue for="modularity_class" value="3"></attvalue>
-        </attvalues>
-        <viz:size value="22.5"></viz:size>
-        <viz:position x="259.0271" y="-829.9007"></viz:position>
-        <viz:color r="250" g="146" b="0"></viz:color>
-      </node>
-      <node id="二分图" label="二分图">
-        <attvalues>
-          <attvalue for="modularity_class" value="3"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="979.8766" y="-575.9314"></viz:position>
-        <viz:color r="250" g="146" b="0"></viz:color>
-      </node>
-      <node id="正则图" label="正则图">
-        <attvalues>
-          <attvalue for="modularity_class" value="3"></attvalue>
-        </attvalues>
-        <viz:size value="35.0"></viz:size>
-        <viz:position x="625.2328" y="-926.80505"></viz:position>
-        <viz:color r="250" g="146" b="0"></viz:color>
-      </node>
-      <node id="哈希表" label="哈希表">
-        <attvalues>
-          <attvalue for="modularity_class" value="5"></attvalue>
-        </attvalues>
-        <viz:size value="35.0"></viz:size>
-        <viz:position x="479.52524" y="403.85065"></viz:position>
-        <viz:color r="255" g="93" b="133"></viz:color>
-      </node>
-      <node id="二元搜寻树" label="二元搜寻树">
-        <attvalues>
-          <attvalue for="modularity_class" value="1"></attvalue>
-        </attvalues>
-        <viz:size value="41.25"></viz:size>
-        <viz:position x="-1121.4576" y="-196.28824"></viz:position>
-        <viz:color r="226" g="139" b="255"></viz:color>
-      </node>
-      <node id="链表" label="链表">
-        <attvalues>
-          <attvalue for="modularity_class" value="4"></attvalue>
-        </attvalues>
-        <viz:size value="47.5"></viz:size>
-        <viz:position x="659.1101" y="153.93262"></viz:position>
-        <viz:color r="105" g="196" b="4"></viz:color>
-      </node>
-      <node id="散列函数" label="散列函数">
-        <attvalues>
-          <attvalue for="modularity_class" value="5"></attvalue>
-        </attvalues>
-        <viz:size value="28.75"></viz:size>
-        <viz:position x="-132.64932" y="674.3972"></viz:position>
-        <viz:color r="255" g="93" b="133"></viz:color>
-      </node>
-      <node id="布隆过滤器" label="布隆过滤器">
-        <attvalues>
-          <attvalue for="modularity_class" value="5"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="208.26785" y="587.929"></viz:position>
-        <viz:color r="255" g="93" b="133"></viz:color>
-      </node>
-      <node id="平衡树" label="平衡树">
-        <attvalues>
-          <attvalue for="modularity_class" value="1"></attvalue>
-        </attvalues>
-        <viz:size value="41.25"></viz:size>
-        <viz:position x="-647.86194" y="383.74423"></viz:position>
-        <viz:color r="226" g="139" b="255"></viz:color>
-      </node>
-      <node id="二项堆" label="二项堆">
-        <attvalues>
-          <attvalue for="modularity_class" value="4"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="323.11905" y="49.616943"></viz:position>
-        <viz:color r="105" g="196" b="4"></viz:color>
-      </node>
-      <node id="斐波那契堆" label="斐波那契堆">
-        <attvalues>
-          <attvalue for="modularity_class" value="0"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="-1409.8015" y="-347.5028"></viz:position>
-        <viz:color r="0" g="199" b="255"></viz:color>
-      </node>
-      <node id="树堆" label="树堆">
-        <attvalues>
-          <attvalue for="modularity_class" value="1"></attvalue>
-        </attvalues>
-        <viz:size value="22.5"></viz:size>
-        <viz:position x="-116.56264" y="151.02939"></viz:position>
-        <viz:color r="226" g="139" b="255"></viz:color>
-      </node>
-      <node id="二叉树" label="二叉树">
-        <attvalues>
-          <attvalue for="modularity_class" value="4"></attvalue>
-        </attvalues>
-        <viz:size value="47.5"></viz:size>
-        <viz:position x="556.73193" y="-194.24971"></viz:position>
-        <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="对话树" label="对话树">
         <attvalues>
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-1379.136" y="-650.81366"></viz:position>
+        <viz:position x="-288.6274" y="-474.39636"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
-      </node>
-      <node id="后缀树" label="后缀树">
-        <attvalues>
-          <attvalue for="modularity_class" value="0"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="-1045.857" y="-617.75134"></viz:position>
-        <viz:color r="0" g="199" b="255"></viz:color>
-      </node>
-      <node id="树旋转" label="树旋转">
-        <attvalues>
-          <attvalue for="modularity_class" value="1"></attvalue>
-        </attvalues>
-        <viz:size value="41.25"></viz:size>
-        <viz:position x="-445.71814" y="-19.050613"></viz:position>
-        <viz:color r="226" g="139" b="255"></viz:color>
       </node>
       <node id="2-3-4树" label="2-3-4树">
         <attvalues>
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-942.537" y="-400.3387"></viz:position>
+        <viz:position x="-92.13541" y="-1086.6582"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
       </node>
       <node id="系统发生树" label="系统发生树">
@@ -298,55 +400,15 @@
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-1167.9434" y="-417.04562"></viz:position>
+        <viz:position x="-1151.0046" y="-815.59174"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
-      </node>
-      <node id="笛卡尔树" label="笛卡尔树">
-        <attvalues>
-          <attvalue for="modularity_class" value="2"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="-91.41535" y="-313.73822"></viz:position>
-        <viz:color r="0" g="175" b="135"></viz:color>
-      </node>
-      <node id="B树" label="B树">
-        <attvalues>
-          <attvalue for="modularity_class" value="1"></attvalue>
-        </attvalues>
-        <viz:size value="28.75"></viz:size>
-        <viz:position x="-742.0502" y="-204.75017"></viz:position>
-        <viz:color r="226" g="139" b="255"></viz:color>
-      </node>
-      <node id="伸展树" label="伸展树">
-        <attvalues>
-          <attvalue for="modularity_class" value="1"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="-780.1203" y="55.568924"></viz:position>
-        <viz:color r="226" g="139" b="255"></viz:color>
-      </node>
-      <node id="替罪羊树" label="替罪羊树">
-        <attvalues>
-          <attvalue for="modularity_class" value="1"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="-1028.1703" y="36.890335"></viz:position>
-        <viz:color r="226" g="139" b="255"></viz:color>
       </node>
       <node id="B+树" label="B+树">
         <attvalues>
           <attvalue for="modularity_class" value="1"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-576.7726" y="179.41937"></viz:position>
-        <viz:color r="226" g="139" b="255"></viz:color>
-      </node>
-      <node id="红黑树" label="红黑树">
-        <attvalues>
-          <attvalue for="modularity_class" value="1"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="-204.38234" y="-50.88185"></viz:position>
+        <viz:position x="-1472.0204" y="499.5253"></viz:position>
         <viz:color r="226" g="139" b="255"></viz:color>
       </node>
       <node id="2-3树" label="2-3树">
@@ -354,87 +416,31 @@
           <attvalue for="modularity_class" value="1"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-333.55542" y="-260.47736"></viz:position>
+        <viz:position x="-1351.7306" y="-135.0137"></viz:position>
         <viz:color r="226" g="139" b="255"></viz:color>
-      </node>
-      <node id="线性探测" label="线性探测">
-        <attvalues>
-          <attvalue for="modularity_class" value="5"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="539.53094" y="659.93744"></viz:position>
-        <viz:color r="255" g="93" b="133"></viz:color>
-      </node>
-      <node id="线性杂凑" label="线性杂凑">
-        <attvalues>
-          <attvalue for="modularity_class" value="5"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="364.57703" y="786.8768"></viz:position>
-        <viz:color r="255" g="93" b="133"></viz:color>
       </node>
       <node id="完美散列" label="完美散列">
         <attvalues>
           <attvalue for="modularity_class" value="5"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="802.09875" y="633.77954"></viz:position>
-        <viz:color r="255" g="93" b="133"></viz:color>
-      </node>
-      <node id="双向链表" label="双向链表">
-        <attvalues>
-          <attvalue for="modularity_class" value="4"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="1062.5824" y="674.35187"></viz:position>
-        <viz:color r="105" g="196" b="4"></viz:color>
+        <viz:position x="1223.5695" y="1556.9733"></viz:position>
+        <viz:color r="128" g="107" b="104"></viz:color>
       </node>
       <node id="有序对" label="有序对">
         <attvalues>
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-604.8461" y="-423.93878"></viz:position>
+        <viz:position x="-2092.2695" y="-706.61487"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
-      </node>
-      <node id="道路 (图论)" label="道路 (图论)">
-        <attvalues>
-          <attvalue for="modularity_class" value="3"></attvalue>
-        </attvalues>
-        <viz:size value="22.5"></viz:size>
-        <viz:position x="273.17352" y="-479.7243"></viz:position>
-        <viz:color r="250" g="146" b="0"></viz:color>
-      </node>
-      <node id="字符串" label="字符串">
-        <attvalues>
-          <attvalue for="modularity_class" value="0"></attvalue>
-        </attvalues>
-        <viz:size value="22.5"></viz:size>
-        <viz:position x="-890.6108" y="-791.01355"></viz:position>
-        <viz:color r="0" g="199" b="255"></viz:color>
-      </node>
-      <node id="广度优先搜索" label="广度优先搜索">
-        <attvalues>
-          <attvalue for="modularity_class" value="4"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="1202.7651" y="217.83577"></viz:position>
-        <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="队列" label="队列">
         <attvalues>
           <attvalue for="modularity_class" value="4"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1158.95" y="448.28064"></viz:position>
-        <viz:color r="105" g="196" b="4"></viz:color>
-      </node>
-      <node id="线段树" label="线段树">
-        <attvalues>
-          <attvalue for="modularity_class" value="4"></attvalue>
-        </attvalues>
-        <viz:size value="22.5"></viz:size>
-        <viz:position x="1473.5573" y="230.17715"></viz:position>
+        <viz:position x="1908.7238" y="1200.8153"></viz:position>
         <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="完全二分图" label="完全二分图">
@@ -442,7 +448,7 @@
           <attvalue for="modularity_class" value="3"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="964.4663" y="-409.68204"></viz:position>
+        <viz:position x="1535.3151" y="-446.4729"></viz:position>
         <viz:color r="250" g="146" b="0"></viz:color>
       </node>
       <node id="佩特森图" label="佩特森图">
@@ -450,7 +456,7 @@
           <attvalue for="modularity_class" value="3"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="725.0029" y="-653.15"></viz:position>
+        <viz:position x="1075.5454" y="-913.93146"></viz:position>
         <viz:color r="250" g="146" b="0"></viz:color>
       </node>
       <node id="凯莱图" label="凯莱图">
@@ -458,15 +464,7 @@
           <attvalue for="modularity_class" value="3"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="946.5925" y="-784.46594"></viz:position>
-        <viz:color r="250" g="146" b="0"></viz:color>
-      </node>
-      <node id="哈密顿图" label="哈密顿图">
-        <attvalues>
-          <attvalue for="modularity_class" value="3"></attvalue>
-        </attvalues>
-        <viz:size value="16.25"></viz:size>
-        <viz:position x="442.04962" y="-656.42706"></viz:position>
+        <viz:position x="1500.9974" y="-1166.058"></viz:position>
         <viz:color r="250" g="146" b="0"></viz:color>
       </node>
       <node id="完全图" label="完全图">
@@ -474,7 +472,7 @@
           <attvalue for="modularity_class" value="3"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="522.7945" y="-481.08646"></viz:position>
+        <viz:position x="687.30524" y="-583.5694"></viz:position>
         <viz:color r="250" g="146" b="0"></viz:color>
       </node>
       <node id="空字元串" label="空字元串">
@@ -482,7 +480,7 @@
           <attvalue for="modularity_class" value="0"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-573.76666" y="-797.75287"></viz:position>
+        <viz:position x="-1154.4436" y="-307.35748"></viz:position>
         <viz:color r="0" g="199" b="255"></viz:color>
       </node>
       <node id="朱迪矩阵" label="朱迪矩阵">
@@ -490,15 +488,15 @@
           <attvalue for="modularity_class" value="5"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="110.861946" y="814.54974"></viz:position>
-        <viz:color r="255" g="93" b="133"></viz:color>
+        <viz:position x="-103.60524" y="1904.052"></viz:position>
+        <viz:color r="128" g="107" b="104"></viz:color>
       </node>
       <node id="弦图" label="弦图">
         <attvalues>
           <attvalue for="modularity_class" value="3"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="203.28821" y="-198.04741"></viz:position>
+        <viz:position x="643.84155" y="-211.13095"></viz:position>
         <viz:color r="250" g="146" b="0"></viz:color>
       </node>
       <node id="深度优先搜索" label="深度优先搜索">
@@ -506,7 +504,7 @@
           <attvalue for="modularity_class" value="4"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="865.33575" y="58.13038"></viz:position>
+        <viz:position x="795.46765" y="430.7285"></viz:position>
         <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="四叉树" label="四叉树">
@@ -514,7 +512,7 @@
           <attvalue for="modularity_class" value="4"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="863.24786" y="-215.66087"></viz:position>
+        <viz:position x="1193.9712" y="-213.9416"></viz:position>
         <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="八叉树" label="八叉树">
@@ -522,7 +520,7 @@
           <attvalue for="modularity_class" value="4"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1067.7054" y="-38.73456"></viz:position>
+        <viz:position x="1310.0215" y="153.7548"></viz:position>
         <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="霍夫曼编码" label="霍夫曼编码">
@@ -530,7 +528,7 @@
           <attvalue for="modularity_class" value="4"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1099.8217" y="-206.58702"></viz:position>
+        <viz:position x="1455.687" y="-98.52728"></viz:position>
         <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="树状数组" label="树状数组">
@@ -538,7 +536,7 @@
           <attvalue for="modularity_class" value="4"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="1424.6" y="490.40247"></viz:position>
+        <viz:position x="2418.7717" y="1281.6892"></viz:position>
         <viz:color r="105" g="196" b="4"></viz:color>
       </node>
       <node id="K-d树" label="K-d树">
@@ -546,7 +544,7 @@
           <attvalue for="modularity_class" value="1"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-335.61432" y="230.69699"></viz:position>
+        <viz:position x="-1042.121" y="748.21576"></viz:position>
         <viz:color r="226" g="139" b="255"></viz:color>
       </node>
       <node id="AVL树" label="AVL树">
@@ -554,7 +552,7 @@
           <attvalue for="modularity_class" value="1"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-300.68143" y="404.7492"></viz:position>
+        <viz:position x="-893.7685" y="1117.235"></viz:position>
         <viz:color r="226" g="139" b="255"></viz:color>
       </node>
       <node id="AA树" label="AA树">
@@ -562,14 +560,14 @@
           <attvalue for="modularity_class" value="1"></attvalue>
         </attvalues>
         <viz:size value="10.0"></viz:size>
-        <viz:position x="-431.24078" y="562.92975"></viz:position>
+        <viz:position x="-1144.4424" y="1420.9417"></viz:position>
         <viz:color r="226" g="139" b="255"></viz:color>
       </node>
     </nodes>
     <edges>
       <edge id="0" source="(Start)数据结构" target="资料类型"></edge>
       <edge id="1" source="(Start)数据结构" target="数组"></edge>
-      <edge id="2" source="(Start)数据结构" target="序列"></edge>
+      <edge id="90" source="数组" target="序列"></edge>
       <edge id="3" source="(Start)数据结构" target="堆 (数据结构)"></edge>
       <edge id="4" source="(Start)数据结构" target="树 (数据结构)"></edge>
       <edge id="5" source="资料类型" target="抽象资料型别"></edge>
@@ -580,27 +578,23 @@
       <edge id="10" source="抽象资料型别" target="集合 (资料结构)"></edge>
       <edge id="11" source="抽象资料型别" target="串列 (抽象资料型别)"></edge>
       <edge id="12" source="数组" target="关联数组"></edge>
-      <edge id="13" source="数组" target="记录"></edge>
       <edge id="14" source="数组" target="可变长数组"></edge>
       <edge id="15" source="数组" target="二叉堆"></edge>
       <edge id="16" source="数组" target="相位阵列"></edge>
       <edge id="17" source="数组" target="邻接矩阵"></edge>
-      <edge id="18" source="邻接矩阵" target="二分图"></edge>
+      <edge id="92" source="完全图" target="二分图"></edge>
       <edge id="19" source="邻接矩阵" target="正则图"></edge>
       <edge id="20" source="关联数组" target="哈希表"></edge>
       <edge id="21" source="关联数组" target="二元搜寻树"></edge>
-      <edge id="22" source="关联数组" target="多重关连数组"></edge>
       <edge id="23" source="关联数组" target="链表"></edge>
       <edge id="24" source="关联数组" target="散列函数"></edge>
       <edge id="25" source="关联数组" target="布隆过滤器"></edge>
       <edge id="26" source="关联数组" target="平衡树"></edge>
-      <edge id="27" source="堆 (数据结构)" target="二项堆"></edge>
       <edge id="28" source="堆 (数据结构)" target="斐波那契堆"></edge>
       <edge id="29" source="堆 (数据结构)" target="树堆"></edge>
       <edge id="30" source="堆 (数据结构)" target="二叉堆"></edge>
       <edge id="31" source="树 (数据结构)" target="二叉树"></edge>
       <edge id="32" source="树 (数据结构)" target="对话树"></edge>
-      <edge id="33" source="树 (数据结构)" target="斐波那契堆"></edge>
       <edge id="34" source="树 (数据结构)" target="后缀树"></edge>
       <edge id="35" source="树 (数据结构)" target="二元搜寻树"></edge>
       <edge id="36" source="树 (数据结构)" target="树旋转"></edge>
@@ -623,7 +617,7 @@
       <edge id="53" source="序列" target="有序对"></edge>
       <edge id="54" source="序列" target="道路 (图论)"></edge>
       <edge id="55" source="序列" target="字符串"></edge>
-      <edge id="56" source="链表" target="二项堆"></edge>
+      <edge id="91" source="链表" target="二项堆"></edge>
       <edge id="57" source="链表" target="广度优先搜索"></edge>
       <edge id="58" source="链表" target="双向链表"></edge>
       <edge id="59" source="链表" target="队列"></edge>

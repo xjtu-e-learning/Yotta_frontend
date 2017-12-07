@@ -1,107 +1,55 @@
-// var dep;
-var layer = 1;
-var graph;
 var category = "";
 var nodename = "";
 var svg2;
-var categories = [];
-$(document).ready(function(){
-    svg2 = d3.select("#mysvg2")
-    .append("svg")
-    .attr("width", "100%")
-    .attr("height", "100%");
-});
+var layer = 1; // 当前的层级
+var graph; // 课程的图数据
+var categories = []; // 社团的类别
+var showNodeSymbolSize = 15; // 展示的标签的节点大小
 
 
 //初始化界面
 function init() {
-    console.log("init")
     $(document).ready(function () {
+        // api获取图数据
         var xml;
         $.ajax({
-                url: 'a1.xml',
-                type: 'get',
-                async: false,
-                dataType: 'xml',
-                data: {
-                    param1: 'value1'
-                },
-            })
-            .done(function (data) {
-                console.log("success load xml");
-                xml = data
-                //console.log(xml);
-            })
-            .fail(function () {
-                console.log("error");
-            })
-
-
-        var pd2 = 0;
-
+            type :"GET",
+            url :ip + "/DependencyAPI/getGexfByClassName?ClassName=" + getCookie("NowClass"),
+            datatype :"json",
+            async:false,
+            success : function(data, status){
+                xml = data.success;
+            }
+        })
         //画力关系图
         var dom = document.getElementById("echarts1");
         var myChart = echarts.init(dom);
-        var app = {};
         var option = null;
         graph = echarts.dataTool.gexf.parse(xml);
-        // console.log(graph);
-
-        categories[0] = {
-            name: '(Start)数据结构'
-        };
-        categories[1] = {
-            name: '树'
-        };
-        categories[2] = {
-            name: '数组'
-        };
-        categories[3] = {
-            name: '正则图'
-        };
-        categories[4] = {
-            name: '链表'
-        };
-        categories[5] = {
-            name: '关联数组'
-        };
-        categories[6] = {
-            name: '抽象资料'
-        };
-
-        // var sum = 0;
-        myChart.on('click', function (params) {
-            if (params.dataType == 'node') {
-                // $.ajax({
-                //     statusCode: {
-                //         200: function () {
-                //             console.log("success")
-                //         }
-                //     },
-                //     type: "GET",
-                //     url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
-                //     data: {},
-                //     dataType: "json",
-                //     success: function (data) {
-                //         d3.select("g.tree").remove();
-                //         pd2 = 0;
-                //         var seed4 = {
-                //             x: 150,
-                //             y: 450,
-                //             name: data.name
-                //         };
-                //         var tree4 = buildTree(data, seed4, 0.8);
-                //         draw_tree(tree4, seed4, svg2, 0.8);
-                //     }
-                // });
-
-                //console.log(params)
-
-                category = params.data.category;
-                layer++;
-                secondLayer(params.data.category);
+        var communitySize = [];
+        // 获取社团数量
+        communityCount = 0;
+        graph.nodes.forEach(function (node) {
+            communityCount = Math.max(communityCount, node.attributes.modularity_class);
+        });
+        // 设置社团初始名字，设置节点size最大的节点为社团名字
+        for (var i = 0; i <= communityCount; i++) {
+            categories[i] = {name: '社团' + (i+1)};
+            communitySize[i] = 0;
+        }
+        graph.nodes.forEach(function (node) {
+            size = node.symbolSize;
+            community = node.attributes.modularity_class;
+            for (var i = 0; i <= communityCount; i++) {
+                if (community == i) {
+                    if (size > communitySize[i]) {
+                        communitySize[i] = size;
+                        categories[i] = {name: node.name};
+                    }
+                }
             }
         });
+        // 设置节点格式
         graph.nodes.forEach(function (node) {
             node.itemStyle = null;
             node.value = node.symbolSize;
@@ -109,7 +57,7 @@ function init() {
             node.symbolOffset = [0, '-100%'];
             node.label = {
                 normal: {
-                    show: node.symbolSize > 25
+                    show: node.symbolSize > showNodeSymbolSize
                 }
             };
             node.category = node.attributes.modularity_class;
@@ -119,39 +67,28 @@ function init() {
         })
         option = {
             title: {
-                text: '数据结构',
+                text: getCookie("NowClass"),
                 subtext: 'Default layout',
                 top: 'bottom',
                 left: 'right'
             },
             tooltip: {},
             legend: [{
-                // selectedMode: 'single',
                 data: categories.map(function (a) {
                     return a.name;
                 })
-                /*
-                                selected:{
-                                    '抽象资料': false,
-                                    '关联数组':false,
-                                    '数组':false,
-                                    '正则图':false,
-                                    '树':false,
-                                    '链表':false
-                                }
-                */
             }],
             animationDuration: 1500,
             animationEasingUpdate: 'quinticInOut',
 
             series: [{
-                name: '数据结构',
+                name: getCookie("NowClass"),
                 type: 'graph',
                 layout: 'none',
                 data: graph.nodes,
                 links: graph.links,
                 edgeSymbol: ['circle', 'arrow'],
-                edgeSymbolSize: [4, 10],
+                edgeSymbolSize: [2, 5],
                 categories: categories,
                 roam: true,
                 focusNodeAdjacency: true,
@@ -163,25 +100,93 @@ function init() {
                 },
                 lineStyle: {
                     normal: {
-                        curveness: 0.3
+                        curveness: 0.3,
+                        color: 'source',
                     }
                 }
             }]
         };
         myChart.setOption(option);
+        // 点击节点跳转到社团结构
+        myChart.on('click', function (params) {
+            if (params.dataType == 'node') {
+                $.ajax({
+                    statusCode: {
+                        200: function () {
+                            console.log("跳转社团结构页面...")
+                        }
+                    },
+                    type: "GET",
+                    url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
+                    data: {},
+                    dataType: "json",
+                    success: function (data) {
+                        d3.selectAll("svg").remove();
+                        svg2 = d3.select("div#mysvg2")
+                                        .append("svg")
+                                        .attr("width", "100%")
+                                        .attr("height", "100%");
+                        //分面树根的位置   
+                        var root_x=$("#mysvg2").width()/2;
+                        var root_y=$("#mysvg2").height()*7/8; //
+                        var seed4 = {
+                            x: root_x,
+                            y: root_y,
+                            name: data.name
+                        };
+                        var tree4 = buildTree(data, seed4, 0.8);
+                        draw_tree(tree4, seed4, svg2, 0.8);
+                        /*****************************************************/
+                        //对分面树进行缩放
+                        multiple = 1;
+                        $(window).bind('mousewheel', function(evt) {
+                            var temp = multiple;//判断是保持0.25或者1.25不变
+                            if( 0.3< multiple && multiple<1){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }else if(multiple < 0.3){
+                                if(evt.originalEvent.wheelDelta>0){
+                                    multiple+=evt.originalEvent.wheelDelta/5000;
+                                }
+                            }else{
+                                if(evt.originalEvent.wheelDelta<0){
+                                    multiple+=evt.originalEvent.wheelDelta/5000;
+                                }
+                            }
+                            //if(multiple<0.25){return;}
+                            d3.selectAll("svg").remove(); //删除之前的svg
+                            svg = d3.select("div#mysvg2")
+                                        .append("svg")
+                                        .attr("width", "100%")
+                                        .attr("height", "100%");
+                            var seed0 = {x: root_x, y: root_y, name:data.name};
+                            var tree0 = buildTree(data, seed0, multiple);
+                            draw_tree(tree0, seed0, svg, multiple);
+                        }); 
+                    /*****************************************************/ 
+                    }
+                });
+                // 当前层数加1，将当前社团编号传到下一层
+                layer++;
+                category = params.data.category; // 社团编号
+                console.log('社团category: ' + category + ', 社团name: ' + categories[category].name);
+                secondLayer(category);
+            }
+        });
     })
 }
 
+// 跳转到第二层社团结构的操作
 function secondLayer(category) {
-    var cluster = JSON.parse(JSON.stringify(graph));
+    var cluster = JSON.parse(JSON.stringify(graph)); // 读取图数据
+    console.log("整个图的数据规模：", cluster);
+    // 删除社团外的节点：输入是社团的所有节点和目前的社团编号。根据节点的社团id进行删除
     removeByCategory(cluster.nodes, category);
+    // 删除社团外的边：输入是原图的所有边和社团现有的节点。
     removeLinks(cluster.links, cluster.nodes);
-    // console.log(cluster)
-    // console.log(graph)
+    console.log("该社团的数据规模：", cluster);
     //画力关系图
     var dom = document.getElementById("echarts1");
     var myChart = echarts.init(dom);
-    var app = {};
     var option = null;
     cluster.nodes.forEach(function (node) {
         node.itemStyle = null;
@@ -199,17 +204,6 @@ function secondLayer(category) {
     cluster.links.forEach(function (link) {
 
     })
-    myChart.on('click', function (params) {
-        if (params.dataType == 'node') {
-            // console.log(params)
-            // secondLayer(params.data.category);
-            // category = params.data.category;
-            // console.log(params.data.name)
-            nodename = params.data.name;
-            layer++;
-            thirdLayer(nodename);
-        }
-    });
     option = {
         title: {
             text: categories[parseInt(category)].name,
@@ -259,29 +253,92 @@ function secondLayer(category) {
             },
             lineStyle: {
                 normal: {
-                    curveness: 0.3
+                    curveness: 0.3,
+                    color: 'source',
                 }
             }
         }]
     };
     myChart.setOption(option);
+    myChart.on('click', function (params) {
+        if (params.dataType == 'node') {
+            $.ajax({
+                statusCode: {
+                    200: function () {
+                        // console.log("success");
+                    }
+                },
+                type: "GET",
+                url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie('NowClass') + "&TermName=" + params.name,
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    d3.selectAll("svg").remove();
+                    svg2 = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
+                    //分面树根的位置   
+                    var root_x=$("#mysvg2").width()/2;
+                    var root_y=$("#mysvg2").height()*7/8; //
+                    var seed4 = {
+                        x: root_x,
+                        y: root_y,
+                        name: data.name
+                    };
+                    var tree4 = buildTree(data, seed4, 0.8);
+                    draw_tree(tree4, seed4, svg2, 0.8);
+                    /*****************************************************/
+                    //对分面树进行缩放
+                    multiple = 1;
+                    $(window).bind('mousewheel', function(evt) {
+                        var temp = multiple;//判断是保持0.25或者1.25不变
+                        if( 0.3< multiple && multiple<1){
+                            multiple+=evt.originalEvent.wheelDelta/5000;
+                        }else if(multiple < 0.3){
+                            if(evt.originalEvent.wheelDelta>0){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }
+                        }else{
+                            if(evt.originalEvent.wheelDelta<0){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }
+                        }
+                        //if(multiple<0.25){return;}
+                        d3.selectAll("svg").remove(); //删除之前的svg
+                        svg = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
+                        //$("svg").draggable();
+                        var seed0 = {x: root_x, y: root_y, name:data.name};
+                        var tree0 = buildTree(data, seed0, multiple);
+                        draw_tree(tree0, seed0, svg, multiple);
+                    }); 
+                    /*****************************************************/ 
+                }
+            });
+            // 当前层数加1，将当前社团编号传到下一层
+            layer++;
+            nodename = params.data.name;
+            nodeId = params.data.id;
+            console.log('进入第三层社团：', nodename, nodeId);
+            thirdLayer(nodename, nodeId);
+        }
+    });
 }
 
-function thirdLayer(name) {
-    //console.log(name)
+function thirdLayer(name, id) {
     var cluster = JSON.parse(JSON.stringify(graph));
-    //console.log(cluster)
-    removeLinksBySelected(cluster.links, name);
+    // 删除社团外的边：输入是原图的所有边和点击的节点
+    removeLinksBySelected(cluster.links, id);
+    // 删除社团外的节点：输入是社团的所有节点和目前社团的边
     removeNodesBySelected(cluster.links, cluster.nodes);
-    // console.log(cluster)
-    // console.log(graph)
+    // console.log(cluster);
     //画力关系图
     var dom = document.getElementById("echarts1");
     var myChart = echarts.init(dom);
-    var app = {};
     var option = null;
-    var pd2 = 0;
-
     cluster.nodes.forEach(function (node) {
         node.itemStyle = null;
         node.symbolSize = node.symbolSize * 1.5;
@@ -300,30 +357,60 @@ function thirdLayer(name) {
     })
     myChart.on('click', function (params) {
         if (params.dataType == 'node') {
-            // console.log(params)
-            // secondLayer(params.data.category);
-            // category = params.data.category;
             $.ajax({
                 statusCode: {
                     200: function () {
-                        console.log("success")
+                        // console.log("success");
                     }
                 },
                 type: "GET",
-                url: 'http://' + ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + "数据结构" + "&TermName=" + params.name,
+                url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie('NowClass') + "&TermName=" + params.name,
                 data: {},
                 dataType: "json",
                 success: function (data) {
-                    console.log(data)
-                    d3.select("g.tree").remove();
-                    //pd2 = 0;
+                    d3.selectAll("svg").remove();
+                    svg2 = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
+                    //分面树根的位置   
+                    var root_x=$("#mysvg2").width()/2;
+                    var root_y=$("#mysvg2").height()*7/8; //
                     var seed4 = {
-                        x: 150,
-                        y: 450,
+                        x: root_x,
+                        y: root_y,
                         name: data.name
                     };
                     var tree4 = buildTree(data, seed4, 0.8);
                     draw_tree(tree4, seed4, svg2, 0.8);
+                    /*****************************************************/
+                    //对分面树进行缩放
+                    multiple = 1;
+                    $(window).bind('mousewheel', function(evt) {
+                        var temp = multiple;//判断是保持0.25或者1.25不变
+                        if( 0.3< multiple && multiple<1){
+                            multiple+=evt.originalEvent.wheelDelta/5000;
+                        }else if(multiple < 0.3){
+                            if(evt.originalEvent.wheelDelta>0){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }
+                        }else{
+                            if(evt.originalEvent.wheelDelta<0){
+                                multiple+=evt.originalEvent.wheelDelta/5000;
+                            }
+                        }
+                        //if(multiple<0.25){return;}
+                        d3.selectAll("svg").remove(); //删除之前的svg
+                        svg = d3.select("div#mysvg2")
+                                    .append("svg")
+                                    .attr("width", "100%")
+                                    .attr("height", "100%");
+                        //$("svg").draggable();
+                        var seed0 = {x: root_x, y: root_y, name:data.name};
+                        var tree0 = buildTree(data, seed0, multiple);
+                        draw_tree(tree0, seed0, svg, multiple);
+                    }); 
+                    /*****************************************************/ 
                 }
             });
         }
@@ -377,7 +464,8 @@ function thirdLayer(name) {
             },
             lineStyle: {
                 normal: {
-                    curveness: 0.3
+                    curveness: 0.3,
+                    color: 'source',
                 }
             }
         }]
@@ -385,55 +473,65 @@ function thirdLayer(name) {
     myChart.setOption(option);
 }
 
-function removeByCategory(arr, category) {
-    for (var i = 0; i < arr.length; i++) {
-        if (arr[i].category != category) {
-            arr.splice(i, 1);
+// 删除社团外的节点：输入是社团的所有节点(nodeArr)和目前的社团编号(category)。根据节点的社团id进行删除
+function removeByCategory(nodeArr, category) {
+    for (var i = 0; i < nodeArr.length; i++) {
+        if (nodeArr[i].category != category) {
+            nodeArr.splice(i, 1);
             i--;
         }
     }
 }
 
+// 删除社团外的边：输入是原图的所有边(arrLink)和社团现有的节点(arrNode)。
 function removeLinks(arrLink, arrNode) {
+    // 遍历所有边，删除边的头结点或者尾节点不是目前社团节点中结点的边
     for (var i = 0; i < arrLink.length; i++) {
         var sourceflag = 0;
         var targetflag = 0;
         for (var j = 0; j < arrNode.length; j++) {
-            if (arrLink[i].source == arrNode[j].name) {
+            // arrLink[i].source 是边的起始节点id和节点的id有相同的说明边的起始节点在社团内
+            if (arrLink[i].source === arrNode[j].id) {
+                // console.log(arrLink[i].source);
                 sourceflag = 1;
                 break;
             }
         }
+        // 判断边的终止节点是不是也在社团内，为1表示在社团内
         if (sourceflag == 1) {
             for (var j = 0; j < arrNode.length; j++) {
-                if (arrLink[i].target == arrNode[j].name) {
+                if (arrLink[i].target == arrNode[j].id) {
                     targetflag = 1;
                 }
             }
         }
-        if (targetflag != 1) {
+        // 当边的起始节点和终止节点都是社团内得节点时，保留这条边，否则删除该边
+        if (sourceflag != 1 && targetflag != 1) {
             arrLink.splice(i, 1);
             i--;
         }
     }
 }
 
-function removeLinksBySelected(arrLink, name) {
+// 删除社团外的边：输入是原图的所有边(arrLink)和点击的节点(id)
+function removeLinksBySelected(arrLink, id) {
+    // 删除边的节点不包含点击节点的边
     for (var i = 0; i < arrLink.length; i++) {
-        if (arrLink[i].source != name && arrLink[i].target != name) {
+        if (arrLink[i].source != id && arrLink[i].target != id) {
             arrLink.splice(i, 1);
             i--;
+        } else {
+            // console.log(arrLink[i]);
         }
     }
 }
 
+// 删除社团外的节点：输入是所有的节点(arrNode)和目前社团中的边(arrLink)
 function removeNodesBySelected(arrLink, arrNode) {
-    //console.log(arrLink)
-    //console.log(arrNode)
     for (var i = 0; i < arrNode.length; i++) {
         var flag = 0;
         for (var j = 0; j < arrLink.length; j++) {
-            if (arrNode[i].name == arrLink[j].source || arrNode[i].name == arrLink[j].target) {
+            if (arrNode[i].id == arrLink[j].source || arrNode[i].id == arrLink[j].target) {
                 flag = 1;
                 break;
             }

@@ -28,6 +28,7 @@ var app=angular.module('myApp',[
 app.controller('myCon',function($scope,$http,$sce){
     $http.get(ip+'/DomainAPI/getDomainManage').success(function(response){
         $scope.subjects=response;
+        // console.log(nowOperateClass);
         $("#class_name").text(nowOperateClass);
         if(getCookie("NowFacetLayer")==1){
             $scope.getfacet1fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
@@ -166,6 +167,7 @@ app.controller('myCon',function($scope,$http,$sce){
 
     $scope.getInfo=function(){
         nowOperateClass=document.getElementById("nameofclass").value;
+        $("#class_name").text(nowOperateClass);
 
         $http({
             method:'GET',

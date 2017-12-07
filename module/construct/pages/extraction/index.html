@@ -119,31 +119,33 @@
 
     <!-- Main content -->
     <section class="content">
-        <div class="container" style="margin-top: 10px">
+        <div class="box-body" style="margin-top: 10px">
+        <!-- <div class="container" style="margin-top: 10px"> -->
             <div class="row">
-                 <div id="div1" class="col-sm-4 col-lg-4" >
+                 <div id="div1" class="col-sm-3 col-lg-3" >
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <h3 class="panel-title">
-                            知识主题
+                            <i class="glyphicon glyphicon-th-large"></i> 知识主题
                         </h3>
                       </div>
-                      <div id="div1" class="panel-body" data-spy="scroll" style="height:530px;overflow:auto; position: relative;">
+                      <div id="div1" class="panel-body" data-spy="scroll" style="height:680px;overflow:auto; position: relative;">
                             <ul id="li" class="list-group">
                             </ul>
                       </div>
                     </div>
                   </div>
 
-                 <div id="div2" class="col-sm-8 col-lg-8" >
+                 <div id="div2" class="col-sm-9 col-lg-9" >
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <h3 class="panel-title">
-                            知识主题上下位关系
+                            <i class="glyphicon glyphicon-th-list"></i> 知识主题上下位关系
                         </h3>
                       </div>
-                      <div id="center-container" class="panel-body" data-spy="scroll" style="height:530px;overflow:auto; position: relative;">
-                        <div id="infovis"></div>    
+                      <div id="center-container" class="panel-body" data-spy="scroll" style="height:680px;overflow:auto; position: relative;">
+                        <!-- 此处的width控制面板中图的大小 -->
+                        <div id="infovis" style="width: 1100px;height:600px;"></div>    
 <!--                         <div id="log"></div> -->
                       </div>
                  </div>
@@ -158,9 +160,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1
+      <b>Version</b> 1.0.1
     </div>
-<strong>Copyright &copy; 2017 大数据算法与分析技术国家工程实验室.</strong> All rights
+<strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
     reserved.
   </footer>
 
@@ -183,7 +185,7 @@
 
 
 <!-- 个人的插件 -->
-<script src="../../dist/js/shileiUtils.js"></script>
+<script type="text/javascript" src="../../../../config/ipconfig.js"></script>
 <!-- CSS Files -->
 <link type="text/css" href="css/base.css" rel="stylesheet" />
 <!-- <link type="text/css" href="css/Spacetree.css" rel="stylesheet" /> -->

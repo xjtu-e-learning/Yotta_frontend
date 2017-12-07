@@ -21,7 +21,7 @@ $(document).ready(function(){
                 }
              },
              type: "GET",
-             url: 'http://'+ip+"/YOTTA/DependencyAPI/getDependencyByDomain?ClassName="+getCookie("NowClass"),
+             url: ip+"/YOTTA/DependencyAPI/getDependencyByDomain?ClassName="+getCookie("NowClass"),
              data: {},
              dataType: "json",
              success: function(data){
@@ -37,7 +37,7 @@ $(document).ready(function(){
 			                }
 			             },
 			             type: "GET",
-			             url: 'http://'+ip+"/YOTTA/DomainTopicAPI/getDomainTopicAll?"+getCookie("NowClass"),
+			             url: ip+"/YOTTA/DomainTopicAPI/getDomainTopicAll?"+getCookie("NowClass"),
 			             data: {},
 			             dataType: "json",
 			             success: function(data){
@@ -175,7 +175,7 @@ $(document).ready(function(){
 							                }
 							             },
 							             type: "GET",
-							             url: 'http://'+ip+"/YOTTA/AssembleAPI/getTreeByTopic?ClassName="+getCookie("NowClass")+"&TermName="+d.name,
+							             url: ip+"/YOTTA/AssembleAPI/getTreeByTopic?ClassName="+getCookie("NowClass")+"&TermName="+d.name,
 							             data: {},
 							             dataType: "json",
 							             success: function(data){
@@ -327,7 +327,7 @@ $(document).ready(function(){
                 }
              },
              type: "GET",
-             url: 'http://'+ip+"/YOTTA/AssembleAPI/getTreeByTopic?ClassName="+getCookie("NowClass")+"&TermName="+$("#subjectSearch").val(),
+             url: ip+"/YOTTA/AssembleAPI/getTreeByTopic?ClassName="+getCookie("NowClass")+"&TermName="+$("#subjectSearch").val(),
              data: {},
              dataType: "json",
              success: function(data){
