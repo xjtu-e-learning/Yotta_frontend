@@ -6,7 +6,7 @@ $(document).ready(function(){
             async:false,
             success : function(data,status){
                 topic=data;
-                console.log("topic个数："+topic.length);
+                // console.log("topic个数："+topic.length);
             }
         });
         for(var i=0;i<topic.length;i++){

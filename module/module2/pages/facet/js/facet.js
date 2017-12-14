@@ -1,12 +1,10 @@
-
-
 // 自适应程序
 var zidingyi_height;
 $(document).ready(function(){
  var header=$(".content-header").offset().top+$(".content-header").height()
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
- console.log(zidingyi_height);
+ // console.log(zidingyi_height);
  $("#facetClassDiv").css("height",zidingyi_height*0.85+"px");
  $("#facetAddDiv").css("height",zidingyi_height*0.15+"px");
  $("#facetTreeDiv").css("height",zidingyi_height*0.64+"px");
@@ -43,7 +41,7 @@ app.controller('myCon',function($scope,$http){
     $scope.addFacet=function(){
     var nowtype=document.getElementById("nowtype").innerText;
     var facetname=$("input[name='FacetName']").val().replace(/\s/g, "");
-    console.log(facetname);
+    // console.log(facetname);
     if(nowtype=="主题"){
 
         $http({

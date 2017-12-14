@@ -4,7 +4,7 @@ $(document).ready(function(){
  var header=$(".content-header").offset().top+$(".content-header").height()
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
- console.log(zidingyi_height);
+ // console.log(zidingyi_height);
  $("#relationClassDiv").css("height",zidingyi_height*0.1+"px");
  $("#relationInfoDiv").css("height",zidingyi_height*0.8+"px");
  $("#relationTreeDiv").css("height",zidingyi_height*0.8+"px");
@@ -68,8 +68,8 @@ app.controller('myCon',function($scope,$http){
     }
 
     $scope.deleteDependence=function(a,b){
-        console.log(a);
-        console.log(b);
+        // console.log(a);
+        // console.log(b);
 
         $http({
             method:'GET',

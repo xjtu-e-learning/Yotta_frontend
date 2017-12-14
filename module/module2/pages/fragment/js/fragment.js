@@ -4,7 +4,7 @@ $(document).ready(function(){
  var header=$(".content-header").offset().top+$(".content-header").height()
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
- console.log(zidingyi_height);
+ // console.log(zidingyi_height);
  $("#fragmentClassDiv").css("height",zidingyi_height*0.85+"px");
  $("#fragmentUnaddDiv").css("height",zidingyi_height*0.4+"px");
  $("#fragmentInfoDiv").css("height",zidingyi_height*0.4+"px");
@@ -65,14 +65,14 @@ app.controller('myCon',function($scope,$http,$sce){
 
 
     $scope.dropFacetFragment=function(data,evt){
-        console.log(data.FragmentID);
+        // console.log(data.FragmentID);
         var str=$("#fragmenttopic").text();
         var arr=str.split(" ");
         if((arr.length!=3)||(arr[1]=="")||(arr[0]=="主题")){
             alert("添加无效");
         }
         else if(arr[0]=="一级分面"){
-            console.log("1"+arr[1]);
+            // console.log("1"+arr[1]);
 
             $http({
                 method:'GET',
@@ -88,7 +88,7 @@ app.controller('myCon',function($scope,$http,$sce){
 
         }
         else if(arr[0]=="二级分面"){
-            console.log("2"+arr[1]);
+            // console.log("2"+arr[1]);
 
             $http({
                 method:'GET',
@@ -103,7 +103,7 @@ app.controller('myCon',function($scope,$http,$sce){
             });
         }
         else if(arr[0]=="三级分面"){
-            console.log("3"+arr[1]);
+            // console.log("3"+arr[1]);
 
             $http({
                 method:'GET',
@@ -122,12 +122,12 @@ app.controller('myCon',function($scope,$http,$sce){
         }
     }
     $scope.dragFragment=function(data,evt){
-        console.log("success");
+        // console.log("success");
     }
 
 
     $scope.addFrag=function(){
-        console.log("success");
+        // console.log("success");
         var html = editor.$txt.html() + "";
 
         $http({
@@ -139,7 +139,7 @@ app.controller('myCon',function($scope,$http,$sce){
             alert("添加碎片成功");
             $scope.getUnaddFragment();
         }, function errorCallback(response){
-            console.log(html);
+            // console.log(html);
             alert("添加碎片失败");
         });
     }
@@ -379,7 +379,7 @@ app.controller('myCon',function($scope,$http,$sce){
     }
 
     $scope.deleteUnaddFragment=function(a){
-        console.log(a);
+        // console.log(a);
 
         $http({
             method:'GET',

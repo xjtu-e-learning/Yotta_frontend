@@ -193,8 +193,8 @@ function DisplayBranch(dataset){
 
 function drag(ev){
     ev.dataTransfer.setData("facet",ev.target.id);
-    console.log(ev);
-    console.log(ev.target.id);
+    // console.log(ev);
+    // console.log(ev.target.id);
 }
 
 function allowDrop(ev)
@@ -206,11 +206,11 @@ function dropFacet1(ev,id){
     ev.preventDefault();
     var facet=ev.dataTransfer.getData("facet");
     var FacetName=facet.split("_")[0];
-    console.log(FacetName);
+    // console.log(FacetName);
     var array=id.split("_");
     var TermName=array[0];
-    console.log(nowOperateClass);
-    console.log(TermName);
+    // console.log(nowOperateClass);
+    // console.log(TermName);
     $.ajax({
              type: "GET",
              url: ip+"/FacetAPI/createFacet1",

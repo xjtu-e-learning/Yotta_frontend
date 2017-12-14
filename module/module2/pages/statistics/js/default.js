@@ -15,7 +15,7 @@ $(document).ready(function(){
         async : false,
         success : function(data, status){
             domainStatistics = data;
-            console.log(domainStatistics);
+            // console.log(domainStatistics);
         }
     });
 
@@ -132,7 +132,7 @@ $(document).ready(function(){
                 ],
             },
             title: {
-                subtext: '作者：从零开始',
+                // subtext: '作者：从零开始',
                 subtextStyle: {
                     color:'#000',
                 },
@@ -278,6 +278,12 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
     var dataFragmentList = domainStatistics.fragmentList.slice(1);
     var dataDependencyList = domainStatistics.dependencyList.slice(1);
     var xAxisData = domainStatistics.domainList;
+    // 设置x轴初始显示的主题个数为10个
+    var topicLength = xAxisData.length;
+    var end = 100; // 显示百分之end的x轴数据
+    if (topicLength > 10) {
+        end = (10 / topicLength) * 100;
+    }
     // 得到数据的和
     var dataTotal = function() {
         var data = [];
@@ -301,7 +307,7 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
                 fontWeight:'bold',
                 
             },
-            subtext:'作者：从零开始',
+            // subtext:'作者：从零开始',
             subtextStyle: {
                 color:'#000',
             },
@@ -436,8 +442,8 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
             show: true,
             height:20,
             bottom:10,
-            start: 10,
-            end: 60,
+            start: 0,
+            end: end,
             handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
             handleSize: '110%',
             handleStyle:{ // borderColor:"#5476c2"
@@ -605,9 +611,6 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
      * 主题统计：根据主题统计 
      */
 // console.log('主题统计-选择学科：' + subjectName + '，选择课程：' + domainName+ '，选择主题：' + topicName);
-        // if (domainName == 'undefined' && topicName == 'undefined') {
-        //     console.log('请选择课程');
-        // }
         var domainStatistics; // 主题所有统计数据
         $.ajax({
             type : "GET",
@@ -616,7 +619,7 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
             async : false,
             success : function(data, status){
                 domainStatistics = data;
-                console.log(domainStatistics);
+                // console.log(domainStatistics);
             }
         });
 
@@ -629,6 +632,12 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
         var dataDependencyList = domainStatistics.dependencyList.slice(1);
         var dataFragmentList = domainStatistics.fragmentList.slice(1);
         var xAxisData = domainStatistics.topicList;
+        // 设置x轴初始显示的主题个数为10个
+        var topicLength = xAxisData.length;
+        var end = 100; // 显示百分之end的x轴数据
+        if (topicLength > 10) {
+            end = (10 / topicLength) * 100;
+        }
         // 得到数据的和
         var dataTotal = function() {
             var data = [];
@@ -652,7 +661,7 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
                     fontWeight:'bold',
                     
                 },
-                subtext:'作者：从零开始',
+                // subtext:'作者：从零开始',
                 subtextStyle: {
                     color:'#000',
                 },
@@ -787,8 +796,8 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
                 show: true,
                 height:20,
                 bottom:10,
-                start: 10,
-                end: 60,
+                start: 0,
+                end: end,
                 handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
                 handleSize: '110%',
                 handleStyle:{ // borderColor:"#5476c2"
@@ -1013,7 +1022,7 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
             async : false,
             success : function(data, status){
                 topicStatistics = data;
-                console.log(topicStatistics);
+                // console.log(topicStatistics);
             }
         });
         // echarts画图
@@ -1040,7 +1049,7 @@ var myChart = echarts.init(document.getElementById('classStatisticsByDomain'));
                     fontWeight:'bold',
                     
                 },
-                subtext:'作者：从零开始',
+                // subtext:'作者：从零开始',
                 subtextStyle: {
                     color:'#000',
                 },
