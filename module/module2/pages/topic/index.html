@@ -6,6 +6,10 @@
   <title>New Yotta</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+     <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../../../login/';
+  </script>
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -91,6 +95,13 @@
             <i class="fa fa-object-ungroup"></i> <span>认知关系数据</span>
           </a>
         </li>
+
+        <li>
+          <a href="../statistics/index.html">
+            <i class="fa fa-object-ungroup"></i> <span>数据统计</span>
+          </a>
+        </li>
+        
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -265,7 +276,6 @@
 
 
 <!-- 个人的插件 -->
-<script src="../../dist/js/shileiUtils.js"></script>
 
 <script src="../../plugins/angularjs/angular.min.js"></script>
 <script src="../../plugins/jQuery/jquery.qtip.min.js"></script>

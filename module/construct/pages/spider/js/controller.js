@@ -44,7 +44,7 @@ $(document).ready(function(){
     console.log(checked_topicsArray);
     $.ajax({
         type:"GET",
-        url:'http://'+ip+'/SpiderAPI/getFragmentByTopicArray',
+        url:ip+'/SpiderAPI/getFragmentByTopicArray',
         data:{className:getCookie("NowClass"),topicNames:checked_topicsArray},
         dataType:"json",
                 async:false,
@@ -73,7 +73,7 @@ $scope.getFragmentDetail=function(obj){
 }
     
 
-     $http.get('http://'+ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
+     $http.get(ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
         $scope.tops=response;
     });
  });

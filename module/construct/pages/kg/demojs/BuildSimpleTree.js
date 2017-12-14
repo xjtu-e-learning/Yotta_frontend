@@ -1,3 +1,6 @@
+//this javascript file to show the subject tree
+//用于显示分面树
+
 // Variables
 var step_trunk_height = 90;
 var base_trunk_height = 70;
@@ -15,8 +18,10 @@ var fixedTwig = 35;
 var twigLength = 20;
 var twig_space = 50;
 var fixedLeaf = 8;
-var leafLength = 8;
-var leaf_space = 8;
+//树叶长度
+var leafLength = 12;
+//树叶间距
+var leaf_space = 12;
 var space_time_leaf = 2;
 var space_time_twig = 2;
 var length_text_line = 15;//碎片知识每行的字数
@@ -30,19 +35,71 @@ var color_twig = '#330000'
 var color_hilight_twig = 'brown';
 var color_leaf = 'green';
 var color_hilight_leaf = 'yellow';
-var width_trunk = 2;
-var width_branch = 2;
-var width_twig = 2;
-var width_hilight_twig = 3;
-var width_leaf = 2;
-var width_hilight_leaf = 3;
+//树干宽度
+var width_trunk = 7;
+//枝干宽度
+var width_branch = 7;
+//树枝宽度
+var width_twig = 7;
+//高亮树枝宽度 
+var width_hilight_twig = 8;
+//树叶宽度
+var width_leaf = 5;
+//高亮树叶宽度
+var width_hilight_leaf = 6;
 var width_qtip = 350;
 var length_start_leaf_x_level_0=55;
 var length_start_leaf_x_level_1=25;
 //Width and height
 var multiple = 1;
 var w = 100;
-var h = 700;	
+var h = 700;
+
+// // Variables
+// var step_trunk_height = 90;
+// var base_trunk_height = 70;
+// var length_x3x4 = 60;
+// var length_top_branch = 10;
+// var angle_top_branch = 0.05;
+// var length_trunk_to_branch = 55;
+// var angle_step_branch = 0.1;
+// var length_base_start_twig = 45;
+// var angle_twig_step_a3 = 0.8;
+// var angle_twig_step_a4 = 0.6;
+// var angle_leaf_step_a3 = 1.6;
+// var angle_leaf_step_a4 = 0.6;
+// var fixedTwig = 35;
+// var twigLength = 20;
+// var twig_space = 50;
+// var fixedLeaf = 8;
+// var leafLength = 8;
+// var leaf_space = 8;
+// var space_time_leaf = 2;
+// var space_time_twig = 2;
+// var length_text_line = 15;//碎片知识每行的字数
+// var trunk_text_size = '16px';
+// var trunk_text_width ='2px';
+// var text_seed_x = 13;
+// var text_seed_y = 18;
+// var color_trunk = '#330000';
+// var color_branch = '#330000';
+// var color_twig = '#330000'
+// var color_hilight_twig = 'brown';
+// var color_leaf = 'green';
+// var color_hilight_leaf = 'yellow';
+// var width_trunk = 2;
+// var width_branch = 2;
+// var width_twig = 2;
+// var width_hilight_twig = 3;
+// var width_leaf = 2;
+// var width_hilight_leaf = 3;
+// var width_qtip = 350;
+// var length_start_leaf_x_level_0=55;
+// var length_start_leaf_x_level_1=25;
+// //Width and height
+// var multiple = 1;
+// var w = 100;
+// var h = 700;	
 /*
 var svg = d3.select("#showTree")
 				.append("svg")
@@ -246,70 +303,6 @@ function highlight(d) {
 	if(multiple<0.75){return;}//保证缩小时只显示分面树的主题，不高亮显示twig和叶子的内容	
 	d3.select('#'+d.id).style('stroke', colour );
 	d3.select('#'+d.id).style('stroke-width', width);	
-	//显示超文本	
-/*
-	$(this).qtip(
-	  {
-		 content: {						
-			text: '<p>'+d.name+'</p><p><a href='+d.url+' target="_blank">详情</a></p>',	
-			title: { text: d.id } // Give the tooltip a title using each elements text				
-		 },
-		 position: {
-			corner: {
-			   target: 'middleMiddle', // Position the tooltip above the link
-			   tooltip: 'bottomMiddle'			   
-			},
-			adjust: {  screen: true }// Keep the tooltip on-screen at all times			
-		 },
-		 show: { 
-            when: 'click', 
-            solo: true // Only show one tooltip at a time
-         },
-		 hide: 'unfocus',		
-		 style: {
-			tip: true, // Apply a speech bubble tip to the tooltip at the designated tooltip corner
-			border: {
-			   width: 0,
-			   radius: 2
-			},			
-			width: width_qtip // Set the tooltip width
-		 }
-	  });
-*/		
-	$(this).qtip(
-		{
-			overwrite:true,
-			content: {
-				text: '<p>'+d.name+'</p><p><a href='+d.url+' target="_blank">详情</a></p>',	
-				title: { text: d.id } // Give the tooltip a title using each elements text
-			},
-
-			position: {
-				my: 'top middle',
-				at: 'bottom right',
-				adjust:{
-					//mouse: true,
-					//scroll: true,
-					//resize: true
-				}
-			},
-			show: {
-				// event: 'mousemove',
-				event: 'click',
-				solo: true
-			},
-			hide: {
-				event: 'click'
-			},
-			style: {
-				tip: {
-					corner: true,
-					border: true
-				}
-			}
-
-		}
-	);
 }
 function draw_tree(tree, seed, svgobj, multiple){
     var g = svgobj.append('g')
@@ -336,7 +329,47 @@ function draw_tree(tree, seed, svgobj, multiple){
 		.style('stroke-width', function(d) {return d.width;})
 		.on('mouseover', highlight)
 		.on('mouseout', highlight);
-		//.on('click',click);		
+		//.on('click',click);	
+	//带关闭按钮的提示 且延时3秒关闭
+	//显示碎片的提示信息
+	g.selectAll('path')
+		.on('mouseenter',function(d){
+			$(this).qtip({  
+		        content: { 
+		        	text: "<div class='leafMessage'><p>"+d.name+"</p><p><a href="+d.url+" target='_blank'>详情</a></p><div>", 
+		            /*title: d.id,  
+		            button: "关闭"  */
+		            title:{
+		            	text:d.id,
+		            	button:"关闭"
+		            }
+		        },
+		        position: {
+					my: 'top middle',
+					at: 'bottom right',
+					/*adjust:{
+						mouse: true,
+						scroll: true,
+						resize: true
+					}*/
+				},
+ 				show: {
+					event: 'click',
+					solo: true,
+				},
+                hide: {  
+                    event: false,    //设置不自动关闭 可配合inactive组合使用  
+                    inactive: 3000   //设置延时关闭  
+                },
+                style: {
+					classes: 'qtip-light qtip-shadow qtip-rounded',
+					tip: {
+						corner: true,
+						border: true
+					}
+				}   
+	    	});
+		});		
 	if(multiple>=0.75){
 		g.selectAll('text')//分支部分
 		.data(tree['branches'])

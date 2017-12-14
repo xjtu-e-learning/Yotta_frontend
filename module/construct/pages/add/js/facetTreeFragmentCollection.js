@@ -8,7 +8,7 @@ var SUBJECTNAME = "抽象资料型别";
 $(function() {
     $(".fragmentSlimscroll").slimScroll({
         width: 'auto', //可滚动区域宽度
-        height: '300px', //可滚动区域高度
+        height: '500px', //可滚动区域高度
         size: '10px', //组件宽度
         color: '#000', //滚动条颜色
         position: 'right', //组件位置：left/right
@@ -111,14 +111,14 @@ var ykapp = angular.module('subjectApp', []);
 ykapp.controller('subjectController', function($scope, $http) {
     console.log('当前课程为：' + getCookie("NowClass"));
     $scope.NowClass = getCookie("NowClass");
-    $http.get('http://'+ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
+    $http.get(ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
         $scope.Topics = response;
 
         //console.log($("#rightDiv").height());
         //console.log($('.box-header').height());
         var height=$("#rightDiv").height()-$('.box-header').height()-8;
         //var height=$(window).height()*0.9;
-        $("#facetedTreeDiv").css("height",height*1.2+"px")
+        $("#facetedTreeDiv").css("height",height*0.93+"px")
         //console.log($(window).height());
 
         // 每次选择一门新的课程时，展示这门新的课程的第一个主题的分面树
@@ -126,23 +126,7 @@ ykapp.controller('subjectController', function($scope, $http) {
         SUBJECTNAME = response[0].TermName;
         LoadBranch();
     });
-    /*$.ajax({
-         type: "GET",
-         url: 'http://' + ip + "/DomainTopicAPI/getDomainTopicAll",
-         data: {
-            ClassName:"数据结构"
-         },
-         dataType: "json",
-         success: function(data){
-                    $scope.Topics=data;
-                    console.log($scope.Topics);
-                    console.log("yangkuan");
-                 },
-         error:function(XMLHttpRequest, textStatus, errorThrown){
-                //通常情况下textStatus和errorThrown只有其中一个包含信息
-                alert(textStatus);
-                }
-    });*/
+
 
 });
 
@@ -171,7 +155,7 @@ function DisplayTrunk(dataset){
 function ObtainTrunk(subjectName){
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
+             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:subjectName
@@ -204,7 +188,7 @@ $(document).ready(function(){
     //获取所有主题
     // $.ajax({
     //          type: "GET",
-    //          url: 'http://'+ip+"/DomainTopicAPI/getDomainTopicAll",
+    //          url: ip+"/DomainTopicAPI/getDomainTopicAll",
     //          data: {
     //             ClassName:getCookie("NowClass")
     //          },
@@ -254,7 +238,7 @@ function LoadFacetModal(subjectName){
 
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/FacetAPI/getFacet",
+             url: ip+"/FacetAPI/getFacet",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:subjectName,
@@ -320,7 +304,7 @@ $(document).ready(function(){
 function LoadBranch(){
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
+             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:SUBJECTNAME
@@ -349,10 +333,35 @@ function DisplayBranch(dataset){
     //分面树的位置    
     var root_x=$("#facetedTreeDiv").width()/2;
     var root_y=$("#facetedTreeDiv").height()-30; //
-    $("svg").draggable();
-    var seed = {x: root_x* multiple, y: root_y* multiple, name:dataset.name}; 
+    //$("svg").draggable();
+    var seed = {x: root_x, y: root_y, name:dataset.name}; 
     var tree = buildBranch(dataset, seed, multiple);
     draw_tree(tree, seed, svg, multiple);
+        /*****************************************************/
+    //对分面树进行缩放
+    $(window).bind('mousewheel', function(evt) {
+        var temp = multiple;//判断是保持0.25或者1.25不变
+        if( 0.3< multiple && multiple<1){
+            multiple+=evt.originalEvent.wheelDelta/5000;
+        }else if(multiple < 0.3){
+            if(evt.originalEvent.wheelDelta>0){
+                multiple+=evt.originalEvent.wheelDelta/5000;
+            }
+        }else{
+            if(evt.originalEvent.wheelDelta<0){
+                multiple+=evt.originalEvent.wheelDelta/5000;
+            }
+        }
+        d3.selectAll("svg").remove(); //删除之前的svg
+        svg = d3.select("div#facetedTreeDiv")
+                    .append("svg")
+                    .attr("width", w * multiple)
+                    .attr("height", h * multiple);
+        var seed0 = {x: root_x, y: root_y, name:dataset.name};
+        var tree0 = buildBranch(dataset, seed0, multiple);
+        draw_tree(tree0, seed0, svg, multiple);
+    }); 
+    /*****************************************************/ 
 }
 
 
@@ -370,7 +379,7 @@ function DisplayAllFragment(){
 
     $.ajax({
              type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
+             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
              data: {
                 ClassName:getCookie("NowClass"),
                 TermName:SUBJECTNAME

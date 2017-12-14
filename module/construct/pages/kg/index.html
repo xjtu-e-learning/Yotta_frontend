@@ -26,11 +26,16 @@
         text {
             font-family: Microsoft YaHei;
         }
+        .leafMessage{
+            /*width:300px;*/
+            height:250px;
+            overflow:scroll;
+        }
     </style>
 
     <link rel="stylesheet" href="demojs/jquery.qtip.css"/>
 
-    <script src="../../dist/js/shileiUtils.js"></script>
+<script type="text/javascript" src="../../../../config/ipconfig.js"></script>
     <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../../plugins/angularjs/angular.min.js"></script>
 
@@ -145,7 +150,8 @@
                 知识森林
                 <small> 当前领域：{{ NowClass }}
                 </small>
-
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a onclick="showVR()" class="btn btn-primary ">开始体验 <i class="icon-arrow-right"></i></a>
             </h1>
 
             <ol class="breadcrumb">
@@ -157,6 +163,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="row" id="mysvgTop">
+
                 <!--
                           <div class="col-md-2">
                               <div class="input-group input-group-sm">
@@ -178,14 +185,12 @@
                     -->
                     <div id="mydiv2">
                         <div class='panel panel-info'>
-                            <!--
-                                                  <div class='panel-heading'>
-                                                      <h3 class='panel-title'></h3>
-                                                  </div>
-                            -->
+                            <div class='panel-heading'>
+                              <h3 class='panel-title'><i class="glyphicon glyphicon-tree-conifer"></i> 知识森林概览</h3>
+                            </div>
                             <div class='panel-body' data-spy="scroll"
-                                 style="height:530px;overflow:auto; position: relative;">
-                                <div id="echarts1" style="width: 100%;height:510px"></div>
+                                 style="height:680px;overflow:hidden; position: relative;">
+                                <div id="echarts1" style="width: 100%;height:650px"></div>
                             </div>
                         </div>
                     </div>
@@ -194,11 +199,11 @@
                     <div id="mydiv1">
                         <div class='panel panel-info'>
                             <div class='panel-heading'>
-                                <h3 class='panel-title'>主题分面树</h3>
+                                <h3 class='panel-title'><i class="glyphicon glyphicon-tree-deciduous"></i> 主题分面树</h3>
                             </div>
                             <div class='panel-body' data-spy="scroll"
-                                 style="height:530px;overflow:auto; position: relative;">
-                                <div id="mysvg2" style="width: 100%;height:510px">
+                                 style="height:680px;overflow:hidden; position: relative;">
+                                <div id="mysvg2" style="width: 100%;height:680px">
                                 </div>
                             </div>
                         </div>
@@ -224,6 +229,42 @@
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="vrModal" tabindex="-1" role="dialog" aria-labelledby="vrModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:1100px;">
+        <div class="modal-content">
+            <div class="modal-body" id="vrbody" style="height: 690px" >
+                <!-- <iframe  id="iframe" src='' frameborder="0" width="100%" height="100%" scrolling="yes"></iframe> -->
+                
+            </div>
+            <div class="modal-footer" id="vrfoot">
+                <button type="button" class="btn btn-info" onclick="quanping(gameInstance)">全屏</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<link rel="shortcut icon" href="../../../webGL/TemplateData/favicon.ico">
+<link rel="stylesheet" href="../../../webGL/TemplateData/style.css">
+<script src="../../../webGL/TemplateData/UnityProgress.js"></script>  
+<script src="../../../webGL/Build/UnityLoader.js"></script>
+
+<script type="text/javascript">
+    var gameInstance
+    function showVR() {
+        $('#vrModal').modal({backdrop: 'static', keyboard: false});
+        $('#vrModal').modal('show') 
+        // $('#iframe').attr('src', 'module/webGL/index.html') 
+        
+        $('#vrbody').html('<div class="webgl-content"><div id="gameContainer" style="width: 960px; height: 600px"></div></div>')
+        gameInstance = UnityLoader.instantiate("gameContainer", "../../../webGL/Build/kfweb3dv0.4.json", {onProgress: UnityProgress});
+    }
+    function quanping(gameInstance){
+        gameInstance.SetFullscreen(1)
+    }
+</script>
 
 
 </body>
