@@ -122,7 +122,7 @@ ykapp.controller('subjectController', function($scope, $http) {
         //console.log($(window).height());
 
         // 每次选择一门新的课程时，展示这门新的课程的第一个主题的分面树
-        console.log(response[0].TermName);
+        // console.log(response[0].TermName);
         SUBJECTNAME = response[0].TermName;
         LoadBranch();
     });
@@ -215,7 +215,7 @@ $(document).ready(function(){
         $("input.subjectRadio").each(function(index,value){
             if($(this).prop("checked")===true){
                 SUBJECTNAME=$(this).val();
-                console.log($(this));
+                // console.log($(this));
 
                 //提交主题，获取对应主题的分面及json数据
                 //画树干
@@ -297,7 +297,7 @@ $(document).ready(function(){
                 $("#facetModal").modal("hide");
             }
         });
-        console.log(facetList);
+        // console.log(facetList);
     });
 });
 

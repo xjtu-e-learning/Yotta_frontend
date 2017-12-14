@@ -368,7 +368,7 @@ function ErgodicBranch(data,branchName){
 					}
 				}
 			});
-			console.log("countText "+countText);
+			// console.log("countText "+countText);
 			setTextCount(countText);
 			//找到所有叶子，结束
 			//return;

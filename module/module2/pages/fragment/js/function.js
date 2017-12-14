@@ -1,10 +1,6 @@
 function choosetype(){
-    
-        $("#fragmentModal").modal();
-        
-    
+    $("#fragmentModal").modal();
 }
-
 
 //杨宽添加，显示分面树函数
 //显示完整的一棵树（树干、树枝、树叶）
