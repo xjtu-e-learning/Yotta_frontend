@@ -51,31 +51,47 @@ app.controller("facetTreeController",function($scope,$http){
         }
         else{
             $.ajax({
-            type: "GET",
-                url: ip+"/AssembleAPI/getTreeByTopic",
-                data: {
-                ClassName:getCookie("NowClass"),
-                TermName:$scope.subjectName
-            },
-            dataType: "json",
-            success: function(data){
-                DisplayBranch(data);
-            },
-            error:function(XMLHttpRequest, textStatus, errorThrown){
-                console.log(textStatus);
-            }
-        });
+                type: "POST",
+                url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                data: $.param( {
+                    ClassName:getCookie("NowClass"),
+                    TermName:$scope.subjectName,
+                    HasFragment:false
+                }),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+                // type: "GET",
+                //     url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                //     data: {
+                //     ClassName:getCookie("NowClass"),
+                //     TermName:$scope.subjectName
+                // },
+                // dataType: "json",
+                success: function(data){
+                    DisplayBranch(data);
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    console.log(textStatus);
+                }
+            });
         }
     }
     $scope.Branch=function(){
         $.ajax({
-            type: "GET",
-                url: ip+"/AssembleAPI/getTreeByTopic",
-                data: {
+            type: "POST",
+            url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            data: $.param( {
                 ClassName:getCookie("NowClass"),
-                TermName:$scope.subjectName
-            },
-            dataType: "json",
+                TermName:$scope.subjectName,
+                HasFragment:false
+            }),
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            // type: "GET",
+            //     url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            //     data: {
+            //     ClassName:getCookie("NowClass"),
+            //     TermName:$scope.subjectName
+            // },
+            // dataType: "json",
             success: function(data){
                 DisplayBranch(data);
             },

@@ -1,5 +1,3 @@
-
-
 //变量
 var SUBJECTNAME = "抽象资料型别";
 
@@ -154,58 +152,33 @@ function DisplayTrunk(dataset){
 
 function ObtainTrunk(subjectName){
     $.ajax({
-             type: "GET",
-             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
-             data: {
-                ClassName:getCookie("NowClass"),
-                TermName:subjectName
-             },
-             dataType: "json",
-             success: function(data){
-                        DisplayTrunk(data);
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-                    //通常情况下textStatus和errorThrown只有其中一个包含信息
-                    alert(textStatus);
-                    }
-        });
+        type: "POST",
+        url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+        data: $.param( {
+            ClassName:getCookie("NowClass"),
+            TermName:subjectName,
+            HasFragment:false
+        }),
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+        // type: "GET",
+        // url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+        // data: {
+        //    ClassName:getCookie("NowClass"),
+        //    TermName:subjectName,
+        //    HasFragment:false
+        // },
+        // dataType: "json",
+        success: function(data){
+            DisplayTrunk(data);
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+        //通常情况下textStatus和errorThrown只有其中一个包含信息
+            alert(textStatus);
+        }
+    });
  
 }
-
-//3
-// function InitTextFragment(){
-//  appendTextFragment("文本碎片内容1","文本碎片爬取时间1");
-//  appendTextFragment("文本碎片内容2","文本碎片爬取时间2");
-// }
-
-//4
-// function InitPictureFragment(){
-//  appendPictureFragment("http://pic1.cxtuku.com/00/13/03/b0968e72e10f.jpg");
-//  appendPictureFragment("http://img.juimg.com/tuku/yulantu/140214/330686-140214105F352.jpg");
-// }
-
-$(document).ready(function(){
-    //获取所有主题
-    // $.ajax({
-    //          type: "GET",
-    //          url: ip+"/DomainTopicAPI/getDomainTopicAll",
-    //          data: {
-    //             ClassName:getCookie("NowClass")
-    //          },
-    //          dataType: "json",
-    //          success: function(data){  
-    //                     //ObtainTrunk("抽象资料型别");
-    //                     //生成树枝
-    //                     LoadBranch();
-    //                  },
-    //          error:function(XMLHttpRequest, textStatus, errorThrown){
-    //                 //通常情况下textStatus和errorThrown只有其中一个包含信息
-    //                 alert(textStatus);
-    //                 }
-    //     });
-    // InitTextFragment();
-    // InitPictureFragment();
-});
 
 //二、提交所选主题
 //
@@ -303,21 +276,31 @@ $(document).ready(function(){
 
 function LoadBranch(){
     $.ajax({
-             type: "GET",
-             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
-             data: {
-                ClassName:getCookie("NowClass"),
-                TermName:SUBJECTNAME
-             },
-             dataType: "json",
-             success: function(data){
-                        DisplayBranch(data);
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-                    //通常情况下textStatus和errorThrown只有其中一个包含信息
-                    alert(textStatus);
-                    }
-        });
+        type: "POST",
+        url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+        data: $.param( {
+            ClassName:getCookie("NowClass"),
+            TermName:SUBJECTNAME,
+            HasFragment:false
+        }),
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+        // type: "GET",
+        // url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+        // data: {
+        //    ClassName:getCookie("NowClass"),
+        //    TermName:SUBJECTNAME,
+        //    HasFragment:false
+        // },
+        // dataType: "json",
+        success: function(data){
+            DisplayBranch(data);
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+        //通常情况下textStatus和errorThrown只有其中一个包含信息
+            alert(textStatus);
+        }
+    });
 }
 
 function DisplayBranch(dataset){
@@ -378,44 +361,54 @@ function DisplayAllFragment(){
     var fragmentNum=0; 
 
     $.ajax({
-             type: "GET",
-             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
-             data: {
-                ClassName:getCookie("NowClass"),
-                TermName:SUBJECTNAME
-             },
-             dataType: "json",
-             success: function(data){
-                        //进入一级分面
-                        $.each(data.children,function(index1,value1){
-                            //进入二级分面
-                            $.each(value1.children,function(index2,value2){
-                                if (value2.type==="branch"){
-                                    //遍历树叶
-                                    $.each(value2.children,function(index3,value3){
-                                        // 碎片api返回的api接口形式为：2017-10-28 15:29:02.0。需要去除最后的不用的时间字段
-                                        fragmentScratchTime = value3.scratchTime.split('.')[0];
-                                        appendFragment(value3.content, fragmentScratchTime);
-                                        fragmentNum++;
-                                    });
-                                } 
-                                else{
-                                    // 碎片api返回的api接口形式为：2017-10-28 15:29:02.0。需要去除最后的不用的时间字
-                                    fragmentScratchTime = value2.scratchTime.split('.')[0];
-                                    appendFragment(value2.content, fragmentScratchTime);
-                                        fragmentNum++;
-                                }
-                            });
-                            showFragmentRatio(fragmentNum);
-                            //找到所有叶子，结束
-                            //return;
+        type: "POST",
+        url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+        data: $.param( {
+            ClassName:getCookie("NowClass"),
+            TermName:SUBJECTNAME,
+            HasFragment:true
+        }),
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+        // type: "GET",
+        // url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+        // data: {
+        //     ClassName:getCookie("NowClass"),
+        //     TermName:SUBJECTNAME,
+        //     HasFragment:true
+        // },
+        // dataType: "json",
+        success: function(data){
+            //进入一级分面
+            $.each(data.children,function(index1,value1){
+                //进入二级分面
+                $.each(value1.children,function(index2,value2){
+                    if (value2.type==="branch"){
+                        //遍历树叶
+                        $.each(value2.children,function(index3,value3){
+                            // 碎片api返回的api接口形式为：2017-10-28 15:29:02.0。需要去除最后的不用的时间字段
+                            fragmentScratchTime = value3.scratchTime.split('.')[0];
+                            appendFragment(value3.content, fragmentScratchTime);
+                            fragmentNum++;
                         });
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-                    //通常情况下textStatus和errorThrown只有其中一个包含信息
-                    alert(textStatus);
+                    } 
+                    else{
+                        // 碎片api返回的api接口形式为：2017-10-28 15:29:02.0。需要去除最后的不用的时间字
+                        fragmentScratchTime = value2.scratchTime.split('.')[0];
+                        appendFragment(value2.content, fragmentScratchTime);
+                            fragmentNum++;
                     }
-        });
+                });
+                showFragmentRatio(fragmentNum);
+                //找到所有叶子，结束
+                //return;
+            });
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+            //通常情况下textStatus和errorThrown只有其中一个包含信息
+            alert(textStatus);
+        }
+    });
 }
 
 //展示文本碎片和图形碎片的数量

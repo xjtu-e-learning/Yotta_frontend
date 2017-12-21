@@ -1,4 +1,4 @@
-var myApp = angular.module("myApp", []);
+var myApp = angular.module("myApp", ['ngFileUpload']);
 myApp.controller('myCtrl', function($scope, $http) {
     // 页面加载时默认显示所有学科
     $http({
@@ -14,6 +14,27 @@ myApp.controller('myCtrl', function($scope, $http) {
     });
 
 
+    $scope.spiderSingle = function(subjectNameSpider, classNameSpider) {
+        if (typeof subjectNameSpider === "undefined" || typeof classNameSpider === "undefined") {
+            alert("请认真填写学科和课程！");
+        } else {
+            var domainStatistics;
+            $.ajax({
+                type : "GET",
+                url : ip + "/SpiderAPI/startSingleSpider?SubjectName=" + subjectNameSpider + "&ClassName=" + classNameSpider,
+                datatype : "json",
+                async : false,
+                success : function(data, status){
+                    console.log(data);
+                },
+                error : function(data) {
+                    alert(data.responseText);
+                    console.log(data.responseText);
+
+                }
+            });
+        }
+    }
 
     /**
      * 根据维度：选择学科之后显示的课程信息

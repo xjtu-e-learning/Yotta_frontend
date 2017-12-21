@@ -87,7 +87,10 @@ function init() {
         var communitySize = [];
         // 获取社团数量
         communityCount = 0;
-        graph.nodes.forEach(function (node) {
+        if (graph == null) {
+            console.log("没有认知路径");
+        } else {
+            graph.nodes.forEach(function (node) {
             communityCount = Math.max(communityCount, node.attributes.modularity_class);
         });
         // 设置社团初始名字，设置节点size最大的节点为社团名字
@@ -174,10 +177,21 @@ function init() {
                             // console.log("跳转社团结构页面...");
                         }
                     },
-                    type: "GET",
-                    url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
-                    data: {},
-                    dataType: "json",
+
+                    type: "POST",
+                    url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                    data: $.param( {
+                        ClassName:getCookie("NowClass"),
+                        TermName:params.name,
+                        HasFragment:true
+                    }),
+                    headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+                    // type: "GET",
+                    // url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
+                    // data: {},
+                    // dataType: "json",
+
                     success: function (data) {
                         d3.selectAll("svg").remove();
                         svg2 = d3.select("div#mysvg2")
@@ -230,6 +244,8 @@ function init() {
                 secondLayer(category);
             }
         });
+        }
+        
     })
 }
 
@@ -326,10 +342,21 @@ function secondLayer(category) {
                         // console.log("success");
                     }
                 },
-                type: "GET",
-                url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie('NowClass') + "&TermName=" + params.name,
-                data: {},
-                dataType: "json",
+
+                type: "POST",
+                url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                data: $.param( {
+                    ClassName:getCookie("NowClass"),
+                    TermName:params.name,
+                    HasFragment:true
+                }),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+                // type: "GET",
+                // url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie('NowClass') + "&TermName=" + params.name,
+                // data: {},
+                // dataType: "json",
+
                 success: function (data) {
                     d3.selectAll("svg").remove();
                     svg2 = d3.select("div#mysvg2")
@@ -421,10 +448,21 @@ function thirdLayer(name, id) {
                         // console.log("success");
                     }
                 },
-                type: "GET",
-                url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie('NowClass') + "&TermName=" + params.name,
-                data: {},
-                dataType: "json",
+
+                type: "POST",
+                url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                data: $.param( {
+                    ClassName:getCookie("NowClass"),
+                    TermName:params.name,
+                    HasFragment:true
+                }),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+                // type: "GET",
+                // url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie('NowClass') + "&TermName=" + params.name,
+                // data: {},
+                // dataType: "json",
+                
                 success: function (data) {
                     d3.selectAll("svg").remove();
                     svg2 = d3.select("div#mysvg2")

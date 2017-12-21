@@ -1,4 +1,5 @@
 var labelType, useGradients, nativeTextSupport, animate;
+var topic1;
 $(document).ready(function(){
     $.ajax({
         type : "GET",

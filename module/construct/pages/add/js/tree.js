@@ -316,21 +316,31 @@ function showTPFragment(branchName,type){
 	$("#textFragmentDiv").empty();
 	$("#pictureFragmentDiv").empty();
 	$.ajax({
-             type: "GET",
-             url: ip+"/AssembleAPI/getTreeByTopicForFragment",
-             data: {
-             	ClassName:getCookie("NowClass"),
-             	TermName:SUBJECTNAME
-             },
-             dataType: "json",
-             success: function(data){
-             			ErgodicBranch(data,branchName);
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-          			//通常情况下textStatus和errorThrown只有其中一个包含信息
-          			alert(textStatus);
-       				}
-        });
+		type: "POST",
+        url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+        data: $.param( {
+            ClassName:getCookie("NowClass"),
+            TermName:SUBJECTNAME,
+            HasFragment:true
+        }),
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+		// type: "GET",
+		// url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+		// data: {
+		// 	ClassName:getCookie("NowClass"),
+		// 	TermName:SUBJECTNAME,
+		// 	HasFragment:true
+		// },
+		dataType: "json",
+		success: function(data){
+			ErgodicBranch(data,branchName);
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			//通常情况下textStatus和errorThrown只有其中一个包含信息
+			alert(textStatus);
+		}
+    });
 }
 //遍历所点树枝
 function ErgodicBranch(data,branchName){
@@ -631,63 +641,74 @@ function initTree(){
 document.getElementById("facetedTreeDiv").innerHTML='';
 
 $.ajax({
-         type: "GET",
-         url: ip+"/AssembleAPI/getTreeByTopicForFragment",
-         data: {
-         	ClassName:getCookie("NowClass"),
-         	TermName:SUBJECTNAME
-         },
-         dataType: "json",
-         success: function(dataset){
-         			multiple=1;
-					//分面树所占空间大小
-					svg = d3.select("div#facetedTreeDiv")
-								.append("svg")
-								.attr("width", "100%")
-								.attr("height","100%");
-					//分面树根的位置	
-					var root_x=$("#facetedTreeDiv").width()/2;
-    				var root_y=$("#facetedTreeDiv").height()-30; 
-					var seed4 = {x: root_x, y: root_y, name:dataset.name}; 
-					var tree4 = buildTree(dataset, seed4, multiple);
-				    draw_tree(tree4, seed4, svg, multiple);	
-				     /*****************************************************/
-				    //对分面树进行缩放
-				    //$(window).bind('mousewheel', function(evt) {
-				    $("div#facetedTreeDiv").bind('mousewheel', function(evt) {
-						var temp = multiple;//判断是保持0.25或者1.25不变
-						if( 0.3< multiple && multiple<1){
-							multiple+=evt.originalEvent.wheelDelta/5000;
-						}else if(multiple < 0.3){
-							if(evt.originalEvent.wheelDelta>0){
-								multiple+=evt.originalEvent.wheelDelta/5000;
-							}
-						}else{
-							if(evt.originalEvent.wheelDelta<0){
-								multiple+=evt.originalEvent.wheelDelta/5000;
-							}
-						}
-						//if(multiple<0.25){return;}
-						d3.selectAll("svg").remove(); //删除之前的svg
-						svg = d3.select("div#facetedTreeDiv")
-									.append("svg")
-									.attr("width", "100%")
-									.attr("height", "100%");
-						//分面树根的位置	
-						var root_x=$("#facetedTreeDiv").width()/2;
-						var root_y=$("#facetedTreeDiv").height()-30; 
-						//$("svg").draggable();
-						var seed0 = {x: root_x, y: root_y, name:dataset.name};
-						var tree0 = buildTree(dataset, seed0, multiple);
-					    draw_tree(tree0, seed0, svg, multiple);
+	type: "POST",
+    url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+    data: $.param( {
+        ClassName:getCookie("NowClass"),
+        TermName:SUBJECTNAME,
+        HasFragment:true
+    }),
+    headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
-						//draw_road(multiple,svg);
-					});	
-				    /*****************************************************/	
-                 },
-         error:function(XMLHttpRequest, textStatus, errorThrown){
-      			//通常情况下textStatus和errorThrown只有其中一个包含信息
-      			alert(textStatus);
-   				}
-        });
+	// type: "GET",
+	// url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+	// data: {
+	// 	ClassName:getCookie("NowClass"),
+	// 	TermName:SUBJECTNAME,
+	// 	HasFragment:true
+	// },
+	// dataType: "json",
+	success: function(dataset){
+		multiple=1;
+		//分面树所占空间大小
+		svg = d3.select("div#facetedTreeDiv")
+					.append("svg")
+					.attr("width", "100%")
+					.attr("height","100%");
+		//分面树根的位置	
+		var root_x=$("#facetedTreeDiv").width()/2;
+		var root_y=$("#facetedTreeDiv").height()-30; 
+		var seed4 = {x: root_x, y: root_y, name:dataset.name}; 
+		var tree4 = buildTree(dataset, seed4, multiple);
+	    draw_tree(tree4, seed4, svg, multiple);	
+	     /*****************************************************/
+	    //对分面树进行缩放
+	    //$(window).bind('mousewheel', function(evt) {
+	    $("div#facetedTreeDiv").bind('mousewheel', function(evt) {
+			var temp = multiple;//判断是保持0.25或者1.25不变
+			if( 0.3< multiple && multiple<1){
+				multiple+=evt.originalEvent.wheelDelta/5000;
+			}else if(multiple < 0.3){
+				if(evt.originalEvent.wheelDelta>0){
+					multiple+=evt.originalEvent.wheelDelta/5000;
+				}
+			}else{
+				if(evt.originalEvent.wheelDelta<0){
+					multiple+=evt.originalEvent.wheelDelta/5000;
+				}
+			}
+			//if(multiple<0.25){return;}
+			d3.selectAll("svg").remove(); //删除之前的svg
+			svg = d3.select("div#facetedTreeDiv")
+						.append("svg")
+						.attr("width", "100%")
+						.attr("height", "100%");
+			//分面树根的位置	
+			var root_x=$("#facetedTreeDiv").width()/2;
+			var root_y=$("#facetedTreeDiv").height()-30; 
+			//$("svg").draggable();
+			var seed0 = {x: root_x, y: root_y, name:dataset.name};
+			var tree0 = buildTree(dataset, seed0, multiple);
+		    draw_tree(tree0, seed0, svg, multiple);
+
+			//draw_road(multiple,svg);
+		});	
+	    /*****************************************************/	
+ 	},
+	error:function(XMLHttpRequest, textStatus, errorThrown){
+		//通常情况下textStatus和errorThrown只有其中一个包含信息
+		alert(textStatus);
+	}
+});
+
 }	

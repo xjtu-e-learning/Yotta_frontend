@@ -20,7 +20,7 @@ $(document).ready(function(){
     console.log('当前课程为：' + getCookie("NowClass"));
     $scope.NowClass = getCookie("NowClass");
 
-    $scope.getinfo=function(){
+    $scope.getinfo=function(sourceName){
         $("#get").text("正在获取...");
         var num=0;//计算主题是否全选要用
         var checked_topics=[];
@@ -36,21 +36,47 @@ $(document).ready(function(){
 
         checked_topicsArray=checked_topics.toString();
         // console.log(checked_topicsArray);
-        $.ajax({
-            type:"GET",
-            url:ip+'/SpiderAPI/getFragmentByTopicArray',
-            data:{className:getCookie("NowClass"),topicNames:checked_topicsArray},
-            dataType:"json",
-                async:false,
-                success:function(data){
-                    // console.log(data.length);
-                    $("#fragmentNum").text(data.length);
-                    $scope.fragments=data;
-                    for(var i=0;i<$scope.fragments.length;i++){
-                     $scope.fragments[i].fragmentContent=$sce.trustAsHtml($scope.fragments[i].fragmentContent);
-                 }
-                }
+
+        // 根据是否选择数据源调用不同的api返回数据
+        // console.log(sourceName);
+        var url = ip + "/SpiderAPI/getFragmentByTopicArrayAndSource";
+        var postData = $.param( {
+            className:getCookie("NowClass"),
+            topicNames:checked_topicsArray,
+            sourceName:sourceName
+        });
+        if (typeof sourceName === "undefined") {
+            // 没有选择数据源展示所有数据源的
+            var url = ip + "/SpiderAPI/getFragmentByTopicArray";
+            postData = $.param( {
+                className:getCookie("NowClass"),
+                topicNames:checked_topicsArray
             });
+        }
+
+        $.ajax({
+
+            type: "POST",
+            url: url,
+            data: postData,
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+            // type:"GET",
+            // url:ip+'/SpiderAPI/getFragmentByTopicArray',
+            // data:{className:getCookie("NowClass"),topicNames:checked_topicsArray},
+            // dataType:"json",
+
+            async:false,
+            success:function(data){
+                // console.log(data.length);
+                $("#fragmentNum").text(data.length);
+                $scope.fragments=data;
+                for(var i=0;i<$scope.fragments.length;i++){
+                    $scope.fragments[i].fragmentContent=$sce.trustAsHtml($scope.fragments[i].fragmentContent);
+                }
+            }
+        });
+        
         $("#get").text("确定");
     }
 
@@ -63,4 +89,10 @@ $(document).ready(function(){
     $http.get(ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
         $scope.tops=response;
     });
+
+    // 获取数据源
+    $http.get(ip+'/SourceAPI/getSource').success(function(response){
+        $scope.sources=response;
+    });
+
  });
