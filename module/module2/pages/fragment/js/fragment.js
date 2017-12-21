@@ -148,20 +148,31 @@ app.controller('myCon',function($scope,$http,$sce){
     //杨宽添加,显示分面树函数
     $scope.showFacetTreeWithLeaves=function(className,subjectName){
         $.ajax({
-         type: "GET",
-         url: ip+"/AssembleAPI/getTreeByTopic",
-         data: {
-            ClassName:className,
-            TermName:subjectName
-         },
-         dataType: "json",
-         success: function(dataset){
-                   displayTree(dataset);
-                 },
-         error:function(XMLHttpRequest, textStatus, errorThrown){
+
+            type: "POST",
+            url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            data: $.param( {
+                ClassName:className,
+                TermName:subjectName,
+                HasFragment:false
+            }),
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+            // type: "GET",
+            // url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            // data: {
+            //     ClassName:className,
+            //     TermName:subjectName
+            // },
+            // dataType: "json",
+            
+            success: function(dataset){
+                displayTree(dataset);
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
                 //通常情况下textStatus和errorThrown只有其中一个包含信息
                 alert(textStatus);
-                }
+            }
         });
     }
 

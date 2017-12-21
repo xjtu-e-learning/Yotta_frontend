@@ -54,7 +54,10 @@ function init() {
         var communitySize = [];
         // 获取社团数量
         communityCount = 0;
-        graph.nodes.forEach(function (node) {
+        if (graph == null) {
+            console.log("没有认知路径数据");
+        } else {
+            graph.nodes.forEach(function (node) {
             communityCount = Math.max(communityCount, node.attributes.modularity_class);
         });
         // 设置社团初始名字，设置节点size最大的节点为社团名字
@@ -142,6 +145,8 @@ function init() {
                 secondLayer(category);
             }
         });
+        }
+        
     })
 }
 

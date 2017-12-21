@@ -175,7 +175,7 @@
                 <ul class="" style="background-color: ">
                   <li class=" list-group-item" ng-repeat="x in classInfo " style="margin-left: -10%;background-color: ">
                     <div class=" list-group-item" style="background-color:#4682B4;">
-                     <a id={{x.TermName}}_choose ng-click="gettopicfragment(x.ClassName,x.TermName);showFacetTreeWithLeaves(x.ClassName,x.TermName);" style="color:white;cursor:pointer">{{x.TermName}}</a>
+                     <a id={{x.TermName}}_choose ng-click="gettopicfragment(x.ClassName,x.TermName);" style="color:white;cursor:pointer">{{x.TermName}}</a>
                      <a id={{x.TermName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.Facet1.length==0"></a>
                    </div>
                    <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.Facet1">
