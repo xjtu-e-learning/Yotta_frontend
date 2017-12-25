@@ -47,11 +47,15 @@ $(document).ready(function(){
         });
         if (typeof sourceName === "undefined") {
             // 没有选择数据源展示所有数据源的
+            $("#fragmentSource").text("中文维基、知乎、百度知道、csdn");
             var url = ip + "/SpiderAPI/getFragmentByTopicArray";
             postData = $.param( {
                 className:getCookie("NowClass"),
                 topicNames:checked_topicsArray
             });
+        }
+        else{
+            $("#fragmentSource").text(sourceName);
         }
 
         $.ajax({

@@ -174,7 +174,7 @@
             </div>
             <!-- <label  for="topsel" style="cursor: default">选择数据源:</label>
             <select class="btn label-primary" id="topsel" style="margin-right: 5%;" ng-model="source" ng-options="source.sourceName for source in sources">
-                <option value="">-- 请选择数据源 --</option>
+                <option value="">请选择数据源</option>
             </select> -->
             <label  for="numsel"  style="cursor: default">每页显示数量:</label>
             <select class="btn label-primary"id="numsel" style="margin-right:5%;">
@@ -212,18 +212,19 @@
 
       <div class="row">
         <div class="col-xs-12">
-          <div id="fragData" class="box box-primary" style="overflow-y:auto">
+          <div class="box box-primary" style="">
             <div class="box-header with-border">
               <i class="glyphicon glyphicon-list-alt" style=""></i>
               <h3 class="box-title">碎片</h3>
-              <p style="display: inline-block;">已选主题下共<span id="fragmentNum">n</span>个碎片</p>
+              <p style="display: inline-block;">已选主题下共<span id="fragmentNum">n</span>个碎片;</p>
+              <p style="display: inline-block;">碎片源为<span id="fragmentSource">中文维基、知乎、百度知道、csdn</span></p>
               <!-- <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div> -->
             </div>
-            <div class="box-body" style="">
+            <div id="fragData" class="box-body" style="overflow-y:auto">
               <div class="box box-primary fragment" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:15%;float:left;margin:1%" >
                 <div class="box-body" style="height:200px;overflow-y: hidden" ng-bind-html="fragment.fragmentContent">
                 </div>
