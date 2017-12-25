@@ -1,4 +1,4 @@
-var myApp = angular.module("myApp", ['ngFileUpload']);
+var myApp = angular.module("myApp", []);
 myApp.controller('myCtrl', function($scope, $http) {
     // 页面加载时默认显示所有学科
     $http({
@@ -13,7 +13,109 @@ myApp.controller('myCtrl', function($scope, $http) {
         console.log('获取学科api出错...');
     });
 
+    // bootstrap-inputfile上传文件
+    // $("#file-0a").fileinput({
+    //     theme: 'fa',
+    //     uploadAsync: true,
+    //     uploadUrl: ip + '/SpiderAPI/uploadFile', // you must set a valid URL here else you will get an error
+    //     // allowedFileExtensions: ['jpg', 'png', 'gif'],
+    //     enctype: 'multipart/form-data',
+    //     overwriteInitial: false,
+    //     maxFileSize: 1000,
+    //     maxFilesNum: 1,
+    //     //allowedFileTypes: ['image', 'video', 'flash'],
+    //     showCaption: true,              //是否显示标题
+    //     showUpload: true,               //是否显示上传按钮
+    //     showRemove: true,               //是否显示移除按钮
+    //     showPreview : true,             //是否显示预览按钮
+    //     browseClass: "btn btn-primary", //按钮样式 
+    //     dropZoneEnabled: false,         //是否显示拖拽区域
+    //     allowedFileExtensions: ["xls", "xlsx"], //接收的文件后缀
+    //     headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+    //     previewFileIcon: '<i class="glyphicon glyphicon-file"></i>',
+    //     allowedPreviewTypes: ['image', 'html', 'text', 'video', 'audio', 'flash', 'object', 'application/excel', 'application/vnd.ms-excel', 'application/x-excel', 'application/x-msexcel'],
+    //     previewFileIconSettings: {
+    //         'doc': '<i class="fa fa-file-word-o text-primary"></i>',
+    //         'xls': '<i class="fa fa-file-excel-o text-success"></i>',
+    //         'ppt': '<i class="fa fa-file-powerpoint-o text-danger"></i>',
+    //         'jpg': '<i class="fa fa-file-photo-o text-warning"></i>',
+    //         'pdf': '<i class="fa fa-file-pdf-o text-danger"></i>',
+    //         'zip': '<i class="fa fa-file-archive-o text-muted"></i>',
+    //     },
+    //     previewFileExtSettings: {
+    //         'doc': function(ext) {
+    //             return ext.match(/(doc|docx)$/i);
+    //         },
+    //         'xls': function(ext) {
+    //             return ext.match(/(xls|xlsx)$/i);
+    //         },
+    //         'ppt': function(ext) {
+    //             return ext.match(/(ppt|pptx)$/i);
+    //         }
+    //     },
+    //     slugCallback: function (filename) {
+    //         console.log(filename);
+    //         return filename.replace('(', '_').replace(']', '_');
+    //     }
+    // }).on('fileuploaded', function(event, data, previewId, index) {
+    //     var form = data.form, files = data.files, extra = data.extra,
+    //         response = data.response, reader = data.reader;
+    //     console.log('File uploaded triggered');
+    // }).on('fileerror', function(event, data, msg) {  //一个文件上传失败
+    //     console.log('文件上传失败！'+msg);
+    // });
 
+    // 上传excel文件
+    $scope.submit = function() {
+        //首先验证文件格式
+        var fileName = $('#exampleInputFile').val();
+        if (fileName === '') {
+            alert('请上传excel文件');
+            return false;
+        }
+        var fileType = (fileName.substring(fileName
+                .lastIndexOf(".") + 1, fileName.length))
+                .toLowerCase();
+        if (fileType !== 'xls' && fileType !== 'xlsx') {
+            alert('文件格式不正确，请上传excel文件！');
+            return false;
+        }
+
+        // 开始上传文件
+        var formdata = new FormData();
+        formdata.append('file', document.getElementById("exampleInputFile").files[0]);
+        // console.log(document.getElementById("exampleInputFile").files[0]);
+        $http({
+            method : 'post',
+            data : formdata,
+            url : ip + "/SpiderAPI/uploadFile",
+            headers : {'Content-Type' : undefined},
+            // 序列化 formdata object
+            transformRequest : angular.identity
+        }).success(function(data) {
+            console.log(data);
+            alert(data.msg);
+        });
+    }
+
+    // 爬取多门课程数据
+    $scope.spiderMuti = function() {
+        var fileName = document.getElementById("exampleInputFile").files[0].name;
+        $.ajax({
+            type : "GET",
+            url : ip + "/SpiderAPI/startSpiders?fileName=" + fileName,
+            datatype : "json",
+            async : false,
+            success : function(data, status){
+                console.log(data);
+            },
+            error : function(data) {
+                console.log(data.responseText);
+            }
+        });
+    }
+
+    // 爬取单个课程数据
     $scope.spiderSingle = function(subjectNameSpider, classNameSpider) {
         if (typeof subjectNameSpider === "undefined" || typeof classNameSpider === "undefined") {
             alert("请认真填写学科和课程！");
