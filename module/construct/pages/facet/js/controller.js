@@ -20,8 +20,9 @@ app.controller("facetTreeController",function($scope,$http){
     $scope.NowClass = getCookie("NowClass");
     $http.get(ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
         $scope.topics=response;
-        // $scope.fenmianshow(response[0].TermName);
-        // $scope.Branch()
+        // 默认加载显示
+        $scope.fenmianshow(response[0].TermName);
+        $scope.Branch();
     });
     $scope.subjectName="字符串";
     $scope.treeFlag="trunk";
@@ -29,16 +30,16 @@ app.controller("facetTreeController",function($scope,$http){
         // console.log(subjectName);
         $scope.subjectName=subjectName;
         $.ajax({
-                    type:"GET",
-                    url:ip+"/FacetAPI/getTopicFacet?ClassName="+getCookie("NowClass")+"&TermName="+subjectName,
-                    data:{},
-                    dataType:"json",
-                    async:false,
-                    success:function(data){
-                        $scope.facets=data;
-                        // console.log(data);
-                    }
-                });
+            type:"GET",
+            url:ip+"/FacetAPI/getTopicFacet?ClassName="+getCookie("NowClass")+"&TermName="+subjectName,
+            data:{},
+            dataType:"json",
+            async:false,
+            success:function(data){
+                $scope.facets=data;
+                // console.log(data);
+            }
+        });
 
     }
     $scope.setBranch=function(){

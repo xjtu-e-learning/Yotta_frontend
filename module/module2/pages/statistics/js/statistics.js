@@ -93,7 +93,7 @@ myApp.controller('myCtrl', function($scope, $http) {
             // 序列化 formdata object
             transformRequest : angular.identity
         }).success(function(data) {
-            console.log(data);
+            // console.log(data);
             alert(data.msg);
         });
     }
