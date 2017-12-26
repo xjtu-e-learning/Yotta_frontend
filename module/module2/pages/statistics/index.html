@@ -21,6 +21,10 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+  <!-- bootstrap-fileinput需要的插件 -->
+  <link href="../../plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+  <link href="../../plugins/bootstrap-fileinput/themes/explorer-fa/theme.css" media="all" rel="stylesheet" type="text/css"/>
+
 <!-- <script type="text/javascript">ip = ffsfdsf；</script> -->
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -291,27 +295,33 @@
               </div>
               <!-- /.box-header -->
               <!-- form start -->
-              <form role="form">
+              <form role="form" method="post" enctype="multipart/form-data">
                 <div class="box-body">
                   <div class="form-group">
-                    <label for="exampleInputFile">上传文件</label>
-                    <input type="file" id="exampleInputFile">
+                    <label for="file">上传文件</label>
+                    <input type="file" id="exampleInputFile" name="file">
                     
-                    <button class="btn btn-default" ngf-select ng-model="file" name="file">上传文件</button>
+                    <!-- bootstrap-inputfile上传文件 -->
+                    <!-- <div class="file-loading">
+                        <input id="file-0a" class="file" type="file" multiple data-min-file-count="1" data-allowed-file-extensions='["xlxs", "xls"]'>
+                    </div> -->
 
+                    <br>
+                    <button type="submit" class="btn btn-primary" ng-click="submit()">Submit</button>
+                    <button type="reset" class="btn btn-default">Reset</button>
                     <p class="help-block">
                       文件格式要求：</br> 
-                      1. xls格式的excel文件。</br>
+                      1. xls格式的excel文件，文件名统一命名为：“domains.xls”。</br>
                       2. 表格包含两列，第一行分别为：“学科”、“课程名”。</br>
-                      3. 第二行开始为具体的学科和课程信息，如：“计算机科学”，“数据结构”。
+                      3. 第二行开始为具体的学科和课程信息，如：“计算机科学”，“数据结构”。</br>
+                      4. 目前只能在idea中运行tomcat可以运行，发布到tomcat服务器上无法正常运行。
                     </p>
                   </div>
                 </div>
                 <!-- /.box-body -->
 
                 <div class="box-footer">
-                  <button type="submit" class="btn btn-primary" ng-click="upload()">上传课程信息文件</button>
-                  <button type="submit" class="btn btn-success pull-right" ng-click="spiderMuti()">启动爬虫</button>
+                  <button type="submit" class="btn btn-success pull-right" name="submit" id="submit" ng-click="spiderMuti()">启动爬虫</button>
                 </div>
               </form>
 
@@ -351,7 +361,8 @@
                   <p class="help-block">
                       IE浏览器配置：</br> 
                       1. 设置IE浏览器的缩放为100%。</br>
-                      2. “Internet选项”->“安全”：四个安全设置都启用保护模式。
+                      2. “Internet选项”->“安全”：四个安全设置都启用保护模式。</br>
+                      3. 设置IEDriverServer.exe到Config.IE_PATH路径下，默认是放在D盘下。
                     </p>
                 </div>
                 <!-- /.box-body -->
@@ -415,6 +426,16 @@
 
 <script type="text/javascript" src="js/statistics.js"></script>
 <script type="text/javascript" src="js/default.js"></script>
+
+<!-- bootstrap-inputfile -->
+<script src="../../plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+<script src="../../plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+<script src="../../plugins/bootstrap-fileinput/js/locales/fr.js" type="text/javascript"></script>
+<script src="../../plugins/bootstrap-fileinput/js/locales/es.js" type="text/javascript"></script>
+<script src="../../plugins/bootstrap-fileinput/themes/explorer-fa/theme.js" type="text/javascript"></script>
+<script src="../../plugins/bootstrap-fileinput/themes/fa/theme.js" type="text/javascript"></script>
+<script src="../../plugins/bootstrap-fileinput/js/plugins/popper.min.js" type="text/javascript"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" type="text/javascript"></script> -->
 
 </body>
 </html>

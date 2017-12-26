@@ -159,7 +159,7 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="select_all()" style="float:left">
+                            <button type="button" class="btn btn-primary" onclick="select_all()" style="float:left">
                                 全选
                             </button>
                             <button type="button" class="btn btn-primary" onclick="clear_all()" style="float:left">
@@ -174,7 +174,7 @@
             </div>
             <!-- <label  for="topsel" style="cursor: default">选择数据源:</label>
             <select class="btn label-primary" id="topsel" style="margin-right: 5%;" ng-model="source" ng-options="source.sourceName for source in sources">
-                <option value="">-- 请选择数据源 --</option>
+                <option value="">请选择数据源</option>
             </select> -->
             <label  for="numsel"  style="cursor: default">每页显示数量:</label>
             <select class="btn label-primary"id="numsel" style="margin-right:5%;">
@@ -187,43 +187,45 @@
         </div>
       </div>
 
-      <div class="row" style="margin-top:2%">
-          <div class="col-xs-12">
+      <div class="row" style="margin-top: 20px;">
+          <!-- 碎片爬取结果统计图 -->
+          <div class="col-xs-8">
             <div id="state" class="box box-primary">
-            
               <div class="box-header with-border">
                 <i class="glyphicon glyphicon-align-left" style=""></i>
                 <h3 class="box-title">碎片爬取状态</h3>
-                <!-- <div class="box-tools pull-right">
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                </div> -->
               </div>
-
               <div class="box-body">
                 <div id="pic0" style="height: 500px; padding: 0px; position: relative;"></div>
               </div>
-            
+            </div>
+          </div>
+          <!-- 词云图 -->
+          <div class="col-xs-4">
+            <div id="state" class="box box-primary">
+              <div class="box-header with-border">
+                <i class="glyphicon glyphicon-cloud" style=""></i>
+                <h3 class="box-title">关键词</h3>
+                <button type="button" class="btn btn-primary btn-sm pull-right">{{wordCloudInfo}}</button>
+              </div>
+              <div class="box-body">
+                <div id="cloudPic" style="height: 497px; padding: 0px; position: relative;"></div>
+              </div>
             </div>
           </div>
       </div>
 
-
       <div class="row">
         <div class="col-xs-12">
-          <div id="fragData" class="box box-primary" style="overflow-y:auto">
+          <div class="box box-primary" style="">
             <div class="box-header with-border">
               <i class="glyphicon glyphicon-list-alt" style=""></i>
               <h3 class="box-title">碎片</h3>
-              <p style="display: inline-block;">已选主题下共<span id="fragmentNum">n</span>个碎片</p>
-              <!-- <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div> -->
+              <p style="display: inline-block;">已选主题下共<span id="fragmentNum">n</span>个碎片;</p>
+              <p style="display: inline-block;">碎片源为<span id="fragmentSource">中文维基、知乎、百度知道、csdn</span></p>
+              <button type="button" class="btn btn-primary btn-sm pull-right">{{wordCloudInfo}}</button>
             </div>
-            <div class="box-body" style="">
+            <div id="fragData" class="box-body" style="overflow-y:auto">
               <div class="box box-primary fragment" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:15%;float:left;margin:1%" >
                 <div class="box-body" style="height:200px;overflow-y: hidden" ng-bind-html="fragment.fragmentContent">
                 </div>
@@ -262,16 +264,15 @@
 
 
       <div class="row">
-      <div  style="margin-left: 30%">
-        <button class="btn btn-default" onclick="pre()">上一页</button>
-        <span>当前为第<span id="nowpage">1</span>页</span>
-        <button class="btn btn-default" onclick="nex()">下一页</button>
-        <input id="gopage" type="number" style="width:60px ">
-        <button class="btn btn-default" onclick="go()">Go</button>
-        <span>共<span id="page">1</span>页</span>
+        <div style="margin-left: 30%">
+          <button class="btn btn-default" onclick="pre()">上一页</button>
+          <span>当前为第<span id="nowpage">1</span>页</span>
+          <button class="btn btn-default" onclick="nex()">下一页</button>
+          <input id="gopage" type="number" style="width:60px ">
+          <button class="btn btn-default" onclick="go()">Go</button>
+          <span>共<span id="page">1</span>页</span>
         </div>
       </div>
-
 
     </section>
     <!-- /.content -->
@@ -302,6 +303,8 @@
 <script src="../../plugins/angularjs/angular.min.js"></script>
 <script src="../../plugins/echartjs/echarts.min.js"></script>
 <script type="text/javascript" src="../../plugins/jQuery/jquery.slimscroll.min.js"></script>
+
+<script src='../../plugins/echartjs/echarts-wordcloud.js'></script>
 
 <!-- 个人的插件 -->
 <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
