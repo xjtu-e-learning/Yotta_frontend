@@ -37,7 +37,7 @@
     }
     [ng-drop]{
         background: rgba(255,255,255, 0.5);
-        width: 90%;
+        width: 100%;
         height: 85%;
         display: block;
         margin:20px auto;
@@ -259,6 +259,7 @@
                     </div>
                     <div class="box-footer">
                       <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteUnaddFragment(unaddfragment.FragmentID)"><i class="fa fa-times"></i></button>
+                      <button class="btn btn-primary" style="float: right" ng-click="modifyFragment(unaddfragment.FragmentID)">修改</button>
                     </div>
                   </div>
                 </div>
@@ -272,7 +273,7 @@
               <h3 class="box-title" id="fragmenttopic">所选主题/分面下碎片</h3>
             </div>
             <div id="fragmentInfoDiv" class="box-body" style="display: block;overflow-y: auto" >
-              <div ng-drop="true" ng-drop-success="dropFacetFragment($data,$event)">
+              <div ng-drop="true" ng-drop-success="dropFacetFragment($data,$event)" style="overflow-y: auto">
                 <div class="box box-primary" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:20%;float:left;margin:1%" >
                   <div class="box-body" style="height:150px;overflow:auto" ng-bind-html="fragment.FragmentContent">
                   </div>
