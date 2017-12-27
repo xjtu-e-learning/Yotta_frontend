@@ -109,9 +109,19 @@
     <section class="content-header">
       <h1>
         导航
-        <small> &nbsp; &nbsp;<span  style="font-family:  黑体">切换构建领域:</span>
-              <select class="btn btn-sm btn-primary" ng-options="x.ClassName for x in ClassList"  ng-model='NowClass' ng-change="change()"></select>
-              <!-- 你选择的领域是: {{NowClass.ClassName}} -->
+        <small> &nbsp; &nbsp;
+            <span style="font-family: 微软黑体">切换构建学科和课程:</span>
+            <!-- <select class="btn btn-sm btn-primary" ng-options="x.ClassName for x in ClassList"  ng-model='NowClass' ng-change="change()">
+              <option value="">-- 请选择课程 --</option> 
+            </select> -->
+            <select class="btn btn-sm btn-primary" ng-model="subject" ng-options="subject.subjectName for subject in subjects">
+              <option value="">-- 请选择学科 --</option> 
+            </select>
+            <select class="btn btn-sm btn-primary" ng-model="domain" ng-options="domain.className for domain in subject.domains" ng-change="change()">
+              <option value="">-- 请选择课程 --</option> 
+            </select>
+            &nbsp; &nbsp;
+            <span style="font-family: 微软黑体">目前含: <b><a ng-bind="subjectNum"></a></b> 个学科，<b><a ng-bind="classSum"></a></b> 门课程</span>
         </small>
       </h1>
       <ol class="breadcrumb">

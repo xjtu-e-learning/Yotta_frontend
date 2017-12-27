@@ -142,7 +142,7 @@
         <section class="content-header">
             <h1>
                 知识森林
-                <small> 当前领域：{{ NowClass }}
+                <small> 当前学科：<a ng-bind="NowSubject"></a>，课程：<a ng-bind="NowClass"></a>
                 </small>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a onclick="showVR()" class="btn btn-primary ">开始体验 <i class="icon-arrow-right"></i></a>
@@ -158,25 +158,9 @@
         <section class="content">
             <div class="row" id="mysvgTop">
 
-                <!--
-                          <div class="col-md-2">
-                              <div class="input-group input-group-sm">
-                                <input type="text" id="subjectSearch" class="form-control">
-                                <input type="text" name="按enter键不刷新"style="display:none"/>
-                                    <span class="input-group-btn">
-                                      <button type="button"  id="search" class="btn btn-info btn-flat">Search</button>
-                                    </span>
-                              </div>
-                          </div>
-                -->
             </div>
             <div class="row">
                 <div class="col-xs-8 col-md-8">
-                    <!--
-                                        <div id="mysvg"  style="height:100%;width: 100%;overflow:visible; position: relative;">
-                                              <div id="echarts1"  style="height:100%;width: 100%;"></div>
-                                        </div>
-                    -->
                     <div id="mydiv2">
                         <div class='panel panel-info'>
                             <div class='panel-heading'>
@@ -189,6 +173,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-xs-4 col-md-4">
                     <div id="mydiv1">
                         <div class='panel panel-info'>
