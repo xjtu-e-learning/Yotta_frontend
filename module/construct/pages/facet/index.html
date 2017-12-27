@@ -116,7 +116,7 @@
     <section class="content-header">
       <h1>
         分面树构建
-        <small> 当前领域：{{ NowClass }}
+        <small> 当前学科：<a ng-bind="NowSubject"></a>，课程：<a ng-bind="NowClass"></a>
         </small>
       </h1>
       <ol class="breadcrumb">
@@ -162,7 +162,7 @@
                   </div>
                   <div id="xuanze" class="panel-body">
                     <ul class="list-group top" ng-repeat="topic in topics" onclick="important(this)" ng-click="fenmianshow(topic.TermName);Branch();">
-                      <li class='list-group-item' style="cursor:pointer">{{topic.TermName}}</li>
+                      <li class='list-group-item' style="cursor:pointer" ng-bind="topic.TermName"></li>
                     </ul>
                   </div>
                 </div>
@@ -174,7 +174,7 @@
                   </div>
                 <div class="box-body" id="xuanze">
                 <div  class="top" ng-repeat="topic in topics" onclick="important(this)" ng-click="fenmianshow(topic.TermName);Branch();">
-                  <div style="cursor:pointer">{{topic.TermName}}</div>
+                  <div style="cursor:pointer" ng-bind="topic.TermName"></div>
                   <hr  style="margin-top:4%;height:1px;border:none;border-top:1px solid #428bca;">
                 </div>
                   </div>
@@ -187,7 +187,7 @@
                   </div>
                   <div class="box-body" id="xuanze">
                     <div  class="top" ng-repeat="topic in topics" onclick="important(this)" ng-click="fenmianshow(topic.TermName);Branch();">
-                      <div style="cursor:pointer">{{topic.TermName}}</div>
+                      <div style="cursor:pointer" ng-bind="topic.TermName"></div>
                       <hr  style="margin-top:4%;height:1px;border:none;border-top:1px solid #428bca;">
                     </div>
                   </div>
