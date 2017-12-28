@@ -248,7 +248,7 @@ $(document).ready(function(){
                 type: 'pie',
                 selectedMode: 'single',
                 radius: ['25%', '58%'],
-                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A'],
+                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140'],
 
                 label: {
                     normal: {
@@ -453,7 +453,7 @@ $(document).ready(function(){
                 type: 'pie',
                 selectedMode: 'single',
                 radius: ['25%', '58%'],
-                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A'],
+                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140'],
 
                 label: {
                     normal: {
