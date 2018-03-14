@@ -27,10 +27,12 @@ app.controller('menu', function($scope, $http) {
     })
 
     // 获取学科和课程数据
-    $http.get(ip+"/DomainAPI/getDomainsBySubject").success(
-        function(data) { 
-            $scope.subjects = data;
-            // console.log(data);
+    $http.get(ip+"/domain/getDomainsBySubject").success(
+        function(response) { 
+            //响应response相对，增加状态信息和编码
+            data = response["data"];
+            $scope.subjects = response["data"];
+
             var classSum = 0;
             // 切回导航页面时，读取现有课程并更新两个框的值
             for(i = 0; i < data.length; i++) {
@@ -38,7 +40,7 @@ app.controller('menu', function($scope, $http) {
                 if(data[i].subjectName == getCookie("NowSubject")) {
                     $scope.subject = data[i];
                     for(j = 0; j < data[i].domains.length; j++) {
-                        if(data[i].domains[j].className == getCookie("NowClass")) {
+                        if(data[i].domains[j].domainName == getCookie("NowClass")) {
                             $scope.domain = data[i].domains[j];
                         }
                     }
@@ -51,8 +53,8 @@ app.controller('menu', function($scope, $http) {
 
     $scope.change = function(){  
         //获取被选中的值  
-        var chengeitem = $scope.domain.className;
-        setCookie("NowClass", $scope.domain.className, "d900");
+        var chengeitem = $scope.domain.domainName;
+        setCookie("NowClass", $scope.domain.domainName, "d900");
         setCookie("NowSubject", $scope.subject.subjectName, "d900");
         //js代码实现option值变化后的查询等操作      
     } 

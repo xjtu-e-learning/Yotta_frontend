@@ -117,7 +117,7 @@
             <select class="btn btn-sm btn-primary" ng-model="subject" ng-options="subject.subjectName for subject in subjects">
               <option value="">-- 请选择学科 --</option> 
             </select>
-            <select class="btn btn-sm btn-primary" ng-model="domain" ng-options="domain.className for domain in subject.domains" ng-change="change()">
+            <select class="btn btn-sm btn-primary" ng-model="domain" ng-options="domain.domainName for domain in subject.domains" ng-change="change()">
               <option value="">-- 请选择课程 --</option> 
             </select>
             &nbsp; &nbsp;

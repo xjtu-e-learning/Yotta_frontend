@@ -112,7 +112,9 @@ ykapp.controller('subjectController', function($scope, $http) {
     $scope.NowSubject = getCookie("NowSubject");
     $scope.NowClass = getCookie("NowClass");
     
-    $http.get(ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
+    $http.get(ip+'/topic/getTopicsByDomainName?domainName='+getCookie("NowClass")).success(function(data){
+        response = data["data"]
+
         $scope.Topics = response;
 
         //console.log($("#rightDiv").height());
@@ -124,7 +126,7 @@ ykapp.controller('subjectController', function($scope, $http) {
 
         // 每次选择一门新的课程时，展示这门新的课程的第一个主题的分面树
         // console.log(response[0].TermName);
-        SUBJECTNAME = response[0].TermName;
+        SUBJECTNAME = response[0].topicName;
         LoadBranch();
     });
 

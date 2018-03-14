@@ -294,16 +294,18 @@ $(document).ready(function(){
     }
     
     // 第一次加载时显示的数据
-    $http.get(ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
+    $http.get(ip+'/topic/getTopicsByDomainName?domainName='+getCookie("NowClass")).success(function(data){
+        response = data["data"]
+
         $scope.tops = response;
-        $scope.wordCloudInfo = "主题：" + $scope.tops[0].TermName;
+        $scope.wordCloudInfo = "主题：" + $scope.tops[0].topicName;
         var charts = [];
 
         // 加载词云图：初始化页面时，显示该课程下第一个主题的词云图。Lucene Ik Analyzer进行分词和词频统计。
         var urlWord = ip + "/SpiderAPI/getWordcount";
         var postDataWord = $.param( {
             className: getCookie("NowClass"),
-            topicNames: $scope.tops[0].TermName,
+            topicNames: $scope.tops[0].topicName,
             sourceName: "",
             hasSourceName: false
         });
@@ -516,7 +518,7 @@ $(document).ready(function(){
     });
 
     // 获取数据源
-    $http.get(ip+'/SourceAPI/getSource').success(function(response){
+    $http.get(ip+'/source/getSources').success(function(response){
         $scope.sources=response;
     });
 

@@ -19,10 +19,12 @@ app.controller("facetTreeController",function($scope,$http){
     console.log('当前学科为：' + getCookie("NowSubject") + '，课程为：' + getCookie("NowClass"));
     $scope.NowSubject = getCookie("NowSubject");
     $scope.NowClass = getCookie("NowClass");
-    $http.get(ip+'/DomainTopicAPI/getDomainTopicAll?ClassName='+getCookie("NowClass")).success(function(response){
+    $http.get(ip+'/topic/getTopicsByDomainName?domainName='+getCookie("NowClass")).success(function(data){
+        response = data["data"]
+
         $scope.topics=response;
         // 默认加载显示
-        $scope.fenmianshow(response[0].TermName);
+        $scope.fenmianshow(response[0].topicName);
         $scope.Branch();
     });
     $scope.subjectName="字符串";
@@ -32,12 +34,12 @@ app.controller("facetTreeController",function($scope,$http){
         $scope.subjectName=subjectName;
         $.ajax({
             type:"GET",
-            url:ip+"/FacetAPI/getTopicFacet?ClassName="+getCookie("NowClass")+"&TermName="+subjectName,
+            url:ip+"/facet/getSecondLayerFacetGroupByFirstLayerFacet?domainName="+getCookie("NowClass")+"&topicName="+subjectName,
             data:{},
             dataType:"json",
             async:false,
             success:function(data){
-                $scope.facets=data;
+                $scope.facets=data["data"];
                 // console.log(data);
             }
         });

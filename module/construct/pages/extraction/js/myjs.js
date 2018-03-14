@@ -2,18 +2,18 @@ $(document).ready(function(){
     var topic;
     $.ajax({
         type :"GET",
-        url :ip+"/DomainTopicAPI/getDomainTopicAll?ClassName="+getCookie("NowClass"),
+        url :ip+"/topic/getTopicsByDomainName?domainName="+getCookie("NowClass"),
         datatype :"json",
         async:false,
-        success : function(data,status){
-            topic = data;
+        success : function(response,status){
+            topic = response["data"];
             // console.log("topic个数："+topic.length);
         }
     });
 
     if (topic != null) {
         for(var i = 0; i < topic.length; i++){
-            $("#li").append("<li class='list-group-item'>"+topic[i].TermName+"</li>");
+            $("#li").append("<li class='list-group-item'>"+topic[i].topicName+"</li>");
         }
     }
 
