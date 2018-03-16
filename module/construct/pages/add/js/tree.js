@@ -72,10 +72,11 @@ function buildTree(data, root, multiple){
 		branch = calculate_branch_xy(num_branchs, i, root, multiple,name_branch);	
 		branches.push(branch);				
 		leaves.push(branch);
-		var level = data['children'][i].facetLayer;
 		var isContainSecondLayerFacet = data['children'][i].containChildrenFacet;
 		//1级分面，且下面没有二级分面
 		if(isContainSecondLayerFacet == false){ 
+			//level的不同影响叶子在树枝上的位置
+			var level = 0; 
 			num_leaves = data['children'][i].childrenNumber;
 			for (var j=0;j<num_leaves;j++){		
 				// 对每个leaf计算坐标	
@@ -87,7 +88,8 @@ function buildTree(data, root, multiple){
 			}			
 		}
 		//1级分面，且下面有二级分面		
-		else if(isContainSecondLayerFacet == true){ 
+		else if(isContainSecondLayerFacet == true){
+			var level = 1;  
 			num_twigs = data['children'][i].childrenNumber;
 			for (var j=0;j<num_twigs;j++){
 				// 对每个twig计算坐标
@@ -127,7 +129,8 @@ function buildBranch(data, root, multiple){
 		var level = data['children'][i].facetLayer;
 		var isContainSecondLayerFacet = data['children'][i].containChildrenFacet;
 		//1级分面，且下面没有二级分面
-		if(isContainSecondLayerFacet == false){ 
+		if(isContainSecondLayerFacet == false){
+			var level = 0;  
 			num_leaves = data['children'][i].childrenNumber;
 			for (var j=0;j<num_leaves;j++){
 				// 对每个leaf计算坐标
@@ -139,7 +142,8 @@ function buildBranch(data, root, multiple){
 			}
 		}
 		//1级分面，且下面有二级分面
-		else if(isContainSecondLayerFacet == true){ 
+		else if(isContainSecondLayerFacet == true){
+			var level = 1;  
 			num_twigs = data['children'][i].childrenNumber;
 			for (var j=0;j<num_twigs;j++){
 				// 对每个twig计算坐标
