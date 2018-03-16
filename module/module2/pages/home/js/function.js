@@ -1,12 +1,12 @@
 $(document).ready(function(){
     $.ajax({
         type: "GET",
-        url: ip+"/DomainAPI/countClassNum",
+        url: ip+"/domain/countDomains",
         data: {},
         dataType: "json",
-        success: function(data){
+        success: function(response){
             // console.log(data.ClassNum);
-            $('#ClassNum').text("系统中目前共有"+data.ClassNum+"门课程");
+            $('#ClassNum').text("系统中目前共有"+response.data.domainNumber+"门课程");
         }
     });
 });
@@ -21,8 +21,8 @@ function tianjiaClass(){
 
     $.ajax({
         type: "GET",
-        url: ip+"/DomainAPI/createClass",
-        data: {ClassName:$("input[name='ClassName']").val()},
+        url: ip+"/domain/insertDomain",
+        data: {domainName:$("input[name='ClassName']").val()},
         dataType: "json",
         success: function(data){
             // console.log(data);

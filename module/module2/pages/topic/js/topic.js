@@ -18,9 +18,10 @@ var nowOperateTopic;
 
 var app=angular.module('myApp',[]);
 app.controller('myCon',function($scope,$http){
-    $http.get(ip+'/DomainTopicAPI/getDomain').success(function(response){
+    $http.get(ip+'/domain/getDomains').success(function(response){
+        data = response.data
         //console.log(getCookie("NowTopic"));
-        $scope.subjects=response;
+        $scope.subjects=data;
         $scope.chooseSubject(getCookie("NowClass"));
         $scope.getTopicInfo(getCookie("NowTopic"));
         $scope.detailCount();
@@ -39,11 +40,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/DomainTopicAPI/getDomainTerm",
-            params:{ClassName:a}
+            url:ip+"/topic/getTopicsByDomainName",
+            params:{domainName:a}
         }).then(function successCallback(response){
-            //console.log(data);
-            $scope.topics=response.data;
+            $scope.topics=response.data.data;
         }, function errorCallback(response){
 
         });
@@ -95,10 +95,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/DomainTopicAPI/createTopic",
-            params:{ClassName:nowOperateSubject,TopicName:$("input[name='TopicName']").val().replace(/\s/g, "")}
+            url:ip+"/topic/insertTopicByNameAndDomainName",
+            params:{domainName:nowOperateSubject,topicName:$("input[name='TopicName']").val().replace(/\s/g, "")}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            alert(response.data.data);
             $scope.chooseSubject(nowOperateSubject);
         }, function errorCallback(response){
 

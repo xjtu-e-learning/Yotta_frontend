@@ -131,7 +131,7 @@
                 <form  style="display:inline-block;float:right">
                   选择课程:
                   <select id="nameofclass" style="color:black">
-                    <option ng-repeat="subject in subjects" value={{subject.ClassName}} >{{subject.ClassName}}</option>
+                    <option ng-repeat="subject in subjects" value={{subject.domainName}} >{{subject.domainName}}</option>
                   </select>
                   <input type="button" value="确定" style="color:#3c8dbc" ng-click="getInfo();">
                 </form>

@@ -25,8 +25,9 @@ app.controller('myCon',function($scope,$http){
     $http.get(ip+'/DomainAPI/getDomainManage').success(function(response){
         $scope.kechengs=response;
     });
-    $http.get(ip+'/DomainAPI/countClassNum').success(function(response){
-        $('#ClassNum').text("系统中目前共有"+response.ClassNum+"门课程");
+    $http.get(ip+'/domain/countDomains').success(function(response){
+        console.log(response);
+        $('#ClassNum').text("系统中目前共有"+response.data.domainNumber+"门课程");
     });
 
     $scope.openModal=function(a){
@@ -47,7 +48,7 @@ app.controller('myCon',function($scope,$http){
             method:'GET',
             url:ip+"/DomainAPI/getDomainManage"
         }).then(function successCallback(response){
-            //console.log(data);
+            console.log(response);
             $scope.kechengs=response.data;
         }, function errorCallback(response){
 
@@ -56,15 +57,12 @@ app.controller('myCon',function($scope,$http){
     }
 
     $scope.showNum=function(){
-        $http({
-            method:'GET',
-            url:ip+"/DomainAPI/countClassNum"
-        }).then(function successCallback(response){
-            //console.log(response.data.ClassNum);
-            $('#ClassNum').text("系统中目前共有"+response.data.ClassNum+"门课程");
-        }, function errorCallback(data){
 
+        $http.get(ip+'/domain/countDomains').success(function(response){
+            console.log(response);
+            $('#ClassNum').text("系统中目前共有"+response.data.domainNumber+"门课程");
         });
+
     }
 
     $scope.tianjiaClass=function(){
@@ -73,10 +71,10 @@ app.controller('myCon',function($scope,$http){
 
     $http({
             method:'GET',
-            url:ip+"/DomainAPI/createClass",
-            params:{ClassName:$("input[name='ClassName']").val()}
+            url:ip+"/domain/insertDomain",
+            params:{domainName:$("input[name='ClassName']").val()}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            alert(response.data.data);
             $scope.showClass();
             $scope.showNum();
         }, function errorCallback(response){

@@ -22,17 +22,16 @@ $(document).ready(function() {
         //登录验证
          $.ajax({
             type: "post",
-            url: ip + "/login/login",
-            data: {name:$("#u").val(),passwd:$("#p").val(),ip:cip,place:cname,date:getDate()},
-            dataType: 'text',
+            url: ip + "/user/login",
+            data: {userName:$("#u").val(),password:$("#p").val(),ip:cip,place:cname,date:getDate()},
+            dataType: 'json',
             contentType:'application/x-www-form-urlencoded',
             success: function(result) {
-                console.log(result);
-                if (result==200) {
+                if (result["code"]==200) {
                     //写cookie，记录
                     var userinfo={};
-                    userinfo.name=$("#u").val();
-                    userinfo.passwd=$("#p").val();
+                    userinfo.userName=$("#u").val();
+                    userinfo.password=$("#p").val();
                     setCookie("userinfo",userinfo ,  "d1"); 
                     alert("点击确定将自动跳转，无跳转请自己打开原来的页面")
 

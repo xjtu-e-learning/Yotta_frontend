@@ -132,7 +132,7 @@
                             <ul class="" style="background-color: ">
                               <li class=" list-group-item" ng-repeat="subject in subjects " style="margin-left: -10%;background-color: ">
                                 <div class=" list-group-item" style="background-color:#4682B4;">
-                                 <a id={{subject.ClassName}} style="cursor: pointer;color:white" ng-click="chooseSubject(subject.ClassName);" ondrop="drop(event,this.id)" ondragover="allowDrop(event)">{{subject.ClassName}}</a>
+                                 <a id={{subject.domainName}} style="cursor: pointer;color:white" ng-click="chooseSubject(subject.domainName);" ondrop="drop(event,this.id)" ondragover="allowDrop(event)">{{subject.domainName}}</a>
                                </div>
                          </li>
                        </ul>
@@ -216,7 +216,7 @@
                         
 
 
-                            <div class="top btn btn-primary" id={{topic.TermName}} style="width:30%;margin:1%;" draggable="true" ng-repeat="topic in topics" ng-mousemove="getTopicInfo(topic.TermName);detailCount()" ng-click="jumpFacet()" ondragstart="drag(event)" >{{topic.TermName}}
+                            <div class="top btn btn-primary" id={{topic.topicName}} style="width:30%;margin:1%;" draggable="true" ng-repeat="topic in topics" ng-mousemove="getTopicInfo(topic.topicName);detailCount()" ng-click="jumpFacet()" ondragstart="drag(event)" >{{topic.topicName}}
                             </div>
 
 

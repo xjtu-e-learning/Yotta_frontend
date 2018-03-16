@@ -158,11 +158,11 @@ function DisplayTrunk(dataset){
 function ObtainTrunk(subjectName){
     $.ajax({
         type: "POST",
-        url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+        url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
         data: $.param( {
-            ClassName:getCookie("NowClass"),
-            TermName:subjectName,
-            HasFragment:false
+            domainName:getCookie("NowClass"),
+            topicName:subjectName,
+            hasFragment:false
         }),
         headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
@@ -174,7 +174,8 @@ function ObtainTrunk(subjectName){
         //    HasFragment:false
         // },
         // dataType: "json",
-        success: function(data){
+        success: function(response){
+            data = response.data;
             DisplayTrunk(data);
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -282,11 +283,11 @@ $(document).ready(function(){
 function LoadBranch(){
     $.ajax({
         type: "POST",
-        url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+        url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
         data: $.param( {
-            ClassName:getCookie("NowClass"),
-            TermName:SUBJECTNAME,
-            HasFragment:false
+            domainName:getCookie("NowClass"),
+            topicName:SUBJECTNAME,
+            hasFragment:false
         }),
         headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
@@ -298,7 +299,8 @@ function LoadBranch(){
         //    HasFragment:false
         // },
         // dataType: "json",
-        success: function(data){
+        success: function(response){
+            data = response.data;
             DisplayBranch(data);
         },
         error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -322,7 +324,7 @@ function DisplayBranch(dataset){
     var root_x=$("#facetedTreeDiv").width()/2;
     var root_y=$("#facetedTreeDiv").height()-30; //
     //$("svg").draggable();
-    var seed = {x: root_x, y: root_y, name:dataset.name}; 
+    var seed = {x: root_x, y: root_y, name:dataset.topicName}; 
     var tree = buildBranch(dataset, seed, multiple);
     draw_tree(tree, seed, svg, multiple);
         /*****************************************************/
@@ -345,7 +347,7 @@ function DisplayBranch(dataset){
                     .append("svg")
                     .attr("width", w * multiple)
                     .attr("height", h * multiple);
-        var seed0 = {x: root_x, y: root_y, name:dataset.name};
+        var seed0 = {x: root_x, y: root_y, name:dataset.topicName};
         var tree0 = buildBranch(dataset, seed0, multiple);
         draw_tree(tree0, seed0, svg, multiple);
     }); 
@@ -367,11 +369,11 @@ function DisplayAllFragment(){
 
     $.ajax({
         type: "POST",
-        url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+        url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
         data: $.param( {
-            ClassName:getCookie("NowClass"),
-            TermName:SUBJECTNAME,
-            HasFragment:true
+            domainName:getCookie("NowClass"),
+            topicName:SUBJECTNAME,
+            hasFragment:true
         }),
         headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
@@ -383,7 +385,8 @@ function DisplayAllFragment(){
         //     HasFragment:true
         // },
         // dataType: "json",
-        success: function(data){
+        success: function(response){
+            data = response.data
             //进入一级分面
             $.each(data.children,function(index1,value1){
                 //进入二级分面
@@ -392,16 +395,16 @@ function DisplayAllFragment(){
                         //遍历树叶
                         $.each(value2.children,function(index3,value3){
                             // 碎片api返回的api接口形式为：2017-10-28 15:29:02.0。需要去除最后的不用的时间字段
-                            fragmentScratchTime = value3.scratchTime.split('.')[0];
-                            appendFragment(value3.content, fragmentScratchTime);
+                            fragmentScratchTime = value3.assembleScratchTime.split('.')[0];
+                            appendFragment(value3.assembleContent, fragmentScratchTime);
                             fragmentNum++;
                         });
                     } 
                     else{
                         // 碎片api返回的api接口形式为：2017-10-28 15:29:02.0。需要去除最后的不用的时间字
-                        fragmentScratchTime = value2.scratchTime.split('.')[0];
-                        appendFragment(value2.content, fragmentScratchTime);
-                            fragmentNum++;
+                        fragmentScratchTime = value2.assembleScratchTime.split('.')[0];
+                        appendFragment(value2.assembleContent, fragmentScratchTime);
+                        fragmentNum++;
                     }
                 });
                 showFragmentRatio(fragmentNum);
