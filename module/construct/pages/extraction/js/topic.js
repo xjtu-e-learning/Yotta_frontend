@@ -3,10 +3,12 @@ var topic1;
 $(document).ready(function(){
     $.ajax({
         type : "GET",
-        url :  ip + "/DomainTopicAPI/getTopicRelation?ClassName=" + getCookie("NowClass") + "&initTopic=" + getCookie("NowClass"),
+        //url :  ip + "/relation/getHyponymyRelationByDomainName?ClassName=" + getCookie("NowClass") + "&initTopic=" + getCookie("NowClass"),
+        url :  ip + "/relation/getHyponymyRelationByDomainName?domainName=" + getCookie("NowClass"),
         datatype : "json",
         async : false,
-        success : function(data,status){
+        success : function(response,status){
+            data = response.data;
             topic1 = data;
             // console.log(topic1);
         }
