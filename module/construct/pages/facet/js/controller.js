@@ -56,11 +56,11 @@ app.controller("facetTreeController",function($scope,$http){
         else{
             $.ajax({
                 type: "POST",
-                url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
                 data: $.param( {
-                    ClassName:getCookie("NowClass"),
-                    TermName:$scope.subjectName,
-                    HasFragment:false
+                    domainName:getCookie("NowClass"),
+                    topicName:$scope.subjectName,
+                    hasFragment:false
                 }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
                 // type: "GET",
@@ -70,7 +70,8 @@ app.controller("facetTreeController",function($scope,$http){
                 //     TermName:$scope.subjectName
                 // },
                 // dataType: "json",
-                success: function(data){
+                success: function(response){
+                    data = response['data'];
                     DisplayBranch(data);
                 },
                 error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -82,11 +83,11 @@ app.controller("facetTreeController",function($scope,$http){
     $scope.Branch=function(){
         $.ajax({
             type: "POST",
-            url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
             data: $.param( {
-                ClassName:getCookie("NowClass"),
-                TermName:$scope.subjectName,
-                HasFragment:false
+                domainName:getCookie("NowClass"),
+                topicName:$scope.subjectName,
+                hasFragment:false
             }),
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             // type: "GET",
@@ -96,7 +97,8 @@ app.controller("facetTreeController",function($scope,$http){
             //     TermName:$scope.subjectName
             // },
             // dataType: "json",
-            success: function(data){
+            success: function(response){
+                data = response['data'];
                 DisplayBranch(data);
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){

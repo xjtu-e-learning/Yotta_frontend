@@ -24,10 +24,11 @@ var leafLength = 12;
 var leaf_space = 12;
 var space_time_leaf = 2;
 var space_time_twig = 2;
-var length_text_line = 15;//碎片知识每行的字数
+//碎片知识每行的字数
+var length_text_line = 15;
 var trunk_text_size = '16px';
 var trunk_text_width ='2px';
-var text_seed_x = 13;
+var text_seed_x = 10;
 var text_seed_y = 18;
 var color_trunk = '#330000';
 var color_branch = '#330000';
@@ -63,38 +64,44 @@ $("svg").draggable();	*/
 function buildTree(data, root, multiple){
 	branches = [];
 	leaves = [];	
-	num_branchs = data['branchnum'];
+	num_branchs = data['childrenNumber'];
 	var num_leaves, num_twigs, num_sprouts,leaf_id='',leaf_content='',url='';
 	for(var i=0;i<num_branchs;i++){
 		// 对每个branch计算坐标		
-		var name_branch = data['children'][i].facet_name;
+		var name_branch = data['children'][i].facetName;
 		branch = calculate_branch_xy(num_branchs, i, root, multiple,name_branch);	
 		branches.push(branch);				
 		leaves.push(branch);
-		var level = data['children'][i].totalbranchlevel;
-		if(level == 0){ //1层分枝
-			num_leaves = data['children'][i].totalleafnum;
+		var isContainSecondLayerFacet = data['children'][i].containChildrenFacet;
+		//1级分面，且下面没有二级分面
+		if(isContainSecondLayerFacet == false){ 
+			//level的不同影响叶子在树枝上的位置
+			var level = 0; 
+			num_leaves = data['children'][i].childrenNumber;
 			for (var j=0;j<num_leaves;j++){		
 				// 对每个leaf计算坐标	
-				leaf_id = data['children'][i]['children'][j].fragment_id;
-				leaf_content = data['children'][i]['children'][j].content;
+				leaf_id = data['children'][i]['children'][j].assembleId;
+				leaf_content = data['children'][i]['children'][j].assembleContent;
 				url = data['children'][i]['children'][j].url;
 				leaf = calculate_leaf_xy(branch, num_leaves, j, multiple,level,leaf_id,leaf_content,url);											
 				leaves.push(leaf);			
 			}			
-		}else if(level == 1){ //2层分枝		
-			num_twigs = data['children'][i].totalbranchnum;
+		}
+		//1级分面，且下面有二级分面		
+		else if(isContainSecondLayerFacet == true){
+			var level = 1;  
+			num_twigs = data['children'][i].childrenNumber;
 			for (var j=0;j<num_twigs;j++){
 				// 对每个twig计算坐标
-				var name_twig = data['children'][i]['children'][j].facet_name;
+				var name_twig = data['children'][i]['children'][j].facetName;
 				twig = calculate_twig_xy(branch, num_branchs, i, num_twigs, j,root, multiple,name_twig);
 				leaves.push(twig);	
 				if(multiple>0.75){branches.push(twig);}
-				num_leaves = data['children'][i]['children'][j].totalleafnum;
+				num_leaves = data['children'][i]['children'][j].childrenNumber;
 				for (var k=0;k<num_leaves;k++){		
 					// 对每个leaf计算坐标			
-					leaf_id = data['children'][i]['children'][j]['children'][k].fragment_id;
-					leaf_content = data['children'][i]['children'][j]['children'][k].content;
+					leaf_id = data['children'][i]['children'][j]['children'][k].assembleId;
+					leaf_content = data['children'][i]['children'][j]['children'][k].assembleContent;
 					url = data['children'][i]['children'][j]['children'][k].url;
 					leaf = calculate_leaf_xy(twig, num_leaves, k, multiple,level,leaf_id,leaf_content,url);											
 					leaves.push(leaf);			
@@ -110,30 +117,37 @@ function buildTree(data, root, multiple){
 function buildBranch(data, root, multiple){
 	branches = [];
 	leaves = [];
-	num_branchs = data['branchnum'];
+	num_branchs = data['childrenNumber'];
 	var num_leaves, num_twigs, num_sprouts,leaf_id='',leaf_content='',url='';
 	for(var i=0;i<num_branchs;i++){
 		// 对每个branch计算坐标
-		var name_branch = data['children'][i].facet_name;
+		var name_branch = data['children'][i].facetName;
 		branch = calculate_branch_xy(num_branchs, i, root, multiple,name_branch);
 		branches.push(branch);
 		leaves.push(branch);
-		var level = data['children'][i].totalbranchlevel;
-		if(level == 0){ //1层分枝
-			num_leaves = data['children'][i].totalleafnum;
+
+		var level = data['children'][i].facetLayer;
+		var isContainSecondLayerFacet = data['children'][i].containChildrenFacet;
+		//1级分面，且下面没有二级分面
+		if(isContainSecondLayerFacet == false){
+			var level = 0;  
+			num_leaves = data['children'][i].childrenNumber;
 			for (var j=0;j<num_leaves;j++){
 				// 对每个leaf计算坐标
-				leaf_id = data['children'][i]['children'][j].fragment_id;
-				leaf_content = data['children'][i]['children'][j].content;
+				leaf_id = data['children'][i]['children'][j].assembleId;
+				leaf_content = data['children'][i]['children'][j].assembleContent;
 				url = data['children'][i]['children'][j].url;
 				// leaf = calculate_leaf_xy(branch, num_leaves, j, multiple,level,leaf_id,leaf_content,url);
 				// leaves.push(leaf);
 			}
-		}else if(level == 1){ //2层分枝
-			num_twigs = data['children'][i].totalbranchnum;
+		}
+		//1级分面，且下面有二级分面
+		else if(isContainSecondLayerFacet == true){
+			var level = 1;  
+			num_twigs = data['children'][i].childrenNumber;
 			for (var j=0;j<num_twigs;j++){
 				// 对每个twig计算坐标
-				var name_twig = data['children'][i]['children'][j].facet_name;
+				var name_twig = data['children'][i]['children'][j].facetName;
 				twig = calculate_twig_xy(branch, num_branchs, i, num_twigs, j,root, multiple,name_twig);
 				leaves.push(twig);
 				if(multiple>0.75){branches.push(twig);}
@@ -289,7 +303,7 @@ function calculate_leaf_xy(parent, num_leaves, k, multiple,level,leaf_id,leaf_co
 }
 // functions for draw
 function highlight(d) {	
-	$(".qtip:hidden").remove();
+	//$(".qtip:hidden").remove();
 	var colour, width;
 	if(d.type=='leaf'){
 	 colour= d3.event.type == 'mouseover' ? color_hilight_leaf : color_leaf;
@@ -300,41 +314,187 @@ function highlight(d) {
 	}	
 	var display = d3.event.type =='mouseover' ? null : 'none';
 	var type = d.type;
-	// if(multiple<0.75){return;}//保证缩小时只显示分面树的主题，不高亮显示twig和叶子的内容	
+	if(multiple<0.5){return;}//保证缩小时只显示分面树的主题，不高亮显示twig和叶子的内容	
 	d3.select('#'+d.id).style('stroke', colour );
 	d3.select('#'+d.id).style('stroke-width', width);	
-	//显示超文本	
-	  $(this).qtip({
-			overwrite:true,
-			content: {
-				text: '<p>'+d.name+'</p><p><a href='+d.url+' target="_blank">详情</a></p>',	
-				title: { text: d.id } // Give the tooltip a title using each elements text
-			},
+}
 
-			position: {
-				my: 'top middle',
-				at: 'bottom right',
-				adjust:{
-					//mouse: true,
-					//scroll: true,
-					//resize: true
-				}
-			},
-			show: {
-				event: 'click',
-				solo: true
-			},
-			hide: {
-				event: 'click'
-			},
-			style: {
-				tip: {
-					corner: true,
-					border: true
-				}
-			}
+//显示对应分支文本和图片碎片
+function showTPFragment(branchName,type){
+	
+	if(type==="leaf")
+		return;
 
-		});
+	//清空文本和图片碎片
+	$("#textFragmentDiv").empty();
+	$("#pictureFragmentDiv").empty();
+	$.ajax({
+		type: "POST",
+        url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
+        data: $.param( {
+            domainName:getCookie("NowClass"),
+            topicName:SUBJECTNAME,
+            hasFragment:true
+        }),
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+		// type: "GET",
+		// url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+		// data: {
+		// 	ClassName:getCookie("NowClass"),
+		// 	TermName:SUBJECTNAME,
+		// 	HasFragment:true
+		// },
+		dataType: "json",
+		success: function(response){
+			data = response.data;
+			ErgodicBranch(data,branchName);
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			//通常情况下textStatus和errorThrown只有其中一个包含信息
+			alert(textStatus);
+		}
+    });
+}
+//遍历所点树枝
+function ErgodicBranch(data,branchName){
+	var countText=0;
+	var countPicture=0;
+	//进入一级分面
+	$.each(data.children,function(index1,value1){
+		//如果一级分面找到branch
+		if(value1.type==="branch"/*一级分面一定是branch*/&&value1.facet_name===branchName){
+			//进入二级分面
+			$.each(value1.children,function(index2,value2){
+				if (value2.type==="branch"){
+					//遍历树叶
+					//
+					$.each(value2.children,function(index3,value3){
+						if(value3.flag==="text"){
+							appendTextFragment(value3.content,value3.scratchTime);
+							countText++;
+						}
+						else{
+							appendPictureFragment(value3.content);
+							countPicture++;
+						}
+						
+					});
+				} 
+				else{
+					if(value2.flag==="text"){
+							appendTextFragment(value2.content,value2.scratchTime);
+							countText++;
+					}
+					else{
+						appendPictureFragment(value2.content);
+						countPicture++;
+					}
+				}
+			});
+			// console.log("countText "+countText);
+			setTextCount(countText);
+			//找到所有叶子，结束
+			//return;
+		}
+		//如果一级分面没有找到branch，进入二级分面
+		else{
+			$.each(value1.children,function(index4,value4){
+				if(value4.type==="branch"&&value4.facet_name===branchName){
+					$.each(value4.children,function(index5,value5){
+						if(value5.flag==="text"){
+							appendTextFragment(value5.content,value5.scratchTime);
+							countText++;
+						}
+						else{
+							appendPictureFragment(value5.content);
+							countPicture++;
+						}
+					});
+					setTextCount(countText);
+				}
+			});
+			//找到所有叶子，结束
+			//return;
+		}
+	});
+}
+
+
+function appendFragment(content,time){
+			// var div1 = d3.select("#fragmentDiv")
+			// .append("div");
+			// div1.attr("class","col-sm-6")
+			// 	.style("height","140px")
+			// 	.style("margin-top","10px");
+
+			var div2=d3.select("#fragmentDiv").append("div");
+			div2.attr("class","box box-primary box-solid")
+			div2.style("width","45%");
+			div2.style("border","2px solid #428bca");
+			div2.style("float","left");
+			div2.style("margin","1%");
+				// .style("height","150%")
+				//.style("overflow","hidden");
+
+			var contentDiv=div2.append("div");
+			contentDiv.attr("class","box-body");
+			contentDiv.style("height","200px");
+			contentDiv.style("overflow","hidden");
+			contentDiv.html(content);
+
+			var timeDiv=div2.append("div");
+			timeDiv.attr("class","box-body");
+
+			timeDiv.text(time);
+		}
+
+
+//添加文本碎片
+function appendTextFragment(content,time){
+			var div1 = d3.select("#textFragmentDiv")
+			.append("div");
+			div1.attr("class","col-sm-6")
+				.style("height","140px")
+				.style("margin-top","10px");
+
+			var div2=div1.append("div");
+			div2.attr("class","box box-success box-solid")
+				.style("height","90%")
+				.style("overflow","hidden");
+
+			var contentDiv=div2.append("div");
+			contentDiv.attr("class","box-header with-border");
+
+			var contentSmall=contentDiv.append("small");
+			contentSmall.text(content);
+
+			var timeDiv=div2.append("div");
+			timeDiv.attr("class","box-body");
+
+			var timeSmall=timeDiv.append("small");
+			timeSmall.text(time);
+		}
+
+//添加图片碎片
+function appendPictureFragment(URL){
+	var div1 = d3.select("#pictureFragmentDiv")
+	.append("div");
+	div1.attr("class","col-sm-6")
+		.style("height","110px")
+		.style("margin-top","20px");
+
+	var div2=div1.append("div");
+	div2.attr("class","pictureBox");
+
+	var aLink=div2.append("a");
+	aLink.attr("href",URL);
+
+	var image=aLink.append("img");
+	image.attr("src",URL)
+	.attr("alt","图片未加载出来")
+	.style("height","100%")
+	.style("width","100%");
 }
 
 function draw_tree(tree, seed, svgobj, multiple){
@@ -361,9 +521,50 @@ function draw_tree(tree, seed, svgobj, multiple){
 		.style('stroke-width', function(d) {return d.width;})
 		.on('mouseover', highlight)
 		.on('mouseout', highlight)
-		.on('click',function(d){showTPFragment(d.name,d.type); //添加点击事件，进行文本、图片碎片动态显示
-		});		
-	if(multiple>=0){
+		/*.on('click',function(d){showTPFragment(d.name,d.type); //添加点击事件，进行文本、图片碎片动态显示
+		})*/;	
+	//带关闭按钮的提示 且延时3秒关闭
+	//显示碎片的提示信息
+
+	g.selectAll('path')
+		.on('mouseenter',function(d){
+			$(this).qtip({  
+		        content: { 
+		        	text: "<div class='leafMessage'><p>"+d.name+"</p><p><a href="+d.url+" target='_blank'>详情</a></p><div>", 
+		            /*title: d.id,  
+		            button: "关闭"  */
+		            title:{
+		            	text:d.id,
+		            	button:"关闭"
+		            }
+		        },
+		        position: {
+					my: 'top middle',
+					at: 'bottom right',
+					/*adjust:{
+						mouse: true,
+						scroll: true,
+						resize: true
+					}*/
+				},
+ 				show: {
+					event: 'click',
+					solo: true,
+				},
+                hide: {  
+                    event: false,    //设置不自动关闭 可配合inactive组合使用  
+                    inactive: 3000   //设置延时关闭  
+                },
+                style: {
+					classes: 'qtip-light qtip-shadow qtip-rounded',
+					tip: {
+						corner: true,
+						border: true,
+					}
+				}   
+	    	});
+		});	
+	if(multiple>=0.05){
 		g.selectAll('text')//分支部分
 		.data(tree['branches'])
 		.enter()
@@ -374,6 +575,7 @@ function draw_tree(tree, seed, svgobj, multiple){
 		.attr('xlink:href',function(d) {return d.textpath;})
 		.text(function(d){return d.name;});
 	}	
+
 	//根节点
 	g.append('text')		   
        .text(seed.name) 
@@ -448,3 +650,83 @@ function draw_road(multiple, svg){
 		.attr("stroke-width",5)
 		.attr("marker-mid","url(#arrow)");			
 }
+// Init function
+function initTree(){
+document.getElementById("facetedTreeDiv").innerHTML='';
+
+$.ajax({
+	type: "POST",
+    url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
+    data: $.param( {
+        domainName:getCookie("NowClass"),
+        topicName:SUBJECTNAME,
+        hasFragment:true
+    }),
+    headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+	// type: "GET",
+	// url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+	// data: {
+	// 	ClassName:getCookie("NowClass"),
+	// 	TermName:SUBJECTNAME,
+	// 	HasFragment:true
+	// },
+	// dataType: "json",
+	success: function(response){
+
+		dataset = response.data;
+		
+
+		multiple=1;
+		//分面树所占空间大小
+		svg = d3.select("div#facetedTreeDiv")
+					.append("svg")
+					.attr("width", "100%")
+					.attr("height","100%");
+		//分面树根的位置	
+		var root_x=$("#facetedTreeDiv").width()/2;
+		var root_y=$("#facetedTreeDiv").height()-30; 
+		var seed4 = {x: root_x, y: root_y, name:dataset.topicName}; 
+		var tree4 = buildTree(dataset, seed4, multiple);
+	    draw_tree(tree4, seed4, svg, multiple);	
+	     /*****************************************************/
+	    //对分面树进行缩放
+	    //$(window).bind('mousewheel', function(evt) {
+	    $("div#facetedTreeDiv").bind('mousewheel', function(evt) {
+			var temp = multiple;//判断是保持0.25或者1.25不变
+			if( 0.3< multiple && multiple<1){
+				multiple+=evt.originalEvent.wheelDelta/5000;
+			}else if(multiple < 0.3){
+				if(evt.originalEvent.wheelDelta>0){
+					multiple+=evt.originalEvent.wheelDelta/5000;
+				}
+			}else{
+				if(evt.originalEvent.wheelDelta<0){
+					multiple+=evt.originalEvent.wheelDelta/5000;
+				}
+			}
+			//if(multiple<0.25){return;}
+			d3.selectAll("svg").remove(); //删除之前的svg
+			svg = d3.select("div#facetedTreeDiv")
+						.append("svg")
+						.attr("width", "100%")
+						.attr("height", "100%");
+			//分面树根的位置	
+			var root_x=$("#facetedTreeDiv").width()/2;
+			var root_y=$("#facetedTreeDiv").height()-30; 
+			//$("svg").draggable();
+			var seed0 = {x: root_x, y: root_y, name:dataset.topicName};
+			var tree0 = buildTree(dataset, seed0, multiple);
+		    draw_tree(tree0, seed0, svg, multiple);
+
+			//draw_road(multiple,svg);
+		});	
+	    /*****************************************************/	
+ 	},
+	error:function(XMLHttpRequest, textStatus, errorThrown){
+		//通常情况下textStatus和errorThrown只有其中一个包含信息
+		alert(textStatus);
+	}
+});
+
+}	

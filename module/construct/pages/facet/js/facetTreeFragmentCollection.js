@@ -13,21 +13,23 @@ function DisplayTrunk(dataset){
 				.attr("height",$("#RightfacetTree").height() * multiple);
 	//分面树的位置
 	//$("svg").draggable();	
-	var seed4 = {x: $("#RightfacetTree").width()*0.5* multiple, y:($("#RightfacetTree").height()-60)* multiple, name:dataset.name}; 
+	var seed4 = {x: $("#RightfacetTree").width()*0.5* multiple, y:($("#RightfacetTree").height()-60)* multiple, name:dataset.topicName}; 
 	var tree4 = buildTree(dataset, seed4, multiple);
   draw_trunk(tree4, seed4, svg, multiple);	
 }
 
 function ObtainTrunk(subjectName){
 	$.ajax({
-             type: "GET",
-             url: ip+"/AssembleAPI/getTreeByTopic",
+             type: "POST",
+             url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
              data: {
-             	ClassName:getCookie("NowClass"),
-         		TermName:subjectName
+             	domainName:getCookie("NowClass"),
+         		  topicName:subjectName,
+              hasFragment:false
              },
              dataType: "json",
-             success: function(data){
+             success: function(response){
+                  data = response['data'],
              			DisplayTrunk(data);
                      },
              error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -40,14 +42,16 @@ function ObtainTrunk(subjectName){
 
 function LoadBranch(){
 	$.ajax({
-             type: "GET",
-             url: ip+"/AssembleAPI/getTreeByTopic",
+             type: "POST",
+             url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
              data: {
-             	ClassName:getCookie("NowClass"),
-             	TermName:SUBJECTNAME
+             	domainName:getCookie("NowClass"),
+             	topicName:SUBJECTNAME,
+              hasFragment:false
              },
              dataType: "json",
-             success: function(data){
+             success: function(response){
+                  data = response['data'],
              			DisplayBranch(data);
                      },
              error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -69,7 +73,7 @@ function DisplayBranch(dataset){
 				.attr("height",$("#RightfacetTree").height());
 	//分面树的位置	
 	$("svg").draggable();
-	var seed = {x: $("#RightfacetTree").width()*0.5, y: $("#RightfacetTree").height()-30, name:dataset.name}; 
+	var seed = {x: $("#RightfacetTree").width()*0.5, y: $("#RightfacetTree").height()-30, name:dataset.topicName}; 
 	var tree = buildBranch(dataset, seed, multiple);
   draw_tree(tree, seed, svg, multiple);
   /*****************************************************/
@@ -98,7 +102,7 @@ function DisplayBranch(dataset){
     var root_x=$("#facetedTreeDiv").width()/2;
     var root_y=$("#facetedTreeDiv").height()-30; //
     //$("svg").draggable();
-    var seed0 = {x:  $("#RightfacetTree").width()*0.5, y: ($("#RightfacetTree").height()-30), name:dataset.name};
+    var seed0 = {x:  $("#RightfacetTree").width()*0.5, y: ($("#RightfacetTree").height()-30), name:dataset.topicName};
     var tree0 = buildBranch(dataset, seed0, multiple);
     draw_tree(tree0, seed0, svg, multiple);
 
