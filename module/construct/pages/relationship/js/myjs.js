@@ -12,10 +12,12 @@ function init() {
         // api获取上下位关系，填入左边的表格
         $.ajax({
             type :"GET",
-            url :ip+"/DependencyAPI/getDependencyByDomain?ClassName="+getCookie("NowClass"),
+            url :ip+"/dependency/getDependenciesByDomainName?domainName="+getCookie("NowClass"),
             datatype :"json",
             async:false,
-            success : function(data,status){
+            success : function(response,status){
+                data = response["data"]
+
                 dep=data;
                 // console.log(dep.length);
             }
@@ -23,7 +25,7 @@ function init() {
         //定义edges[]和nodes[]
         var edges=new Array();
         for(var i=0;i<dep.length;i++){
-            edges[i]={source:Number(dep[i].StartID)-1,sourceName:dep[i].Start,targetName:dep[i].End,target:Number(dep[i].EndID)-1,conf:Number(dep[i].Confidence)};
+            edges[i]={source:Number(dep[i].startTopicId)-1,sourceName:dep[i].startTopicName,targetName:dep[i].endTopicName,target:Number(dep[i].endTopicId)-1,conf:Number(dep[i].confidence)};
         }
         //向table中添加关系
         for(var i=0;i<edges.length;i++){

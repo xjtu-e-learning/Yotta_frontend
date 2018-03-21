@@ -5,10 +5,11 @@ $(document).ready(function(){
     var domainStatistics; // 主题所有统计数据
     $.ajax({
         type : "GET",
-        url : ip + "/StatisticsAPI/getTopicInfoByDomain?domainName=" + getCookie("NowClass"),
+        url : ip + "/statistics/getStatisticalInformationByDomainName?domainName=" + getCookie("NowClass"),
         datatype : "json",
         async : false,
-        success : function(data, status){
+        success : function(response, status){
+            data = response["data"];
             domainStatistics = data;
             // console.log(domainStatistics);
         }
@@ -16,13 +17,13 @@ $(document).ready(function(){
 
     var myChart = echarts.init(document.getElementById('pic0'));
     // 指定图表的配置项和数据
-    var dataFacetList = domainStatistics.facetList.slice(1);
-    var dataFacetFirstList = domainStatistics.facetFirstList.slice(1);
-    var dataFacetSecondList = domainStatistics.facetSecondList.slice(1);
-    var dataFacetThirdList = domainStatistics.facetThirdList.slice(1);
-    var dataDependencyList = domainStatistics.dependencyList.slice(1);
-    var dataFragmentList = domainStatistics.fragmentList.slice(1);
-    var xAxisData = domainStatistics.topicList;
+    var dataFacetList = domainStatistics.facetNumbers.slice(1);
+    var dataFacetFirstList = domainStatistics.firstLayerFacetNumbers.slice(1);
+    var dataFacetSecondList = domainStatistics.secondLayerFacetNumbers.slice(1);
+    var dataFacetThirdList = domainStatistics.thirdLayerFacetNumbers.slice(1);
+    var dataDependencyList = domainStatistics.dependencyNumbers.slice(1);
+    var dataFragmentList = domainStatistics.assembleNumbers.slice(1);
+    var xAxisData = domainStatistics.topicNames;
     // 设置x轴初始显示的主题个数为10个
     var topicLength = xAxisData.length;
     var end = 100; // 显示百分之end的x轴数据

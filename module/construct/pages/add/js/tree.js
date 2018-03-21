@@ -319,6 +319,184 @@ function highlight(d) {
 	d3.select('#'+d.id).style('stroke-width', width);	
 }
 
+//显示对应分支文本和图片碎片
+function showTPFragment(branchName,type){
+	
+	if(type==="leaf")
+		return;
+
+	//清空文本和图片碎片
+	$("#textFragmentDiv").empty();
+	$("#pictureFragmentDiv").empty();
+	$.ajax({
+		type: "POST",
+        url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
+        data: $.param( {
+            domainName:getCookie("NowClass"),
+            topicName:SUBJECTNAME,
+            hasFragment:true
+        }),
+        headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+		// type: "GET",
+		// url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+		// data: {
+		// 	ClassName:getCookie("NowClass"),
+		// 	TermName:SUBJECTNAME,
+		// 	HasFragment:true
+		// },
+		dataType: "json",
+		success: function(response){
+			data = response.data;
+			ErgodicBranch(data,branchName);
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			//通常情况下textStatus和errorThrown只有其中一个包含信息
+			alert(textStatus);
+		}
+    });
+}
+//遍历所点树枝
+function ErgodicBranch(data,branchName){
+	var countText=0;
+	var countPicture=0;
+	//进入一级分面
+	$.each(data.children,function(index1,value1){
+		//如果一级分面找到branch
+		if(value1.type==="branch"/*一级分面一定是branch*/&&value1.facet_name===branchName){
+			//进入二级分面
+			$.each(value1.children,function(index2,value2){
+				if (value2.type==="branch"){
+					//遍历树叶
+					//
+					$.each(value2.children,function(index3,value3){
+						if(value3.flag==="text"){
+							appendTextFragment(value3.content,value3.scratchTime);
+							countText++;
+						}
+						else{
+							appendPictureFragment(value3.content);
+							countPicture++;
+						}
+						
+					});
+				} 
+				else{
+					if(value2.flag==="text"){
+							appendTextFragment(value2.content,value2.scratchTime);
+							countText++;
+					}
+					else{
+						appendPictureFragment(value2.content);
+						countPicture++;
+					}
+				}
+			});
+			// console.log("countText "+countText);
+			setTextCount(countText);
+			//找到所有叶子，结束
+			//return;
+		}
+		//如果一级分面没有找到branch，进入二级分面
+		else{
+			$.each(value1.children,function(index4,value4){
+				if(value4.type==="branch"&&value4.facet_name===branchName){
+					$.each(value4.children,function(index5,value5){
+						if(value5.flag==="text"){
+							appendTextFragment(value5.content,value5.scratchTime);
+							countText++;
+						}
+						else{
+							appendPictureFragment(value5.content);
+							countPicture++;
+						}
+					});
+					setTextCount(countText);
+				}
+			});
+			//找到所有叶子，结束
+			//return;
+		}
+	});
+}
+
+
+function appendFragment(content,time){
+			// var div1 = d3.select("#fragmentDiv")
+			// .append("div");
+			// div1.attr("class","col-sm-6")
+			// 	.style("height","140px")
+			// 	.style("margin-top","10px");
+
+			var div2=d3.select("#fragmentDiv").append("div");
+			div2.attr("class","box box-primary box-solid")
+			div2.style("width","45%");
+			div2.style("border","2px solid #428bca");
+			div2.style("float","left");
+			div2.style("margin","1%");
+				// .style("height","150%")
+				//.style("overflow","hidden");
+
+			var contentDiv=div2.append("div");
+			contentDiv.attr("class","box-body");
+			contentDiv.style("height","200px");
+			contentDiv.style("overflow","hidden");
+			contentDiv.html(content);
+
+			var timeDiv=div2.append("div");
+			timeDiv.attr("class","box-body");
+
+			timeDiv.text(time);
+		}
+
+
+//添加文本碎片
+function appendTextFragment(content,time){
+			var div1 = d3.select("#textFragmentDiv")
+			.append("div");
+			div1.attr("class","col-sm-6")
+				.style("height","140px")
+				.style("margin-top","10px");
+
+			var div2=div1.append("div");
+			div2.attr("class","box box-success box-solid")
+				.style("height","90%")
+				.style("overflow","hidden");
+
+			var contentDiv=div2.append("div");
+			contentDiv.attr("class","box-header with-border");
+
+			var contentSmall=contentDiv.append("small");
+			contentSmall.text(content);
+
+			var timeDiv=div2.append("div");
+			timeDiv.attr("class","box-body");
+
+			var timeSmall=timeDiv.append("small");
+			timeSmall.text(time);
+		}
+
+//添加图片碎片
+function appendPictureFragment(URL){
+	var div1 = d3.select("#pictureFragmentDiv")
+	.append("div");
+	div1.attr("class","col-sm-6")
+		.style("height","110px")
+		.style("margin-top","20px");
+
+	var div2=div1.append("div");
+	div2.attr("class","pictureBox");
+
+	var aLink=div2.append("a");
+	aLink.attr("href",URL);
+
+	var image=aLink.append("img");
+	image.attr("src",URL)
+	.attr("alt","图片未加载出来")
+	.style("height","100%")
+	.style("width","100%");
+}
+
 function draw_tree(tree, seed, svgobj, multiple){
     var g = svgobj.append('g');
 	g.selectAll('line') //树干部分
@@ -472,3 +650,83 @@ function draw_road(multiple, svg){
 		.attr("stroke-width",5)
 		.attr("marker-mid","url(#arrow)");			
 }
+// Init function
+function initTree(){
+document.getElementById("facetedTreeDiv").innerHTML='';
+
+$.ajax({
+	type: "POST",
+    url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
+    data: $.param( {
+        domainName:getCookie("NowClass"),
+        topicName:SUBJECTNAME,
+        hasFragment:true
+    }),
+    headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+	// type: "GET",
+	// url: ip+"/AssembleAPI/getTreeByTopicForFragment1",
+	// data: {
+	// 	ClassName:getCookie("NowClass"),
+	// 	TermName:SUBJECTNAME,
+	// 	HasFragment:true
+	// },
+	// dataType: "json",
+	success: function(response){
+
+		dataset = response.data;
+		
+
+		multiple=1;
+		//分面树所占空间大小
+		svg = d3.select("div#facetedTreeDiv")
+					.append("svg")
+					.attr("width", "100%")
+					.attr("height","100%");
+		//分面树根的位置	
+		var root_x=$("#facetedTreeDiv").width()/2;
+		var root_y=$("#facetedTreeDiv").height()-30; 
+		var seed4 = {x: root_x, y: root_y, name:dataset.topicName}; 
+		var tree4 = buildTree(dataset, seed4, multiple);
+	    draw_tree(tree4, seed4, svg, multiple);	
+	     /*****************************************************/
+	    //对分面树进行缩放
+	    //$(window).bind('mousewheel', function(evt) {
+	    $("div#facetedTreeDiv").bind('mousewheel', function(evt) {
+			var temp = multiple;//判断是保持0.25或者1.25不变
+			if( 0.3< multiple && multiple<1){
+				multiple+=evt.originalEvent.wheelDelta/5000;
+			}else if(multiple < 0.3){
+				if(evt.originalEvent.wheelDelta>0){
+					multiple+=evt.originalEvent.wheelDelta/5000;
+				}
+			}else{
+				if(evt.originalEvent.wheelDelta<0){
+					multiple+=evt.originalEvent.wheelDelta/5000;
+				}
+			}
+			//if(multiple<0.25){return;}
+			d3.selectAll("svg").remove(); //删除之前的svg
+			svg = d3.select("div#facetedTreeDiv")
+						.append("svg")
+						.attr("width", "100%")
+						.attr("height", "100%");
+			//分面树根的位置	
+			var root_x=$("#facetedTreeDiv").width()/2;
+			var root_y=$("#facetedTreeDiv").height()-30; 
+			//$("svg").draggable();
+			var seed0 = {x: root_x, y: root_y, name:dataset.topicName};
+			var tree0 = buildTree(dataset, seed0, multiple);
+		    draw_tree(tree0, seed0, svg, multiple);
+
+			//draw_road(multiple,svg);
+		});	
+	    /*****************************************************/	
+ 	},
+	error:function(XMLHttpRequest, textStatus, errorThrown){
+		//通常情况下textStatus和errorThrown只有其中一个包含信息
+		alert(textStatus);
+	}
+});
+
+}	
