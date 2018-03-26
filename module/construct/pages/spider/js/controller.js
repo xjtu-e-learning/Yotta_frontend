@@ -52,25 +52,25 @@ $(document).ready(function(){
         } else {
           $scope.wordCloudInfo = "主题：" + checked_topicsArray;
         }
-        var urlWord = ip + "/SpiderAPI/getWordcount";
+        var urlWord = ip + "/statistics/getWordFrequencyBySourceNameAndDomainNameAndTopicNames";
         var postDataWord = $.param( {
-            className:getCookie("NowClass"),
-            topicNames:checked_topicsArray,
+            domainName:getCookie("NowClass"),
+            topicNamesSegmentedByComma:checked_topicsArray,
             sourceName:sourceName,
             hasSourceName:true
         });
         if (typeof sourceName === "undefined") {
             // 没有选择数据源展示所有数据源的
             $("#fragmentSource").text("中文维基、知乎、百度知道、csdn");
-            var url = ip + "/SpiderAPI/getFragmentByTopicArray";
+            var url = ip + "/statistics/getAssemblesByDomainNameAndTopicNames";
             postData = $.param( {
-                className:getCookie("NowClass"),
-                topicNames:checked_topicsArray
+                domainName:getCookie("NowClass"),
+                topicNamesSegmentedByComma:checked_topicsArray
             });
             // 词云图参数使用
             postDataWord = $.param( {
-                className:getCookie("NowClass"),
-                topicNames:checked_topicsArray,
+                domainName:getCookie("NowClass"),
+                topicNamesSegmentedByComma:checked_topicsArray,
                 sourceName:sourceName,
                 hasSourceName:false
             });
@@ -87,12 +87,13 @@ $(document).ready(function(){
             data: postData,
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             async:false,
-            success:function(data){
-                // console.log(data);
+            success:function(response){
+
+                data = response["data"];
                 $("#fragmentNum").text(data.length);
                 $scope.fragments = data;
                 for(var i = 0; i < $scope.fragments.length; i++){
-                    $scope.fragments[i].fragmentContent = $sce.trustAsHtml($scope.fragments[i].fragmentContent);
+                    $scope.fragments[i].assembleContent = $sce.trustAsHtml($scope.fragments[i].assembleContent);
                 }
             }
         });
@@ -112,8 +113,10 @@ $(document).ready(function(){
             data: postDataWord,
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             async:false,
-            success:function(data){
-                keywords = data;
+            success:function(response){
+              data = response["data"];
+              keywords = data;
+              console.log(data);
             }
         });
         var data = [];
@@ -178,10 +181,10 @@ $(document).ready(function(){
         // 加载数据源统计
         var chart1 = echarts.init(document.getElementById('fragmentPic'));
         var results;
-        var url1 = ip + "/SpiderAPI/getFragmentCountBySource";
+        var url1 = ip + "/statistics/getAssembleDistributionByDomainNameAndTopicNames";
         var postData1 = $.param( {
-            className: getCookie("NowClass"),
-            topicNames: checked_topicsArray,
+            domainName: getCookie("NowClass"),
+            topicNamesSegmentedByComma: checked_topicsArray,
         });
         $.ajax({
             type: "POST",
@@ -189,12 +192,13 @@ $(document).ready(function(){
             data: postData1,
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             async:false,
-            success:function(data){
+            success:function(response){
+                data = response["data"];
                 results = data;
                 console.log(results);
             }
         });
-        var data = results.echartObj1s;
+        var data = results.assembleDistributionGroupBySources;
         option1 = {
             backgroundColor: '#fff',
             title: {
@@ -223,7 +227,7 @@ $(document).ready(function(){
                 // bottom: '0%',
                 x: 'center',
                 y: 'top',
-                data: results.sources
+                data: results.sourceNames
             },
             toolbox:{
                 show: true,
@@ -290,7 +294,7 @@ $(document).ready(function(){
     $scope.getFragmentDetail=function(obj){
         // console.log(obj);
         $('#fragmentModel').modal('show');
-        document.getElementById("fragmentModelContent").innerHTML=obj.fragmentContent;
+        document.getElementById("fragmentModelContent").innerHTML=obj.assembleContent;
     }
     
     // 第一次加载时显示的数据
@@ -302,10 +306,10 @@ $(document).ready(function(){
         var charts = [];
 
         // 加载词云图：初始化页面时，显示该课程下第一个主题的词云图。Lucene Ik Analyzer进行分词和词频统计。
-        var urlWord = ip + "/SpiderAPI/getWordcount";
+        var urlWord = ip + "/statistics/getWordFrequencyBySourceNameAndDomainNameAndTopicNames";
         var postDataWord = $.param( {
-            className: getCookie("NowClass"),
-            topicNames: $scope.tops[0].topicName,
+            domainName: getCookie("NowClass"),
+            topicNamesSegmentedByComma: $scope.tops[0].topicName,
             sourceName: "",
             hasSourceName: false
         });
@@ -319,8 +323,10 @@ $(document).ready(function(){
             data: postDataWord,
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             async:false,
-            success:function(data){
-                keywords = data;
+            success:function(response){
+              data = response["data"];
+              keywords = data;
+              console.log(data);
             }
         });
         var data = [];
@@ -330,11 +336,10 @@ $(document).ready(function(){
               value: keywords[name] * 10
           })
         }
-        // console.log(keywords);
         var maskImage = new Image();
         var option = {
           title: {
-              text: '主题: ' + $scope.tops[0].TermName,
+              text: '主题: ' + $scope.tops[0].topicName,
               x: 'right',
               y: 'top',
               textStyle: {
@@ -385,10 +390,10 @@ $(document).ready(function(){
         // 加载数据源统计
         var chart1 = echarts.init(document.getElementById('fragmentPic'));
         var results;
-        var url1 = ip + "/SpiderAPI/getFragmentCountBySource";
+        var url1 = ip + "/statistics/getAssembleDistributionByDomainNameAndTopicNames";
         var postData1 = $.param( {
-            className: getCookie("NowClass"),
-            topicNames: $scope.tops[0].TermName,
+            domainName: getCookie("NowClass"),
+            topicNamesSegmentedByComma: $scope.tops[0].topicName,
         });
         $.ajax({
             type: "POST",
@@ -396,17 +401,17 @@ $(document).ready(function(){
             data: postData1,
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             async:false,
-            success:function(data){
+            success:function(response){
+                data = response["data"];
                 results = data;
-                console.log(results);
             }
         });
-        var data = results.echartObj1s;
+        var data = results.assembleDistributionGroupBySources;
         option1 = {
             backgroundColor: '#fff',
             title: {
                 text: "碎片来源",
-                subtext: '主题: ' + $scope.tops[0].TermName,
+                subtext: '主题: ' + $scope.tops[0].topicName,
                 x: 'center',
                 y: 'center',
                 textStyle: {
@@ -430,7 +435,7 @@ $(document).ready(function(){
                 // bottom: '0%',
                 x: 'center',
                 y: 'top',
-                data: results.sources
+                data: results.sourceNames
             },
             toolbox:{
                 show: true,
@@ -488,10 +493,10 @@ $(document).ready(function(){
         });
 
         // 碎片显示：默认加载时候显示第一个主题的碎片信息
-        var url = ip + "/SpiderAPI/getFragmentByTopicArray";
+        var url = ip + "/statistics/getAssemblesByDomainNameAndTopicNames";
         var postData = $.param( {
-            className:getCookie("NowClass"),
-            topicNames:$scope.tops[0].TermName
+            domainName:getCookie("NowClass"),
+            topicNamesSegmentedByComma:$scope.tops[0].topicName
         });
         // var url = ip + "/SpiderAPI/getFragmentByTopicArrayAndSource";
         // var postData = $.param( {
@@ -505,13 +510,14 @@ $(document).ready(function(){
             data: postData,
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             async:false,
-            success:function(data){
-                // console.log(data.length);
-                $("#fragmentNum").text(data.length);
-                $scope.fragments=data;
-                for(var i=0;i<$scope.fragments.length;i++){
-                    $scope.fragments[i].fragmentContent = $sce.trustAsHtml($scope.fragments[i].fragmentContent);
-                }
+            success:function(response){
+              data = response["data"];  
+              // console.log(data.length);
+              $("#fragmentNum").text(data.length);
+              $scope.fragments=data;
+              for(var i=0;i<$scope.fragments.length;i++){
+                  $scope.fragments[i].assembleContent = $sce.trustAsHtml($scope.fragments[i].assembleContent);
+              }
             }
         });
 
@@ -519,7 +525,7 @@ $(document).ready(function(){
 
     // 获取数据源
     $http.get(ip+'/source/getSources').success(function(response){
-        $scope.sources=response;
+        $scope.sources=response["data"];
     });
 
  });

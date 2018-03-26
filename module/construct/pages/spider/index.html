@@ -144,7 +144,7 @@
                             <form action="">
                             <span ng-repeat="top in tops">
                               <label  style="font-size: 1.2em">
-                                <input type="checkbox" name="subject" value={{top.TermName}} > {{top.TermName}}
+                                <input type="checkbox" name="subject" value={{top.topicName}} > {{top.topicName}}
                               </label>
                               <br>
                             </span>
@@ -242,7 +242,7 @@
             </div>
             <div id="fragData" class="box-body" style="overflow-y:auto">
               <div class="box box-primary fragment" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:15%;float:left;margin:1%" >
-                <div class="box-body" style="height:200px;overflow-y: hidden" ng-bind-html="fragment.fragmentContent">
+                <div class="box-body" style="height:200px;overflow-y: hidden" ng-bind-html="fragment.assembleContent">
                 </div>
                 <div class="box-footer">
                   <button type="button" class="btn btn-primary" style="float:left" ng-click="getFragmentDetail(fragment)">
