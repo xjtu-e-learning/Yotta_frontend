@@ -39,13 +39,14 @@ function init() {
         // api获取图数据
         var xml;
         $.ajax({
-            type :"GET",
-            url :ip+"/DependencyAPI/getGexfByClassName?ClassName=" + getCookie("NowClass"),
+            type :"POST",
+            url :ip+"/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=" + getCookie("NowClass"),
             datatype :"json",
             async:false,
-            success : function(data, status){
+            success : function(response, status){
+
                 // console.log("success");
-                xml = data.success;
+                xml = response["data"];
             }
         })
         //画力关系图

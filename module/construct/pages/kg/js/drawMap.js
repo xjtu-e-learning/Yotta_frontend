@@ -17,11 +17,12 @@ function init() {
                     // console.log("获取主题分面树数据...");
                 }
             },
-            type: "GET",
-            url:  ip + "/AssembleAPI/getTreeByDomain?ClassName=" + getCookie("NowClass"),
+            type: "POST",
+            url:  ip + "/topic/getFirstTopicByDomianName?domainName=" + getCookie("NowClass"),
             data: {},
             dataType: "json",
-            success: function (data) {
+            success: function (response) {
+                data = response["data"];
                 d3.selectAll("svg").remove();
                 svg2 = d3.select("div#mysvg2")
                                 .append("svg")
@@ -33,7 +34,7 @@ function init() {
                 var seed4 = {
                     x: root_x,
                     y: root_y,
-                    name: data.name
+                    name: data.topicName
                 };
                 var tree4 = buildTree(data, seed4, 0.8);
                 draw_tree(tree4, seed4, svg2, 0.8);
@@ -59,7 +60,7 @@ function init() {
                                 .append("svg")
                                 .attr("width", "100%")
                                 .attr("height", "100%");
-                    var seed0 = {x: root_x, y: root_y, name:data.name};
+                    var seed0 = {x: root_x, y: root_y, name:data.topicName};
                     var tree0 = buildTree(data, seed0, multiple);
                     draw_tree(tree0, seed0, svg, multiple);
                 }); 
@@ -71,12 +72,12 @@ function init() {
         // api获取图数据
         var xml;
         $.ajax({
-            type :"GET",
-            url :ip + "/DependencyAPI/getGexfByClassName?ClassName=" + getCookie("NowClass"),
+            type :"POST",
+            url :ip + "/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=" + getCookie("NowClass"),
             datatype :"json",
             async:false,
-            success : function(data, status){
-                xml = data.success;
+            success : function(response, status){
+                xml = response["data"];
             }
         });
         //画力关系图
@@ -179,11 +180,11 @@ function init() {
                     },
 
                     type: "POST",
-                    url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                    url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
                     data: $.param( {
-                        ClassName:getCookie("NowClass"),
-                        TermName:params.name,
-                        HasFragment:true
+                        domainName:getCookie("NowClass"),
+                        topicName:params.name,
+                        hasFragment:true
                     }),
                     headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
@@ -192,7 +193,8 @@ function init() {
                     // data: {},
                     // dataType: "json",
 
-                    success: function (data) {
+                    success: function (response) {
+                        data = response["data"];
                         d3.selectAll("svg").remove();
                         svg2 = d3.select("div#mysvg2")
                                         .append("svg")
@@ -204,7 +206,7 @@ function init() {
                         var seed4 = {
                             x: root_x,
                             y: root_y,
-                            name: data.name
+                            name: data.topicName
                         };
                         var tree4 = buildTree(data, seed4, 0.8);
                         draw_tree(tree4, seed4, svg2, 0.8);
@@ -230,7 +232,7 @@ function init() {
                                         .append("svg")
                                         .attr("width", "100%")
                                         .attr("height", "100%");
-                            var seed0 = {x: root_x, y: root_y, name:data.name};
+                            var seed0 = {x: root_x, y: root_y, name:data.topicName};
                             var tree0 = buildTree(data, seed0, multiple);
                             draw_tree(tree0, seed0, svg, multiple);
                         }); 
@@ -344,11 +346,11 @@ function secondLayer(category) {
                 },
 
                 type: "POST",
-                url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
                 data: $.param( {
-                    ClassName:getCookie("NowClass"),
-                    TermName:params.name,
-                    HasFragment:true
+                    domainName:getCookie("NowClass"),
+                    topicName:params.name,
+                    hasFragment:true
                 }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
@@ -357,7 +359,8 @@ function secondLayer(category) {
                 // data: {},
                 // dataType: "json",
 
-                success: function (data) {
+                success: function (response) {
+                    data = response["data"];
                     d3.selectAll("svg").remove();
                     svg2 = d3.select("div#mysvg2")
                                     .append("svg")
@@ -369,7 +372,7 @@ function secondLayer(category) {
                     var seed4 = {
                         x: root_x,
                         y: root_y,
-                        name: data.name
+                        name: data.topicName
                     };
                     var tree4 = buildTree(data, seed4, 0.8);
                     draw_tree(tree4, seed4, svg2, 0.8);
@@ -396,7 +399,7 @@ function secondLayer(category) {
                                     .attr("width", "100%")
                                     .attr("height", "100%");
                         //$("svg").draggable();
-                        var seed0 = {x: root_x, y: root_y, name:data.name};
+                        var seed0 = {x: root_x, y: root_y, name:data.topicName};
                         var tree0 = buildTree(data, seed0, multiple);
                         draw_tree(tree0, seed0, svg, multiple);
                     }); 
@@ -450,11 +453,11 @@ function thirdLayer(name, id) {
                 },
 
                 type: "POST",
-                url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
                 data: $.param( {
-                    ClassName:getCookie("NowClass"),
-                    TermName:params.name,
-                    HasFragment:true
+                    domainName:getCookie("NowClass"),
+                    topicName:params.name,
+                    hasFragment:true
                 }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
@@ -463,7 +466,8 @@ function thirdLayer(name, id) {
                 // data: {},
                 // dataType: "json",
                 
-                success: function (data) {
+                success: function (response) {
+                    data = response["data"];
                     d3.selectAll("svg").remove();
                     svg2 = d3.select("div#mysvg2")
                                     .append("svg")
@@ -475,7 +479,7 @@ function thirdLayer(name, id) {
                     var seed4 = {
                         x: root_x,
                         y: root_y,
-                        name: data.name
+                        name: data.topicName
                     };
                     var tree4 = buildTree(data, seed4, 0.8);
                     draw_tree(tree4, seed4, svg2, 0.8);
@@ -502,7 +506,7 @@ function thirdLayer(name, id) {
                                     .attr("width", "100%")
                                     .attr("height", "100%");
                         //$("svg").draggable();
-                        var seed0 = {x: root_x, y: root_y, name:data.name};
+                        var seed0 = {x: root_x, y: root_y, name:data.topicName};
                         var tree0 = buildTree(data, seed0, multiple);
                         draw_tree(tree0, seed0, svg, multiple);
                     }); 

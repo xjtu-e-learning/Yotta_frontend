@@ -111,38 +111,44 @@ var svg = d3.select("#showTree")
 function buildTree(data, root, multiple){
 	branches = [];
 	leaves = [];	
-	num_branchs = data['branchnum'];
+	num_branchs = data['childrenNumber'];
 	var num_leaves, num_twigs, num_sprouts,leaf_id='',leaf_content='',url='';
 	for(var i=0;i<num_branchs;i++){
 		// 对每个branch计算坐标		
-		var name_branch = data['children'][i].facet_name;
+		var name_branch = data['children'][i].facetName;
 		branch = calculate_branch_xy(num_branchs, i, root, multiple,name_branch);	
 		branches.push(branch);				
 		leaves.push(branch);
-		var level = data['children'][i].totalbranchlevel;
-		if(level == 0){ //1层分枝
-			num_leaves = data['children'][i].totalleafnum;
+		var isContainSecondLayerFacet = data['children'][i].containChildrenFacet;
+		//1级分面，且下面没有二级分面
+		if(isContainSecondLayerFacet == false){ 
+			//level的不同影响叶子在树枝上的位置
+			var level = 0; 
+			num_leaves = data['children'][i].childrenNumber;
 			for (var j=0;j<num_leaves;j++){		
 				// 对每个leaf计算坐标	
-				leaf_id = data['children'][i]['children'][j].fragment_id;
-				leaf_content = data['children'][i]['children'][j].content;
+				leaf_id = data['children'][i]['children'][j].assembleId;
+				leaf_content = data['children'][i]['children'][j].assembleContent;
 				url = data['children'][i]['children'][j].url;
 				leaf = calculate_leaf_xy(branch, num_leaves, j, multiple,level,leaf_id,leaf_content,url);											
 				leaves.push(leaf);			
 			}			
-		}else if(level == 1){ //2层分枝		
-			num_twigs = data['children'][i].totalbranchnum;
+		}
+		//1级分面，且下面有二级分面		
+		else if(isContainSecondLayerFacet == true){	
+			var level = 1;  
+			num_twigs = data['children'][i].childrenNumber;
 			for (var j=0;j<num_twigs;j++){
 				// 对每个twig计算坐标
-				var name_twig = data['children'][i]['children'][j].facet_name;
+				var name_twig = data['children'][i]['children'][j].facetName;
 				twig = calculate_twig_xy(branch, num_branchs, i, num_twigs, j,root, multiple,name_twig);
 				leaves.push(twig);	
 				if(multiple>0.75){branches.push(twig);}
-				num_leaves = data['children'][i]['children'][j].totalleafnum;
+				num_leaves = data['children'][i]['children'][j].childrenNumber;
 				for (var k=0;k<num_leaves;k++){		
 					// 对每个leaf计算坐标			
-					leaf_id = data['children'][i]['children'][j]['children'][k].fragment_id;
-					leaf_content = data['children'][i]['children'][j]['children'][k].content;
+					leaf_id = data['children'][i]['children'][j]['children'][k].assembleId;
+					leaf_content = data['children'][i]['children'][j]['children'][k].assembleContent;
 					url = data['children'][i]['children'][j]['children'][k].url;
 					leaf = calculate_leaf_xy(twig, num_leaves, k, multiple,level,leaf_id,leaf_content,url);											
 					leaves.push(leaf);			
