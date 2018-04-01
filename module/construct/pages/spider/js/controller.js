@@ -61,7 +61,7 @@ $(document).ready(function(){
         });
         if (typeof sourceName === "undefined") {
             // 没有选择数据源展示所有数据源的
-            $("#fragmentSource").text("中文维基、知乎、百度知道、csdn");
+            $("#fragmentSource").text("中文维基、知乎、百度知道、csdn、人工、Quora、Stackoverflow、Yahoo、Twitter");
             var url = ip + "/SpiderAPI/getFragmentByTopicArray";
             postData = $.param( {
                 className:getCookie("NowClass"),
@@ -77,8 +77,6 @@ $(document).ready(function(){
         } else{
             $("#fragmentSource").text(sourceName);
         }
-
-
 
         // 加载碎片信息
         $.ajax({
@@ -96,7 +94,6 @@ $(document).ready(function(){
                 }
             }
         });
-
         $("#get").text("确定");
 
 
@@ -248,7 +245,7 @@ $(document).ready(function(){
                 type: 'pie',
                 selectedMode: 'single',
                 radius: ['25%', '58%'],
-                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140'],
+                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140','#915872', '#3077b7', '#9a8169', '#3f8797'],
 
                 label: {
                     normal: {
@@ -279,12 +276,7 @@ $(document).ready(function(){
                 charts[i].resize();
             }  
         });
-
-
     }
-
-
-
 
     // 每个碎片的内容
     $scope.getFragmentDetail=function(obj){
@@ -453,7 +445,7 @@ $(document).ready(function(){
                 type: 'pie',
                 selectedMode: 'single',
                 radius: ['25%', '58%'],
-                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140'],
+                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140','#915872', '#3077b7', '#9a8169', '#3f8797'],
 
                 label: {
                     normal: {
