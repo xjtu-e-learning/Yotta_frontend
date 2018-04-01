@@ -6,6 +6,10 @@
   <title>New Yotta</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+     <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../../../login/';
+  </script>
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -91,6 +95,13 @@
             <i class="fa fa-object-ungroup"></i> <span>认知关系数据</span>
           </a>
         </li>
+
+        <li>
+          <a href="../statistics/index.html">
+            <i class="fa fa-object-ungroup"></i> <span>数据统计</span>
+          </a>
+        </li>
+        
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -240,9 +251,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1
+      <b>Version</b> 1.0.1
     </div>
-    <strong>Copyright &copy; 2016 <a href="http://labs.xjtudlc.com/labs/index.html">陕西省天地网技术重点实验室</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
     reserved.
   </footer>
 
@@ -265,25 +276,16 @@
 
 
 <!-- 个人的插件 -->
-<script src="../../dist/js/shileiUtils.js"></script>
 
 <script src="../../plugins/angularjs/angular.min.js"></script>
 <script src="../../plugins/jQuery/jquery.qtip.min.js"></script>
 <script src="../../plugins/jQuery/jquery-ui.js"></script>
-
 <script src="../../plugins/echartjs/echarts.js"></script>
 <script src="../../plugins/d3js/d3.min.js"></script>
 <script src="../../plugins/datguijs/dat.gui.min.js"></script>
 <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- CSS Files -->
-<!--link type="text/css" href="css/base.css" rel="stylesheet" />
-< <link type="text/css" href="css/Spacetree.css" rel="stylesheet" /> -->
-<!-- JIT Library File -->
-<!--script language="javascript" type="text/javascript" src="js/jit-yc.js"></script-->
-<!-- Example File -->
-<!--script language="javascript" type="text/javascript" src="js/example1.js"></script>
-<script language="javascript" type="text/javascript" src="js/myjs.js"></script>
-<script language="javascript" type="text/javascript" src="js/2.js"></script-->
+
+<!-- 个人的插件 -->
 <script type="text/javascript" src="js/function.js"></script>
 <script type="text/javascript" src="js/topic.js"></script>
 </body>

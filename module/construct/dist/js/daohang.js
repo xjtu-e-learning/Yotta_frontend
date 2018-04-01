@@ -25,31 +25,35 @@ app.controller('menu', function($scope, $http) {
         setImgArea()
         display(0)
     })
-    // $http.get("ClassListData.json").success(
-    //     function(json)
-    //      { 
-    //         $scope.ClassList = json
-    //         $scope.NowClass=json[0]
-    //         setCookie("NowClass",json[0].ClassName,"d900")
-    // });
 
-    $http.get('http://'+ip+"/DomainAPI/getDomain").success(
+    // 获取学科和课程数据
+    $http.get(ip+"/DomainAPI/getDomainsBySubject").success(
         function(data) { 
-            $scope.ClassList = data;
+            $scope.subjects = data;
             // console.log(data);
+            var classSum = 0;
+            // 切回导航页面时，读取现有课程并更新两个框的值
             for(i = 0; i < data.length; i++) {
-                if(data[i].ClassName == getCookie("NowClass")) {
-                    $scope.NowClass = data[i];
+                classSum = classSum + data[i].domains.length;
+                if(data[i].subjectName == getCookie("NowSubject")) {
+                    $scope.subject = data[i];
+                    for(j = 0; j < data[i].domains.length; j++) {
+                        if(data[i].domains[j].className == getCookie("NowClass")) {
+                            $scope.domain = data[i].domains[j];
+                        }
+                    }
                 }
             }
+            $scope.subjectNum = data.length;
+            $scope.classSum = classSum;
         }
     );
 
     $scope.change = function(){  
         //获取被选中的值  
-        var chengeitem = $scope.NowClass.ClassName;
-        // console.log($scope.NowClass);
-        setCookie("NowClass", $scope.NowClass.ClassName, "d900");
+        var chengeitem = $scope.domain.className;
+        setCookie("NowClass", $scope.domain.className, "d900");
+        setCookie("NowSubject", $scope.subject.subjectName, "d900");
         //js代码实现option值变化后的查询等操作      
     } 
 

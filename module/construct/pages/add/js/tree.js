@@ -18,14 +18,17 @@ var fixedTwig = 35;
 var twigLength = 20;
 var twig_space = 50;
 var fixedLeaf = 8;
-var leafLength = 8;
-var leaf_space = 8;
+//树叶长度
+var leafLength = 12;
+//树叶间距
+var leaf_space = 12;
 var space_time_leaf = 2;
 var space_time_twig = 2;
-var length_text_line = 15;//碎片知识每行的字数
+//碎片知识每行的字数
+var length_text_line = 15;
 var trunk_text_size = '16px';
 var trunk_text_width ='2px';
-var text_seed_x = 13;
+var text_seed_x = 10;
 var text_seed_y = 18;
 var color_trunk = '#330000';
 var color_branch = '#330000';
@@ -33,19 +36,25 @@ var color_twig = '#330000'
 var color_hilight_twig = 'brown';
 var color_leaf = 'green';
 var color_hilight_leaf = 'yellow';
-var width_trunk = 2;
-var width_branch = 2;
-var width_twig = 2;
-var width_hilight_twig = 3;
-var width_leaf = 2;
-var width_hilight_leaf = 3;
+//树干宽度
+var width_trunk = 7;
+//枝干宽度
+var width_branch = 7;
+//树枝宽度
+var width_twig = 7;
+//高亮树枝宽度 
+var width_hilight_twig = 8;
+//树叶宽度
+var width_leaf = 5;
+//高亮树叶宽度
+var width_hilight_leaf = 6;
 var width_qtip = 350;
 var length_start_leaf_x_level_0=55;
 var length_start_leaf_x_level_1=25;
 //Width and height
 var multiple = 0.5;
 var w = 2000;
-var h = 2000;	
+var h = 2000;
 /*var svg = d3.select("div#treeDis")
 				.append("svg")
 				.attr("width", w)
@@ -281,7 +290,7 @@ function calculate_leaf_xy(parent, num_leaves, k, multiple,level,leaf_id,leaf_co
 }
 // functions for draw
 function highlight(d) {	
-	$(".qtip:hidden").remove();
+	//$(".qtip:hidden").remove();
 	var colour, width;
 	if(d.type=='leaf'){
 	 colour= d3.event.type == 'mouseover' ? color_hilight_leaf : color_leaf;
@@ -292,209 +301,9 @@ function highlight(d) {
 	}	
 	var display = d3.event.type =='mouseover' ? null : 'none';
 	var type = d.type;
-	if(multiple<0.75){return;}//保证缩小时只显示分面树的主题，不高亮显示twig和叶子的内容	
+	if(multiple<0.5){return;}//保证缩小时只显示分面树的主题，不高亮显示twig和叶子的内容	
 	d3.select('#'+d.id).style('stroke', colour );
 	d3.select('#'+d.id).style('stroke-width', width);	
-	//显示超文本	
-	  $(this).qtip({
-			overwrite:true,
-			content: {
-				text: '<p>'+d.name+'</p><p><a href='+d.url+' target="_blank">详情</a></p>',	
-				title: { text: d.id } // Give the tooltip a title using each elements text
-			},
-
-			position: {
-				my: 'top middle',
-				at: 'bottom right',
-				adjust:{
-					//mouse: true,
-					//scroll: true,
-					//resize: true
-				}
-			},
-			show: {
-				event: 'click',
-				solo: true
-			},
-			hide: {
-				event: 'click'
-			},
-			style: {
-				tip: {
-					corner: true,
-					border: true
-				}
-			}
-
-		});
-}
-
-//显示对应分支文本和图片碎片
-function showTPFragment(branchName,type){
-	
-	if(type==="leaf")
-		return;
-
-	//清空文本和图片碎片
-	//
-	$("#textFragmentDiv").empty();
-	$("#pictureFragmentDiv").empty();
-	$.ajax({
-             type: "GET",
-             url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
-             data: {
-             	ClassName:getCookie("NowClass"),
-             	TermName:SUBJECTNAME
-             },
-             dataType: "json",
-             success: function(data){
-             			ErgodicBranch(data,branchName);
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-          			//通常情况下textStatus和errorThrown只有其中一个包含信息
-          			alert(textStatus);
-       				}
-        });
-}
-//遍历所点树枝
-function ErgodicBranch(data,branchName){
-	var countText=0;
-	var countPicture=0;
-	//进入一级分面
-	$.each(data.children,function(index1,value1){
-		//如果一级分面找到branch
-		if(value1.type==="branch"/*一级分面一定是branch*/&&value1.facet_name===branchName){
-			//进入二级分面
-			$.each(value1.children,function(index2,value2){
-				if (value2.type==="branch"){
-					//遍历树叶
-					//
-					$.each(value2.children,function(index3,value3){
-						if(value3.flag==="text"){
-							appendTextFragment(value3.content,value3.scratchTime);
-							countText++;
-						}
-						else{
-							appendPictureFragment(value3.content);
-							countPicture++;
-						}
-						
-					});
-				} 
-				else{
-					if(value2.flag==="text"){
-							appendTextFragment(value2.content,value2.scratchTime);
-							countText++;
-					}
-					else{
-						appendPictureFragment(value2.content);
-						countPicture++;
-					}
-				}
-			});
-			console.log("countText "+countText);
-			setTextCount(countText);
-			//找到所有叶子，结束
-			//return;
-		}
-		//如果一级分面没有找到branch，进入二级分面
-		else{
-			$.each(value1.children,function(index4,value4){
-				if(value4.type==="branch"&&value4.facet_name===branchName){
-					$.each(value4.children,function(index5,value5){
-						if(value5.flag==="text"){
-							appendTextFragment(value5.content,value5.scratchTime);
-							countText++;
-						}
-						else{
-							appendPictureFragment(value5.content);
-							countPicture++;
-						}
-					});
-					setTextCount(countText);
-				}
-			});
-			//找到所有叶子，结束
-			//return;
-		}
-	});
-}
-
-
-function appendFragment(content,time){
-			// var div1 = d3.select("#fragmentDiv")
-			// .append("div");
-			// div1.attr("class","col-sm-6")
-			// 	.style("height","140px")
-			// 	.style("margin-top","10px");
-
-			var div2=d3.select("#fragmentDiv").append("div");
-			div2.attr("class","box box-primary box-solid")
-			div2.style("width","45%");
-			div2.style("border","2px solid #428bca");
-			div2.style("float","left");
-			div2.style("margin","1%");
-				// .style("height","150%")
-				//.style("overflow","hidden");
-
-			var contentDiv=div2.append("div");
-			contentDiv.attr("class","box-body");
-			contentDiv.style("height","200px");
-			contentDiv.style("overflow","hidden");
-			contentDiv.html(content);
-
-			var timeDiv=div2.append("div");
-			timeDiv.attr("class","box-body");
-
-			timeDiv.text(time);
-		}
-
-
-//添加文本碎片
-function appendTextFragment(content,time){
-			var div1 = d3.select("#textFragmentDiv")
-			.append("div");
-			div1.attr("class","col-sm-6")
-				.style("height","140px")
-				.style("margin-top","10px");
-
-			var div2=div1.append("div");
-			div2.attr("class","box box-success box-solid")
-				.style("height","90%")
-				.style("overflow","hidden");
-
-			var contentDiv=div2.append("div");
-			contentDiv.attr("class","box-header with-border");
-
-			var contentSmall=contentDiv.append("small");
-			contentSmall.text(content);
-
-			var timeDiv=div2.append("div");
-			timeDiv.attr("class","box-body");
-
-			var timeSmall=timeDiv.append("small");
-			timeSmall.text(time);
-		}
-
-//添加图片碎片
-function appendPictureFragment(URL){
-	var div1 = d3.select("#pictureFragmentDiv")
-	.append("div");
-	div1.attr("class","col-sm-6")
-		.style("height","110px")
-		.style("margin-top","20px");
-
-	var div2=div1.append("div");
-	div2.attr("class","pictureBox");
-
-	var aLink=div2.append("a");
-	aLink.attr("href",URL);
-
-	var image=aLink.append("img");
-	image.attr("src",URL)
-	.attr("alt","图片未加载出来")
-	.style("height","100%")
-	.style("width","100%");
 }
 
 function draw_tree(tree, seed, svgobj, multiple){
@@ -520,9 +329,48 @@ function draw_tree(tree, seed, svgobj, multiple){
 		.style('stroke', function(d) {return (d.type == 'leaf')?(color_leaf):(color_twig);})
 		.style('stroke-width', function(d) {return d.width;})
 		.on('mouseover', highlight)
-		.on('mouseout', highlight)
-		.on('click',function(d){showTPFragment(d.name,d.type); //添加点击事件，进行文本、图片碎片动态显示
-		});		
+		.on('mouseout', highlight);	
+
+	//带关闭按钮的提示 且延时3秒关闭
+	//显示碎片的提示信息
+	g.selectAll('path')
+		.on('mouseenter',function(d){
+			$(this).qtip({  
+		        content: { 
+		        	text: "<div class='leafMessage'><p>"+d.name+"</p><p><a href="+d.url+" target='_blank'>详情</a></p><div>", 
+		            /*title: d.id,  
+		            button: "关闭"  */
+		            title:{
+		            	text:d.id,
+		            	button:"关闭"
+		            }
+		        },
+		        position: {
+					my: 'top middle',
+					at: 'bottom right',
+					/*adjust:{
+						mouse: true,
+						scroll: true,
+						resize: true
+					}*/
+				},
+ 				show: {
+					event: 'click',
+					solo: true,
+				},
+                hide: {  
+                    event: false,    //设置不自动关闭 可配合inactive组合使用  
+                    inactive: 3000   //设置延时关闭  
+                },
+                style: {
+					classes: 'qtip-light qtip-shadow qtip-rounded',
+					tip: {
+						corner: true,
+						border: true,
+					}
+				}   
+	    	});
+		});	
 	if(multiple>=0.05){
 		g.selectAll('text')//分支部分
 		.data(tree['branches'])
@@ -534,6 +382,7 @@ function draw_tree(tree, seed, svgobj, multiple){
 		.attr('xlink:href',function(d) {return d.textpath;})
 		.text(function(d){return d.name;});
 	}	
+
 	//根节点
 	g.append('text')		   
        .text(seed.name) 
@@ -608,36 +457,3 @@ function draw_road(multiple, svg){
 		.attr("stroke-width",5)
 		.attr("marker-mid","url(#arrow)");			
 }
-// Init function
-function initTree(){
-document.getElementById("facetedTreeDiv").innerHTML='';
-
-$.ajax({
-         type: "GET",
-         url: 'http://'+ip+"/AssembleAPI/getTreeByTopicForFragment",
-         data: {
-         	ClassName:getCookie("NowClass"),
-         	TermName:SUBJECTNAME
-         },
-         dataType: "json",
-         success: function(dataset){
-         			multiple=1;
-					//分面树所占空间大小
-					svg = d3.select("div#facetedTreeDiv")
-								.append("svg")
-								.attr("width", "100%")
-								.attr("height","100%");
-					//分面树的位置	
-					var root_x=$("#facetedTreeDiv").width()/2;
-    				var root_y=$("#facetedTreeDiv").height()-30; //
-					$("svg").draggable();
-					var seed4 = {x: root_x* multiple, y: root_y* multiple, name:dataset.name}; 
-					var tree4 = buildTree(dataset, seed4, multiple);
-				    draw_tree(tree4, seed4, svg, multiple);	
-                 },
-         error:function(XMLHttpRequest, textStatus, errorThrown){
-      			//通常情况下textStatus和errorThrown只有其中一个包含信息
-      			alert(textStatus);
-   				}
-        });
-}	

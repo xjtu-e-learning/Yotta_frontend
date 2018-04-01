@@ -1,10 +1,10 @@
 //点确定键之后的初始化显示函数
 function showDivNum(){ 
     var fragmentNum=document.getElementsByClassName("fragment").length;
-    console.log(fragmentNum);
+    // console.log(fragmentNum);
     var count=document.getElementById("numsel").value;//每页显示个数
     var pageNum=Math.ceil(fragmentNum/count);
-    console.log(pageNum);
+    // console.log(pageNum);
     $("#page").text(pageNum);
     $("#nowpage").text(1);
     var source=document.getElementById("topsel").value;
@@ -28,8 +28,8 @@ function showDivNum(){
 function go(){
     var gopage=$("#gopage").val();
     var sumpage=$("#page").text();
-    console.log(gopage);
-    console.log(sumpage);
+    // console.log(gopage);
+    // console.log(sumpage);
     var fragmentNum=document.getElementsByClassName("fragment").length;
     
     var count=document.getElementById("numsel").value;//每页显示个数
@@ -45,8 +45,8 @@ function go(){
     $("#nowpage").text(gopage);
     var begin=count*(gopage-1);
     var end=Number(begin)+Number(count);
-    console.log(begin);
-    console.log(end);
+    // console.log(begin);
+    // console.log(end);
     if(begin<fragmentNum&&end<fragmentNum){
         for(var i=0;i<begin;i++)
             $(".fragment")[i].style.display="none";
@@ -72,7 +72,7 @@ function go(){
 //跳转上一页函数
 function pre(){
     var nowpage=$("#nowpage").text();
-    console.log(nowpage);
+    // console.log(nowpage);
     var fragmentNum=document.getElementsByClassName("fragment").length;
     // var wen=document.getElementsByClassName("wenbensuipian").length;
     // var tu=document.getElementsByClassName("img").length;

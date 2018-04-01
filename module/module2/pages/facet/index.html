@@ -6,6 +6,10 @@
   <title>New Yotta</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+     <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../../../login/';
+  </script>
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -93,6 +97,13 @@
             <i class="fa fa-object-ungroup"></i> <span>认知关系数据</span>
           </a>
         </li>
+
+        <li>
+          <a href="../statistics/index.html">
+            <i class="fa fa-object-ungroup"></i> <span>数据统计</span>
+          </a>
+        </li>
+
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -284,9 +295,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1
+      <b>Version</b> 1.0.1
     </div>
-    <strong>Copyright &copy; 2016 <a href="http://labs.xjtudlc.com/labs/index.html">陕西省天地网技术重点实验室</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
     reserved.
   </footer>
 
@@ -308,21 +319,16 @@
 <script src="../../dist/js/app.min.js"></script>
 
 <!-- 下面放你个人的插件 -->
-<script src="../../dist/js/shileiUtils.js"></script>
 
-<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
-<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-animate.js"></script>
-<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-sanitize.js"></script>
-<script src="http://cdn.bootcss.com/angular-ui-bootstrap/2.1.3/ui-bootstrap-tpls.js"></script>
-<script src="http://cdn.bootcss.com/angular-ui-bootstrap/2.1.3/ui-bootstrap.js"></script>
 
-<!-- 自己写的js -->
-
+<!-- <script src="../../plugins/angularjs/angular.js"></script> -->
 <script src="../../plugins/angularjs/angular.min.js"></script>
+<script src="../../plugins/angularjs/angular-animate.js"></script>
+<script src="../../plugins/angularjs/angular-sanitize.js"></script>
+<script src="../../plugins/ui-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="../../plugins/ui-bootstrap/ui-bootstrap.js"></script>
 <script src="../../plugins/jQuery/jquery.qtip.min.js"></script>
 <script src="../../plugins/jQuery/jquery-ui.js"></script>
-
-
 <script src="../../plugins/echartjs/echarts.js"></script>
 <script src="../../plugins/d3js/d3.min.js"></script>
 <script src="../../plugins/datguijs/dat.gui.min.js"></script>

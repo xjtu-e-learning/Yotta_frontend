@@ -4,7 +4,7 @@ $(document).ready(function(){
  var header=$(".content-header").offset().top+$(".content-header").height()
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
- console.log(zidingyi_height);
+ // console.log(zidingyi_height);
  $("#fragmentClassDiv").css("height",zidingyi_height*0.85+"px");
  $("#fragmentUnaddDiv").css("height",zidingyi_height*0.4+"px");
  $("#fragmentInfoDiv").css("height",zidingyi_height*0.4+"px");
@@ -21,6 +21,13 @@ var nowOperateTopic;
 var nowOperateFacet1;
 var nowOperateFacet2;
 
+var modify_add_flag;
+var now_modify_id;
+
+function choosetype(){
+    $("#fragmentModal").modal();
+    modify_add_flag=0;
+}
 
 var app=angular.module('myApp',[
     'ui.bootstrap','ngDraggable'
@@ -28,6 +35,7 @@ var app=angular.module('myApp',[
 app.controller('myCon',function($scope,$http,$sce){
     $http.get(ip+'/DomainAPI/getDomainManage').success(function(response){
         $scope.subjects=response;
+        // console.log(nowOperateClass);
         $("#class_name").text(nowOperateClass);
         if(getCookie("NowFacetLayer")==1){
             $scope.getfacet1fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
@@ -64,14 +72,14 @@ app.controller('myCon',function($scope,$http,$sce){
 
 
     $scope.dropFacetFragment=function(data,evt){
-        console.log(data.FragmentID);
+        // console.log(data.FragmentID);
         var str=$("#fragmenttopic").text();
         var arr=str.split(" ");
         if((arr.length!=3)||(arr[1]=="")||(arr[0]=="主题")){
             alert("添加无效");
         }
         else if(arr[0]=="一级分面"){
-            console.log("1"+arr[1]);
+            // console.log("1"+arr[1]);
 
             $http({
                 method:'GET',
@@ -87,7 +95,7 @@ app.controller('myCon',function($scope,$http,$sce){
 
         }
         else if(arr[0]=="二级分面"){
-            console.log("2"+arr[1]);
+            // console.log("2"+arr[1]);
 
             $http({
                 method:'GET',
@@ -102,7 +110,7 @@ app.controller('myCon',function($scope,$http,$sce){
             });
         }
         else if(arr[0]=="三级分面"){
-            console.log("3"+arr[1]);
+            // console.log("3"+arr[1]);
 
             $http({
                 method:'GET',
@@ -121,51 +129,85 @@ app.controller('myCon',function($scope,$http,$sce){
         }
     }
     $scope.dragFragment=function(data,evt){
-        console.log("success");
+        // console.log("success");
     }
 
 
     $scope.addFrag=function(){
-        console.log("success");
+        
+        
         var html = editor.$txt.html() + "";
-
-        $http({
-            method:'POST',
-            url:ip+"/SpiderAPI/createFragment",
-            data : $.param( {FragmentContent : html}),
-            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-        }).then(function successCallback(response){
-            alert("添加碎片成功");
-            $scope.getUnaddFragment();
-        }, function errorCallback(response){
-            console.log(html);
+        if(modify_add_flag==0){
+            console.log("addFragment");
+            $http({
+                method:'POST',
+                url:ip+"/SpiderAPI/createFragment",
+                data : $.param( {FragmentContent : html}),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            }).then(function successCallback(response){
+                alert("添加碎片成功");
+                $scope.getUnaddFragment();
+            }, function errorCallback(response){
+            // console.log(html);
             alert("添加碎片失败");
         });
+        }
+        else if(modify_add_flag==1){
+            console.log("modifyFragment_"+now_modify_id);
+            $http({
+                method:'POST',
+                url:ip+"/SpiderAPI/updateFragment",
+                data : $.param({FragmentID:now_modify_id,
+                                 FragmentContent : html
+                             }),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            }).then(function successCallback(response){
+                alert("更新碎片成功");
+                $scope.getUnaddFragment();
+            }, function errorCallback(response){
+            console.log(response);
+            alert("更新碎片失败");
+        });
+        }
+
+        
     }
 
     
     //杨宽添加,显示分面树函数
     $scope.showFacetTreeWithLeaves=function(className,subjectName){
         $.ajax({
-         type: "GET",
-         url: ip+"/AssembleAPI/getTreeByTopic",
-         data: {
-            ClassName:className,
-            TermName:subjectName
-         },
-         dataType: "json",
-         success: function(dataset){
-                   displayTree(dataset);
-                 },
-         error:function(XMLHttpRequest, textStatus, errorThrown){
+
+            type: "POST",
+            url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            data: $.param( {
+                ClassName:className,
+                TermName:subjectName,
+                HasFragment:false
+            }),
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+            // type: "GET",
+            // url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            // data: {
+            //     ClassName:className,
+            //     TermName:subjectName
+            // },
+            // dataType: "json",
+            
+            success: function(dataset){
+                displayTree(dataset);
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
                 //通常情况下textStatus和errorThrown只有其中一个包含信息
                 alert(textStatus);
-                }
+            }
         });
     }
 
     $scope.getInfo=function(){
         nowOperateClass=document.getElementById("nameofclass").value;
+        $("#class_name").text(nowOperateClass);
 
         $http({
             method:'GET',
@@ -376,8 +418,25 @@ app.controller('myCon',function($scope,$http,$sce){
         });
     }
 
+    $scope.modifyFragment=function(a){
+        modify_add_flag=1;
+        now_modify_id=a;
+        $("#fragmentModal").modal();
+
+        $http({
+            method:'GET',
+            url:ip+"/SpiderAPI/getFragmentByID",
+            params:{FragmentID:a}
+        }).then(function successCallback(response){
+            // console.log(response.data[0].FragmentContent);
+            $("#wang").html(response.data[0].FragmentContent);
+        }, function errorCallback(response){
+
+        });
+    }
+
     $scope.deleteUnaddFragment=function(a){
-        console.log(a);
+        // console.log(a);
 
         $http({
             method:'GET',

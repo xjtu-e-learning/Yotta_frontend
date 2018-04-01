@@ -108,7 +108,7 @@
     <section class="content-header">
       <h1>
         碎片装配
-        <small> 当前领域：{{ NowClass }}
+        <small> 当前学科：<a ng-bind="NowSubject"></a>，课程：<a ng-bind="NowClass"></a>
         </small>
       </h1>
       <ol class="breadcrumb">
@@ -119,49 +119,31 @@
 
    <section class="content">
       <div class="navbar-collapse collapse" id="mysvgTop">
-        <ul class="nav nav-tabs">
-          <li>
-              <button type="button" class="btn btn-block btn-link btn-lg"  data-toggle="modal" data-target="#subjectModal">
-              选择主题
-              </button>
-          </li>
-          <!-- <li>
-            <button type="button" class="btn btn-block btn-link btn-lg" data-toggle="modal" data-target="#facetModal">选择分面
-            </button>
-          </li> -->
-      <!--     <li>
-      <div class="btn-group">
-          <button type="button" class="btn btn-block btn-link btn-lg dropdown-toggle"  data-toggle="dropdown">
-          选择数据源<span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu" style="background-color:#3c8dbc;border:2px solid ##f4f4f4;min-width:140px;box-shadow:0 3px 3px rgba(0,0,0,0.1);">
-            <li style="text-align:center;"><input type="radio" name="dataSource" checked="" value="维基百科">维基百科</li>
-            <li style="text-align:center;"><input type="radio" name="dataSource" value="百度百科">百度百科</li>
-          </ul>
+        <div style="margin-left: 1%;">
+            <button type="button" class="btn btn-primary" style="margin-right:50px"  data-toggle="modal" data-target="#subjectModal">选择主题</button>
+            <button type="button" class="btn btn-primary" id="confirm" ng-click="assembleTree()">装配</button>
         </div>
-      </li> -->
-          <li><button type="button" class="btn btn-block btn-link btn-lg" id="confirm" onclick="initTree();DisplayAllFragment();showFragmentRatio();">装配</button></li>
-        </ul>
       </div>
-      <div class="row" style="margin-top:5px;">
+      <div class="row" style="margin-top:15px;">
+
+          <!-- 实例化主题分面树 -->
           <div class="col-md-7">
-            <div class="box-header" style="cursor: move;">
-            <i class="glyphicon glyphicon-tree-deciduous"></i>
-            <h3 class="box-title">实例化主题分面树</h3>
+            <div class='panel panel-info'>
+                <div class='panel-heading'>
+                  <h3 class='panel-title'><i class="glyphicon glyphicon-tree-deciduous"></i> 实例化主题分面树</h3>
+                </div>
+                <!-- 显示分面树 -->
+                <div id="facetedTreeDiv" class='panel-body' data-spy="scroll" style="overflow:hidden; position: relative;"></div>
             </div>
-          <!-- 显示分面树 -->
-            <div id="facetedTreeDiv" style="overflow:hidden;" ></div>  
           </div>
           
           <div class="col-md-5" id="rightDiv">
-            
-            <div>
-              <div class="box-header" style="cursor: move;">
-              <i class="glyphicon glyphicon-align-left"></i>
-              <h3 class="box-title">主题碎片数量统计</h3>
+            <!-- 主题碎片数量统计 -->
+            <div class='panel panel-info'>
+              <div class='panel-heading' style="cursor: move;">
+                <h3 class='panel-title'><i class="glyphicon glyphicon-align-left"></i> 主题碎片数量统计</h3>
               </div>
-              <div style="position:relative">
-                <!-- 此处显示文本碎片和图片碎片数量 及占比-->
+              <div class='panel-body' data-spy="scroll" style="overflow:auto; position: relative;">  
                 <table class="table table-bordered" style="background-color:#ffffff;box-shadow:0 1px 1px rgba(0,0,0,0.1);margin-bottom:10px;">
                   <tbody>
                     <tr>
@@ -169,49 +151,26 @@
                       <th>数量</th>
                     </tr>
                     <tr>
-                      <td>碎片</td>
-                      <!-- <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar progress-bar-danger" id="textRatio" style=""></div>
-                        </div>
-                      </td> -->
-                      <td><span class="badge bg-red" id="textCount"></span></td>
+                      <td>数量</td>
+                      <td><span class="badge bg-red" id = "fragmentCount"></span></td>
                     </tr>
-                    <!-- <tr>
-                      <td>图片</td>
-                      <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar progress-bar-yellow" id="pictureRatio" style=""></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-yellow" id="pictureCount"></span></td>
+                   <!-- <tr ng-repeat="fragment in fragmentInfos">
+                      <td>{{ fragment.source }}</td>
+                      <td><span class="badge bg-red">{{ fragment.count }}</span></td>
                     </tr> -->
                   </tbody>
                 </table>
-              </div> 
-            </div>     
-
-            <div class="box-header" style="cursor: move;">
-            <i class="glyphicon glyphicon-list-alt"></i>
-            <h3 class="box-title">碎片</h3>
-            </div>
-            
-            <div  class="fragmentSlimscroll">
-              <div id="fragmentDiv">
-                <!-- 显示碎片 -->
               </div>
             </div>
-
-            <!-- <div class="box-header" style="cursor: move;">
-            <i class="glyphicon glyphicon-picture"></i>
-            <h3 class="box-title">图片碎片</h3>
-            </div>
-
-            <div  class="pictureSlimscroll" style="border:1px solid #ddd; height:300px;">
-              <div id="pictureFragmentDiv">
+            <!-- 碎片 -->
+            <div class='panel panel-info'>
+              <div class='panel-heading' style="cursor: move;">
+                <h3 class='panel-title'><i class="glyphicon glyphicon-list-alt"></i> 碎片</h3>
               </div>
-            </div> --> 
-
+              <div class='panel-body fragmentSlimscroll' data-spy="scroll" style="overflow:auto; position: relative;">  
+                <div id="fragmentDiv"></div>
+              </div>
+            </div>
           </div>
       </div> 
 
@@ -229,49 +188,17 @@
             </div>
             <div class="modal-body model-slimscroll" id="subjectModalBody">
               <!-- 主题 单选框-->
-            <div class="col-md-4" style="padding:10px;" ng-repeat="topic in Topics">
-              <input type="radio" name="subject" class="subjectRadio" value="{{topic.TermName}}">{{topic.TermName}}
-            </div>
-
+              <div class="col-md-4" style="padding:10px;" ng-repeat="topic in Topics">
+                <input type="radio" name="subject" class="subjectRadio" value="{{topic.TermName}}">{{topic.TermName}}
+              </div>
             </div>
             <div class="modal-footer" id="fsubjectModalFooter">
-              <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-              </button>
-              <button type="button" class="btn btn-primary" id="subjectSubmit">
-                提交
-              </button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button type="button" class="btn btn-primary" id="subjectSubmit">提交</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal -->
       </div> 
-
-      <!-- 分面模态框 -->
-      <div class="modal fade" id="facetModal" tabindex="-1" role="dialog" aria-labelledby="facetModalTitle" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                &times;
-              </button>
-              <h4 class="modal-title" id="facetModalTitle">
-                分面选择
-              </h4>
-            </div>
-            <div class="modal-body model-slimscroll" id="facetModalBody">
-              <!-- 分面 复选框-->
-            </div>
-            <div class="modal-footer" id="facetModalFooter">
-              <button id="selectAll" type="button" class="btn btn-default">全选
-              </button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-              </button>
-              <button type="button" class="btn btn-primary" id="facetSubmit">
-                提交
-              </button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-      </div>    
 
     </section>
     <!-- /.content -->
@@ -279,9 +206,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1
+      <b>Version</b> 1.0.1
     </div>
-<strong>Copyright &copy; 2017 大数据算法与分析技术国家工程实验室.</strong> All rights
+<strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
     reserved.  
   </footer>
 
@@ -308,13 +235,13 @@
 <link rel="stylesheet" type="text/css" href="css/contain.css">
 
 
-<script src="../../dist/js/shileiUtils.js"></script>
+<script type="text/javascript" src="../../../../config/ipconfig.js"></script>
 
 <script src="../../plugins/angularjs/angular.min.js"></script>
 <script src="../../plugins/jQuery/jquery.qtip.min.js"></script>
 <script src="../../plugins/jQuery/jquery-ui.js"></script>
 
-<script src="../../plugins/echartjs/echarts.js"></script>
+<script src="../../plugins/echartjs/echarts.min.js"></script>
 <script src="../../plugins/d3js/d3.min.js"></script>
 <script src="../../plugins/datguijs/dat.gui.min.js"></script>
 <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>

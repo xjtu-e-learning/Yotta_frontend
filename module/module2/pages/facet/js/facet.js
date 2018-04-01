@@ -1,12 +1,10 @@
-
-
 // 自适应程序
 var zidingyi_height;
 $(document).ready(function(){
  var header=$(".content-header").offset().top+$(".content-header").height()
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
- console.log(zidingyi_height);
+ // console.log(zidingyi_height);
  $("#facetClassDiv").css("height",zidingyi_height*0.85+"px");
  $("#facetAddDiv").css("height",zidingyi_height*0.15+"px");
  $("#facetTreeDiv").css("height",zidingyi_height*0.64+"px");
@@ -42,17 +40,18 @@ app.controller('myCon',function($scope,$http){
 
     $scope.addFacet=function(){
     var nowtype=document.getElementById("nowtype").innerText;
+    var facetname=$("input[name='FacetName']").val().replace(/\s/g, "");
+    // console.log(facetname);
     if(nowtype=="主题"){
 
         $http({
             method:'GET',
             url:ip+"/FacetAPI/createFacet1",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:$("input[name='FacetName']").val()}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:facetname}
         }).then(function successCallback(response){
             alert(response.data.success);            
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });
@@ -62,12 +61,11 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/FacetAPI/createFacet2",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,Facet1Name:nowOperateFacet1,Facet2Name:$("input[name='FacetName']").val()}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,Facet1Name:nowOperateFacet1,Facet2Name:facetname}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.getfacet1facet(nowOperateClass,nowOperateTopic,nowOperateFacet1);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });
@@ -77,12 +75,11 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/FacetAPI/createFacet3",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,Facet1Name:nowOperateFacet1,Facet2Name:nowOperateFacet2,Facet3Name:$("input[name='FacetName']").val()}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,Facet1Name:nowOperateFacet1,Facet2Name:nowOperateFacet2,Facet3Name:facetname}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.getfacet2facet(nowOperateClass,nowOperateTopic,nowOperateFacet1,nowOperateFacet2);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });
@@ -98,12 +95,11 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/FacetAPI/updataFacet1",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val()}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val().replace(/\s/g, "")}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });
@@ -114,12 +110,11 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/FacetAPI/updataFacet2",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val()}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val().replace(/\s/g, "")}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });
@@ -129,12 +124,11 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/FacetAPI/updataFacet3",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val()}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val().replace(/\s/g, "")}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });
@@ -179,23 +173,34 @@ app.controller('myCon',function($scope,$http){
 
     //杨宽添加，显示分面树函数
     $scope.showFacetTreeWithoutLeaves=function(className,subjectName){
-         $.ajax({
-             type: "GET",
-             url: ip+"/AssembleAPI/getTreeByTopic",
-             data: {
+        $.ajax({
+
+            type: "POST",
+            url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            data: $.param( {
                 ClassName:className,
-                TermName:subjectName
-             },
-             dataType: "json",
-             success: function(data){
-                        //console.log(data);
-                        //DisplayTrunk(data);
-                        DisplayBranch(data);
-                     },
-             error:function(XMLHttpRequest, textStatus, errorThrown){
-                    //通常情况下textStatus和errorThrown只有其中一个包含信息
-                    alert(textStatus);
-                    }
+                TermName:subjectName,
+                HasFragment:false
+            }),
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+            // type: "GET",
+            // url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            // data: {
+            //     ClassName:className,
+            //     TermName:subjectName
+            // },
+            // dataType: "json",
+            
+            success: function(data){
+                //console.log(data);
+                //DisplayTrunk(data);
+                DisplayBranch(data);
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                //通常情况下textStatus和errorThrown只有其中一个包含信息
+                alert(textStatus);
+            }
         });
  
     }
@@ -386,7 +391,6 @@ app.controller('myCon',function($scope,$http){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });
@@ -401,7 +405,6 @@ app.controller('myCon',function($scope,$http){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });
@@ -416,7 +419,6 @@ app.controller('myCon',function($scope,$http){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
-            $scope.getTerm();
         }, function errorCallback(response){
 
         });

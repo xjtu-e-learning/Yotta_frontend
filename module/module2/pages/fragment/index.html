@@ -6,6 +6,10 @@
   <title>New Yotta</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../../../login/';
+  </script>
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -33,7 +37,7 @@
     }
     [ng-drop]{
         background: rgba(255,255,255, 0.5);
-        width: 90%;
+        width: 100%;
         height: 85%;
         display: block;
         margin:20px auto;
@@ -127,6 +131,13 @@
             <i class="fa fa-object-ungroup"></i> <span>认知关系数据</span>
           </a>
         </li>
+
+        <li>
+          <a href="../statistics/index.html">
+            <i class="fa fa-object-ungroup"></i> <span>数据统计</span>
+          </a>
+        </li>
+
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -164,7 +175,7 @@
                 <ul class="" style="background-color: ">
                   <li class=" list-group-item" ng-repeat="x in classInfo " style="margin-left: -10%;background-color: ">
                     <div class=" list-group-item" style="background-color:#4682B4;">
-                     <a id={{x.TermName}}_choose ng-click="gettopicfragment(x.ClassName,x.TermName);showFacetTreeWithLeaves(x.ClassName,x.TermName);" style="color:white;cursor:pointer">{{x.TermName}}</a>
+                     <a id={{x.TermName}}_choose ng-click="gettopicfragment(x.ClassName,x.TermName);" style="color:white;cursor:pointer">{{x.TermName}}</a>
                      <a id={{x.TermName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.Facet1.length==0"></a>
                    </div>
                    <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.Facet1">
@@ -248,6 +259,7 @@
                     </div>
                     <div class="box-footer">
                       <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteUnaddFragment(unaddfragment.FragmentID)"><i class="fa fa-times"></i></button>
+                      <button class="btn btn-primary" style="float: right" ng-click="modifyFragment(unaddfragment.FragmentID)">修改</button>
                     </div>
                   </div>
                 </div>
@@ -261,7 +273,7 @@
               <h3 class="box-title" id="fragmenttopic">所选主题/分面下碎片</h3>
             </div>
             <div id="fragmentInfoDiv" class="box-body" style="display: block;overflow-y: auto" >
-              <div ng-drop="true" ng-drop-success="dropFacetFragment($data,$event)">
+              <div ng-drop="true" ng-drop-success="dropFacetFragment($data,$event)" style="overflow-y: auto">
                 <div class="box box-primary" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:20%;float:left;margin:1%" >
                   <div class="box-body" style="height:150px;overflow:auto" ng-bind-html="fragment.FragmentContent">
                   </div>
@@ -305,9 +317,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1
+      <b>Version</b> 1.0.1
     </div>
-    <strong>Copyright &copy; 2016 <a href="http://labs.xjtudlc.com/labs/index.html">陕西省天地网技术重点实验室</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
     reserved.
   </footer>
 
@@ -329,33 +341,30 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/app.min.js"></script>
 
-<!-- 下面放你个人的插件 -->
-<script src="../../dist/js/shileiUtils.js"></script>
-<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
-<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-animate.js"></script>
-<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-sanitize.js"></script>
-<script src="http://cdn.bootcss.com/angular-ui-bootstrap/2.1.3/ui-bootstrap-tpls.js"></script>
-<script src="http://cdn.bootcss.com/angular-ui-bootstrap/2.1.3/ui-bootstrap.js"></script>
-
+<!-- 引入外部资源 -->
 <!--引入wangEditor.css-->
-<link rel="stylesheet" type="text/css" href="wangEditor-2.1.23/dist/css/wangEditor.min.css">
-<script type="text/javascript" src="wangEditor-2.1.23/dist/js/wangEditor.min.js"></script>
-<!-- 自己写的js -->
+<link rel="stylesheet" type="text/css" href="../../plugins/wangEditor/wangEditor.min.css">
+<script type="text/javascript" src="../../plugins/wangEditor/wangEditor.min.js"></script>
 
+<!-- <script src="../../plugins/angularjs/angular.js"></script> -->
 <script src="../../plugins/angularjs/angular.min.js"></script>
+<script src="../../plugins/angularjs/angular-animate.js"></script>
+<script src="../../plugins/angularjs/angular-sanitize.js"></script>
+<script src="../../plugins/ui-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="../../plugins/ui-bootstrap/ui-bootstrap.js"></script>
 <script src="../../plugins/jQuery/jquery.qtip.min.js"></script>
 <script src="../../plugins/jQuery/jquery-ui.js"></script>
-
 <script src="../../plugins/echartjs/echarts.js"></script>
 <script src="../../plugins/d3js/d3.min.js"></script>
 <script src="../../plugins/datguijs/dat.gui.min.js"></script>
 <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
 
-<!--add Subject facet tree .js-->
+<script src="../../plugins/angularjs/ngDraggable.js"></script>
 
+<!-- 下面放你个人的插件 -->
+<!-- 自己写的js -->
 <script src="js/fragment.js"></script>
 <script src="js/function.js"></script>
-<script src="js/ngDraggable.js"></script>
 <script src="js/tree.js"></script>
 
 

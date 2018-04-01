@@ -1,9 +1,3 @@
-function choosetype(){
-    
-        $("#fragmentModal").modal();
-        
-    
-}
 
 
 //杨宽添加，显示分面树函数

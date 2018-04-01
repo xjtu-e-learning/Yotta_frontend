@@ -18,6 +18,11 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+  <script type="text/javascript" src="../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../login/';
+  </script>
+
 <!-- <script type="text/javascript">ip = ffsfdsf；</script> -->
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,7 +40,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="" class="logo">
+    <a href="../../index.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini" style="font-size: 12px">数据管理</span>
       <!-- logo for regular state and mobile devices -->
@@ -92,6 +97,12 @@
             <i class="fa fa-object-ungroup"></i> <span>认知关系数据</span>
           </a>
         </li>
+
+        <li>
+          <a href="pages/statistics/index.html">
+            <i class="fa fa-object-ungroup"></i> <span>数据统计</span>
+          </a>
+        </li>
       </ul>
       
     </section>
@@ -102,22 +113,21 @@
   <div class="content-wrapper" ng-app="myApp"  ng-controller="menu">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        导航
+      <!-- <h1>
+        导航 -->
         <!-- <small> &nbsp; &nbsp;<span  style="font-family:  黑体">切换构建领域:</span>
               <select   class="btn btn-sm btn-primary" ng-options="x.ClassName for x in ClassList"  ng-model='NowClass' ></select>
         </small> -->
-      </h1>
-      <ol class="breadcrumb">
+      <!-- </h1> -->
+      <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 数据管理导航</a></li>
-      </ol>
+      </ol> -->
     </section>
 
    
 
     <!-- Main content -->
-
-
+    <section class="content col-xs-8" id="welcome" style="height: 600px; left: 200px; padding: 0px; position: relative; "></section>
 
     <!-- /.content -->
 
@@ -127,9 +137,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1
+      <b>Version</b> 1.0.1
     </div>
-    <strong>Copyright &copy; 2016 <a href="http://labs.xjtudlc.com/labs/index.html">陕西省天地网技术重点实验室</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
     reserved.
   </footer>
 
@@ -153,14 +163,13 @@
 
 
 <!-- 个人的插件 -->
-<script src="dist/js/shileiUtils.js"></script>
-
 <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
 <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-animate.js"></script>
 <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-sanitize.js"></script>
 
-
+<script src="plugins/echartjs/echarts.min.js"></script>
 <script src="dist/js/daohang.js"></script>
+<script src="dist/js/welcome.js"></script>
 
 
 

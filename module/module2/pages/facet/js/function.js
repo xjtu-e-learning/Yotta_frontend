@@ -36,6 +36,30 @@ function DisplayBranch(dataset){
     var seed = {x: $("#facetTreeDiv").width()*0.5, y: $("#facetTreeDiv").height()-30, name:dataset.name}; 
     var tree = buildBranch(dataset, seed, multiple);
     draw_tree(tree, seed, svg, multiple);
+    //对分面树进行缩放
+    $("div#facetTreeDiv").bind('mousewheel', function(evt) {
+        var temp = multiple;//判断是保持0.25或者1.25不变
+        if( 0.3< multiple && multiple<1){
+            multiple+=evt.originalEvent.wheelDelta/5000;
+        }else if(multiple < 0.3){
+            if(evt.originalEvent.wheelDelta>0){
+                multiple+=evt.originalEvent.wheelDelta/5000;
+            }
+        }else{
+            if(evt.originalEvent.wheelDelta<0){
+                multiple+=evt.originalEvent.wheelDelta/5000;
+            }
+        }
+        d3.selectAll("svg").remove(); //删除之前的svg
+        svg = d3.select("div#facetTreeDiv")
+                    .append("svg")
+                    .attr("width", w * multiple)
+                    .attr("height", h * multiple);
+        var seed0 = {x: $("#facetTreeDiv").width()*0.5, y: $("#facetTreeDiv").height()-30, name:dataset.name};
+        var tree0 = buildBranch(dataset, seed0, multiple);
+        draw_tree(tree0, seed0, svg, multiple);
+    }); 
+    /*****************************************************/ 
 }
 
 
@@ -169,8 +193,8 @@ function DisplayBranch(dataset){
 
 function drag(ev){
     ev.dataTransfer.setData("facet",ev.target.id);
-    console.log(ev);
-    console.log(ev.target.id);
+    // console.log(ev);
+    // console.log(ev.target.id);
 }
 
 function allowDrop(ev)
@@ -182,11 +206,11 @@ function dropFacet1(ev,id){
     ev.preventDefault();
     var facet=ev.dataTransfer.getData("facet");
     var FacetName=facet.split("_")[0];
-    console.log(FacetName);
+    // console.log(FacetName);
     var array=id.split("_");
     var TermName=array[0];
-    console.log(nowOperateClass);
-    console.log(TermName);
+    // console.log(nowOperateClass);
+    // console.log(TermName);
     $.ajax({
              type: "GET",
              url: ip+"/FacetAPI/createFacet1",

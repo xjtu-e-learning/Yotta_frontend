@@ -4,7 +4,7 @@ $(document).ready(function(){
  var header=$(".content-header").offset().top+$(".content-header").height()
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
- console.log(zidingyi_height);
+ // console.log(zidingyi_height);
  $("#topicClassDiv").css("height",zidingyi_height*0.85+"px");
  $("#topicAddDiv").css("height",zidingyi_height*0.15+"px");
  $("#topicInfoDiv").css("height",zidingyi_height*0.64+"px");
@@ -96,7 +96,7 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/DomainTopicAPI/createTopic",
-            params:{ClassName:nowOperateSubject,TopicName:$("input[name='TopicName']").val()}
+            params:{ClassName:nowOperateSubject,TopicName:$("input[name='TopicName']").val().replace(/\s/g, "")}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.chooseSubject(nowOperateSubject);
@@ -151,7 +151,7 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/DomainTopicAPI/updateTermName",
-            params:{ClassName:nowOperateSubject,TermName:nowOperateTopic,NewTermName:$("input[name='NewTopicName']").val()}
+            params:{ClassName:nowOperateSubject,TermName:nowOperateTopic,NewTermName:$("input[name='NewTopicName']").val().replace(/\s/g, "")}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.chooseSubject(nowOperateSubject);

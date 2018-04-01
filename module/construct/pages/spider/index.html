@@ -17,7 +17,6 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
-<!-- <script type="text/javascript">ip = ffsfdsf；</script> -->
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -111,7 +110,7 @@
     <section class="content-header">
       <h1>
         碎片化知识采集
-        <small> 当前领域：{{ NowClass }}
+        <small> 当前学科：<a ng-bind="NowSubject"></a>，课程：<a ng-bind="NowClass"></a>
         </small>
       </h1>
       <ol class="breadcrumb">
@@ -122,147 +121,171 @@
 
     <!-- Main content -->
     <section class="content">
-      <div id="guide" class="row mokuai" style="margin-left: 1%;">
-                      <button class="btn btn-primary" style="margin-right:5%" data-toggle="modal" data-target="#myModal1">选择主题
-                  </button>
-                  <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                      &times;
-                                  </button>
-                                  <h4 class="modal-title" id="myModalLabel1">
-                                      选项
-                                  </h4>
-                              </div>
-                              <div id="topic0" class="modal-body" style="overflow-y:auto">
-                                  <form action="">
-                                  <span   ng-repeat="top in tops">
-                                          <input type="checkbox" name="subject" value={{top.TermName}}>
-                                          {{top.TermName}}<br>
-                                  </span>
-                                  </form>
-                              </div>
-                              <div class="modal-footer">
-                              <button type="button" class="btn btn-primary" onclick="select_all()" style="float:left">
-                                      全选
-                                  </button>
-                                  <button type="button" class="btn btn-primary" onclick="clear_all()" style="float:left">
-                                      清除全选
-                                  </button>
-                                  <button id="get" type="button" class="btn btn-primary" ng-click="getinfo()" data-dismiss="modal">
-                                      确定
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <label class="btn label-primary" for="topsel" style="cursor: default">选择数据源:</label>
-                  <select id="topsel" style="margin-right: 5%;height:120%">
-                      <option value="百度百科">百度百科</option>
-                      <option value="维基百科" selected>维基百科</option>
-                  </select>
-                  <label class="btn label-primary" for="numsel"  style="cursor: default">每页显示数量:</label>
-                  <select id="numsel" style="margin-right:5%;height:120%">
-                      <option value="10" selected>10</option>
-                      <option value="15">15</option>
-                      <option value="30">30</option>
-                      <option value="60">60</option>
-                  </select>
-                  <button id="yes" class="btn btn-primary" onclick="showDivNum()">确定</button>
+      <div class="row">
+        <div id="guide" class="row mokuai" style="margin-left: 1%;">
+            <button class="btn btn-primary" style="margin-right:5%" data-toggle="modal" data-target="#myModal1">
+              选择主题
+            </button>
+            <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel1">
+                                选择数据源和主题：
+                                <select class="btn btn-sm btn-primary" id="topsel" ng-model="source" ng-options="source.sourceName for source in sources">
+                                    <option value="">-- 请选择数据源 --</option>
+                                </select>
+                            </h4>
+                        </div>
+                        <div id="topic0" class="modal-body" style="overflow-y:auto">
+                            <form action="">
+                            <span ng-repeat="top in tops">
+                              <label  style="font-size: 1.2em">
+                                <input type="checkbox" name="subject" value={{top.TermName}} > {{top.TermName}}
+                              </label>
+                              <br>
+                            </span>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="select_all()" style="float:left">
+                                全选
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="clear_all()" style="float:left">
+                                清除全选
+                            </button>
+                            <button id="get" type="button" class="btn btn-primary" ng-click="getinfo(source.sourceName)" data-dismiss="modal">
+                                确定
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label  for="numsel"  style="cursor: default">每页显示数量:</label>
+            <select class="btn label-primary"id="numsel" style="margin-right:5%;">
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="60">60</option>
+            </select>
+            <button id="yes" class="btn btn-primary" onclick="showDivNum()">确定</button>
+        </div>
       </div>
-      <!-- <hr style="border:none;border-top:1px solid #428bca;margin-bottom:1%;width:100%;margin-left: 2px" /> -->
-          <div  class="row" style="margin-top:2%">
-              
-              <div id="state" class="box box-primary"  style="margin-left: 2%;width:97%">
 
-                  <div class="box-heading">
-                  <div style="display: inline-block;margin-left: 1%">
-                      <i class="glyphicon glyphicon-align-left" style=""></i>
-                      <h3 style="margin-top: 1%;display: inline-block">碎片爬取状态</h3>
-                  </div>
+      <div class="row" style="margin-top: 20px;">
+          <!-- 碎片爬取结果统计图 -->
+          <div class="col-xs-8">
+            <div id="state" class="box box-primary">
+              <div class="box-header with-border">
+                <i class="glyphicon glyphicon-align-left" style=""></i>
+                <h3 class="box-title">碎片爬取状态</h3>
               </div>
-              <div class="box-body" style="margin-left:1%;height:426px">
-                  <div id="pic0" style="width: 97%;height:100%"></div>
-                  </div>
+              <div class="box-body">
+                <div id="pic0" style="height: 500px; padding: 0px; position: relative;"></div>
               </div>
-
-              <!--div id="tongji" class="col-md-4 mokuai" style="height:100%">
-              <div class="box box-primary">
-                  <div class="row mokuai" style="margin-left:5px;height:50px">
-                  <i class="glyphicon glyphicon-align-left"></i>
-                      <h3 style="margin-top: 10px;display: inline-block">数据统计展示</h3>
-                  </div>
-                  <div class="row mokuai" style="margin-left:5px;height:213px">
-                      <h4><p  style="display:inline-block" id="sourcefrom">某数据源</p>部分主题</h4>
-                      <div id="pic1" style="width: 100%;height:160px;left:10px;"></div>
-                  </div>
-                  <div class="row mokuai" style="margin-left:5px;height:213px">
-                      <h4>所有数据统计结果</h4>
-                      <div id="pic2" style="width: 100%;height:160px;left:10px"></div>
-                  </div>
-                  </div>
-              </div-->
-          </div>
-          <div  class="row">
-              
-              <div id="fragData" class="box box-primary" style="margin-left: 2%;width:97%;overflow-y:auto">
-              <div class="box-heading">
-                  <div style="display: inline-block;margin-left: 1%">
-                      <i class="glyphicon glyphicon-list-alt" style=""></i>
-                      <h3 style="margin-top: 1%;display: inline-block;">碎片</h3>
-                      <p style="display: inline-block;">已选主题下共<span id="fragmentNum">n</span>个碎片</p>
-                  </div>
-              </div>
-              <div class="box-body" style="">
-                  <div class="box box-primary fragment" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:15%;float:left;margin:1%" >
-                    <div class="box-body" style="height:200px;overflow-y: hidden" ng-bind-html="fragment.fragmentContent">
-                    </div>
-                    <div class="box-footer">
-                      <button type="button" class="btn btn-primary" style="float:left" ng-click="getFragmentDetail(fragment)">
-                        详情
-                      </button>
-                    </div>
-                  </div>
-                  </div>
-              </div>
-          </div>
-
-          <div class="modal fade" id="fragmentModel" tabindex="-1" role="dialog" aria-labelledby="fragmentModelLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                      &times;
-                                  </button>
-                                  <h4 class="modal-title" id="fragmentModalLabel">
-                                      碎片内容
-                                  </h4>
-                              </div>
-                              <div class="modal-body" style="">
-                                  <div id="fragmentModelContent">
-                                  </div>
-                              </div>
-                              <div class="modal-footer">
-                              
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-
-
-          <div class="row">
-          <div  style="margin-left: 30%">
-            <button class="btn btn-default" onclick="pre()">上一页</button>
-            <span>当前为第<span id="nowpage">1</span>页</span>
-            <button class="btn btn-default" onclick="nex()">下一页</button>
-            <input id="gopage" type="number" style="width:60px ">
-            <button class="btn btn-default" onclick="go()">Go</button>
-            <span>共<span id="page">1</span>页</span>
             </div>
           </div>
 
+          <!-- 词云图 -->
+          <!-- <div class="col-xs-4">
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                <i class="glyphicon glyphicon-cloud" style=""></i>
+                <h3 class="box-title">关键词</h3>
+                <button type="button" class="btn btn-primary btn-sm pull-right" ng-bind="wordCloudInfo"></button>
+              </div>
+              <div class="box-body">
+                <div id="cloudPic" style="height: 235px; padding: 0px; position: relative;"></div>
+                <hr>
+                <div id="fragmentPic" style="height: 235px; padding: 0px; position: relative;"></div>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- 关键词的词云图和碎片数据源分布 -->
+          <div class="col-xs-4">
+            <div class="nav-tabs-custom">
+              <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                  <a href="#cloudPic" data-toggle="tab">关键词</a>
+                </li>
+                <li class="">
+                  <a href="#fragmentPic" data-toggle="tab">碎片数据源分布</a>
+                </li>
+              </ul>
+              <div id="myTabContent" class="tab-content">
+                <!-- 词云图 -->
+                <div class="tab-pane fade in active" id="cloudPic" style="height: 497px; padding: 0px; position: relative;"></div>
+                <!-- 饼状图 -->
+                <div class="tab-pane fade" id="fragmentPic" style="height: 497px; padding: 0px; position: relative;"></div>
+              </div>
+
+            </div>
+          </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-primary" style="">
+            <div class="box-header with-border">
+              <i class="glyphicon glyphicon-list-alt" style=""></i>
+              <h3 class="box-title">碎片</h3>&nbsp; &nbsp;&nbsp; &nbsp;
+              <p style="display: inline-block;">已选主题含碎片：<a id="fragmentNum">n</a>个。</p>
+              <p style="display: inline-block;">碎片源为：<span id="fragmentSource">中文维基、知乎、百度知道、csdn、人工、Quora、Stackoverflow、Yahoo、Twitter</span></p>&nbsp; &nbsp;
+              <button type="button" class="btn btn-primary btn-sm pull-right" ng-bind="wordCloudInfo"></button>
+            </div>
+            <div id="fragData" class="box-body" style="overflow-y:auto">
+              <div class="box box-primary fragment" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:15%;float:left;margin:1%" >
+                <div class="box-body" style="height:200px;overflow-y: hidden" ng-bind-html="fragment.fragmentContent">
+                </div>
+                <div class="box-footer">
+                  <button type="button" class="btn btn-primary" style="float:left" ng-click="getFragmentDetail(fragment)">
+                    详情
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="fragmentModel" tabindex="-1" role="dialog" aria-labelledby="fragmentModelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="fragmentModalLabel">
+                    碎片内容
+                </h4>
+            </div>
+            <div class="modal-body" style="">
+                <div id="fragmentModelContent">
+                </div>
+            </div>
+            <div class="modal-footer">
+            
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div style="margin-left: 30%">
+          <button class="btn btn-default" onclick="pre()">上一页</button>
+          <span>当前为第<span id="nowpage">1</span>页</span>
+          <button class="btn btn-default" onclick="nex()">下一页</button>
+          <input id="gopage" type="number" style="width:60px ">
+          <button class="btn btn-default" onclick="go()">Go</button>
+          <span>共<span id="page">1</span>页</span>
+        </div>
+      </div>
 
     </section>
     <!-- /.content -->
@@ -270,9 +293,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1
+      <b>Version</b> 1.0.1
     </div>
-<strong>Copyright &copy; 2017 大数据算法与分析技术国家工程实验室.</strong> All rights
+<strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
     reserved.
   </footer>
 
@@ -286,28 +309,23 @@
 
 <!-- jQuery 2.2.3 -->
 <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
-
 <!-- Bootstrap 3.3.6 -->
 <script src="../../bootstrap/js/bootstrap.min.js"></script>
-
 <!-- AdminLTE App -->
 <script src="../../dist/js/app.min.js"></script>
+<script src="../../plugins/angularjs/angular.min.js"></script>
+<script src="../../plugins/echartjs/echarts.min.js"></script>
+<script type="text/javascript" src="../../plugins/jQuery/jquery.slimscroll.min.js"></script>
 
+<script src='../../plugins/echartjs/echarts-wordcloud.js'></script>
 
 <!-- 个人的插件 -->
+<script type="text/javascript" src="../../../../config/ipconfig.js"></script>
 <!-- 自己写的js -->
-<script src="../../dist/js/shileiUtils.js"></script>
-  <link rel="stylesheet" href="js/meihua.css" type="text/css">
-  <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
-  <script type="text/javascript" src="js/echarts.js"></script>
-  
-  <!-- <script type="text/javascript" src="js/pic2.js"></script> -->
-  <script type="text/javascript" src="js/pic0.js"></script>
-  <script type="text/javascript" src="js/controller.js"></script>
-  <!-- <script type="text/javascript" src="js/pic1.js"></script> --><!-- 
-  <script type="text/javascript" src="js/jquery.slimscroll.min.js"></script> -->
-  <script type="text/javascript" src="js/fenye.js"></script>
-  <!--script type="text/javascript" src="js/function.js"></script-->
+<link rel="stylesheet" href="css/meihua.css" type="text/css">
+<script type="text/javascript" src="js/spiderStatus.js"></script>
+<script type="text/javascript" src="js/controller.js"></script>
+<script type="text/javascript" src="js/fenye.js"></script>
 
 
 
