@@ -21,6 +21,13 @@ var nowOperateTopic;
 var nowOperateFacet1;
 var nowOperateFacet2;
 
+var modify_add_flag;
+var now_modify_id;
+
+function choosetype(){
+    $("#fragmentModal").modal();
+    modify_add_flag=0;
+}
 
 var app=angular.module('myApp',[
     'ui.bootstrap','ngDraggable'
@@ -127,21 +134,43 @@ app.controller('myCon',function($scope,$http,$sce){
 
 
     $scope.addFrag=function(){
-        // console.log("success");
+        
+        
         var html = editor.$txt.html() + "";
-
-        $http({
-            method:'POST',
-            url:ip+"/SpiderAPI/createFragment",
-            data : $.param( {FragmentContent : html}),
-            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-        }).then(function successCallback(response){
-            alert("添加碎片成功");
-            $scope.getUnaddFragment();
-        }, function errorCallback(response){
+        if(modify_add_flag==0){
+            console.log("addFragment");
+            $http({
+                method:'POST',
+                url:ip+"/SpiderAPI/createFragment",
+                data : $.param( {FragmentContent : html}),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            }).then(function successCallback(response){
+                alert("添加碎片成功");
+                $scope.getUnaddFragment();
+            }, function errorCallback(response){
             // console.log(html);
             alert("添加碎片失败");
         });
+        }
+        else if(modify_add_flag==1){
+            console.log("modifyFragment_"+now_modify_id);
+            $http({
+                method:'POST',
+                url:ip+"/SpiderAPI/updateFragment",
+                data : $.param({FragmentID:now_modify_id,
+                                 FragmentContent : html
+                             }),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            }).then(function successCallback(response){
+                alert("更新碎片成功");
+                $scope.getUnaddFragment();
+            }, function errorCallback(response){
+            console.log(response);
+            alert("更新碎片失败");
+        });
+        }
+
+        
     }
 
     
@@ -384,6 +413,23 @@ app.controller('myCon',function($scope,$http,$sce){
            }
            $("#fragmenttopic").text("三级分面 "+c+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
+        }, function errorCallback(response){
+
+        });
+    }
+
+    $scope.modifyFragment=function(a){
+        modify_add_flag=1;
+        now_modify_id=a;
+        $("#fragmentModal").modal();
+
+        $http({
+            method:'GET',
+            url:ip+"/SpiderAPI/getFragmentByID",
+            params:{FragmentID:a}
+        }).then(function successCallback(response){
+            // console.log(response.data[0].FragmentContent);
+            $("#wang").html(response.data[0].FragmentContent);
         }, function errorCallback(response){
 
         });
