@@ -149,7 +149,7 @@
                 <table border="1" width="95%" style="margin-left: 10px;margin-top: 5px">
                   <tr>
                     <th style="width:15%;text-align: center">ClassName</th>
-                    <th style="width:15%;text-align: center;color:#3c8dbc;cursor:pointer" ng-click="openModal(kecheng.ClassName)" data-toggle="modal" data-target="#nameModal">{{kecheng.ClassName}}</th>
+                    <th style="width:15%;text-align: center;color:#3c8dbc;cursor:pointer" ng-click="openModal(kecheng.domainName)" data-toggle="modal" data-target="#nameModal">{{kecheng.domainName}}</th>
 
                     <div class="modal fade" id="nameModal" tabindex="-1" role="dialog" aria-labelledby="nameModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -181,56 +181,56 @@
  -->           
                       <div class="progress-group" style="width: 95%;">
                         <span class="progress-text">现有主题数</span>
-                         <span class="progress-number"><b>{{kecheng.TopicNum}}</b></span>
+                         <span class="progress-number"><b>{{kecheng.topicNumber}}</b></span>
                          <div class="progress sm">
-                            <div class="progress-bar progress-bar-aqua" ng-style="styleFuc(kecheng.TopicNum)"></div>
+                            <div class="progress-bar progress-bar-aqua" ng-style="styleFuc(kecheng.topicNumber)"></div>
                          </div>
                          </div>
                       </div>
                       <div class="row" style="margin-bottom: -10px">
                         <div class="progress-group" style="width: 95%;">
                          <span class="progress-text">现有分面数</span>
-                         <span class="progress-number"><b>{{kecheng.FacetNum}}</b></span>
+                         <span class="progress-number"><b>{{kecheng.facetNumber}}</b></span>
                          <div class="progress sm">
-                            <div class="progress-bar progress-bar-red" ng-style="styleFuc(kecheng.FacetNum)"></div>
+                            <div class="progress-bar progress-bar-red" ng-style="styleFuc(kecheng.facetNumber)"></div>
                          </div>
                          </div>
                       </div>
                       <div class="row" style="margin-bottom: -10px">
                         <div class="progress-group" style="width: 95%">
                          <span class="progress-text">现有碎片数</span>
-                         <span class="progress-number"><b>{{kecheng.FragmentNum}}</b></span>
+                         <span class="progress-number"><b>{{kecheng.assembleNumber}}</b></span>
                          <div class="progress sm">
-                            <div class="progress-bar progress-bar-green" ng-style="styleFuc(kecheng.FragmentNum)"></div>
+                            <div class="progress-bar progress-bar-green" ng-style="styleFuc(kecheng.assembleNumber)"></div>
                          </div>
                          </div>
                       </div>
                       <div class="row" style="margin-bottom: -10px">
                         <div class="progress-group" style="width: 95%">
                          <span class="progress-text">现有认知关系数</span>
-                         <span class="progress-number"><b>{{kecheng.DependenceNum}}</b></span>
+                         <span class="progress-number"><b>{{kecheng.dependencyNumber}}</b></span>
                          <div class="progress sm">
-                            <div class="progress-bar progress-bar-yellow" ng-style="styleFuc(kecheng.DependenceNum)"></div>
+                            <div class="progress-bar progress-bar-yellow" ng-style="styleFuc(kecheng.dependencyNumber)"></div>
                          </div>
                          </div>
                       </div>
                     </th>
                     <th style="width:30%;text-align: center">
-                      <button style="width:90%;" data-toggle="modal" ng-click="getDetailInfo(kecheng.ClassName)" id={{kecheng.ClassName}}count>详细统计信息</button>
+                      <button style="width:90%;" data-toggle="modal" ng-click="getDetailInfo(kecheng.domainName)" id={{kecheng.domainName}}count>详细统计信息</button>
 
-                      <div class="modal fade" id={{kecheng.ClassName}}modal tabindex="-1" role="dialog" aria-labelledby={{kecheng.ClassName}}modalTitle aria-hidden="true">
+                      <div class="modal fade" id={{kecheng.domainName}}modal tabindex="-1" role="dialog" aria-labelledby={{kecheng.domainName}}modalTitle aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                                 &times;
                               </button>
-                              <h4 class="modal-title" id={{kecheng.ClassName}}modalTitle>
-                               {{kecheng.ClassName}}课程信息统计结果
+                              <h4 class="modal-title" id={{kecheng.domainName}}modalTitle>
+                               {{kecheng.domainName}}课程信息统计结果
                               </h4>
                             </div>
                             <div class="modal-body">
-                              <div id={{kecheng.ClassName}}FacetInfo style="height:300px;width:300px"></div>
+                              <div id={{kecheng.domainName}}FacetInfo style="height:300px;width:300px"></div>
                               <!--div id={{kecheng.ClassName}}FragmentInfo style="height:300px;width:300px"></div-->
                             </div>
                             <div class="modal-footer">

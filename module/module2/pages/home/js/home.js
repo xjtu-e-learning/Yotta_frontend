@@ -22,11 +22,11 @@ $(document).ready(function(){
 
 var app=angular.module('myApp',[]);
 app.controller('myCon',function($scope,$http){
-    $http.get(ip+'/DomainAPI/getDomainManage').success(function(response){
-        $scope.kechengs=response;
+    $http.post(ip+'/statistics/getDomainDistribution').success(function(response){
+        data = response["data"];
+        $scope.kechengs=data;
     });
     $http.get(ip+'/domain/countDomains').success(function(response){
-        console.log(response);
         $('#ClassNum').text("系统中目前共有"+response.data.domainNumber+"门课程");
     });
 
@@ -45,10 +45,10 @@ app.controller('myCon',function($scope,$http){
 
     $scope.showClass=function(){
         $http({
-            method:'GET',
-            url:ip+"/DomainAPI/getDomainManage"
+            method:'POST',
+            url:ip+"/statistics/getDomainDistribution"
         }).then(function successCallback(response){
-            console.log(response);
+            data = response["data"];
             $scope.kechengs=response.data;
         }, function errorCallback(response){
 
@@ -59,7 +59,6 @@ app.controller('myCon',function($scope,$http){
     $scope.showNum=function(){
 
         $http.get(ip+'/domain/countDomains').success(function(response){
-            console.log(response);
             $('#ClassNum').text("系统中目前共有"+response.data.domainNumber+"门课程");
         });
 
@@ -130,11 +129,12 @@ app.controller('myCon',function($scope,$http){
        // console.log(a);
         var res=[];
         $http({
-            method:'GET',
-            url:ip+"/DomainAPI/getDomainManage"
+            method:'POST',
+            url:ip+"/statistics/getDomainDistribution"
         }).then(function successCallback(response){
+            response = response["data"];
             for(var i=0;i<response.data.length;i++){
-                if(response.data[i].ClassName==a){
+                if(response.data[i].domainName==a){
                     res.push(response.data[i]);
                 }
             }
@@ -170,16 +170,16 @@ $scope.jumpFacet=function(a,b,c,d){
         var nowThirdFacetNum;
         // console.log(a);
         $http({
-            method:'GET',
-            url:ip+"/DomainAPI/getDomainManage"
+            method:'POST',
+            url:ip+"/statistics/getDomainDistribution"
         }).then(function successCallback(response){
-           //console.log(response.data.length);
+            response = response["data"];
             for(var i=0;i<response.data.length;i++){
-                if(response.data[i].ClassName==a){
+                if(response.data[i].domainName==a){
                     nowOperateClass=a;
-                    nowFirstFacetNum=response.data[i].FirstFacetNum;
-                    nowSecondFacetNum=response.data[i].SecondFacetNum;
-                    nowThirdFacetNum=response.data[i].ThirdFacetNum;
+                    nowFirstFacetNum=response.data[i].firstLayerFacetNumber;
+                    nowSecondFacetNum=response.data[i].secondLayerFacetNumber;
+                    nowThirdFacetNum=response.data[i].thirdLayerFacetNumber;
                     
                     $("#"+a+"modal").modal();
 
