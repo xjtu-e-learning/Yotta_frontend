@@ -1,6 +1,9 @@
 // 自适应程序
 var zidingyi_height;
 $(document).ready(function(){
+    var userinfo=getCookie('userinfo');
+    username=userinfo.slice(userinfo.indexOf(':')+2,userinfo.indexOf(',')-1);
+    console.log(username);
  var header=$(".content-header").offset().top+$(".content-header").height()
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
