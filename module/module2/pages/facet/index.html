@@ -264,7 +264,7 @@
                                   <span id="nowtype"></span><span id="getfacet">已选课程主题/分面下分面</span></h3>
                               </div>
                               <div id="facetFacetDiv" class="box-body" style="display: block;overflow-y: auto">
-                                <div ng-repeat="facet in facets" id={{facet.FacetName}}_add class="btn btn-primary" style="width:40%;margin:5px;overflow: hide;" draggable="true" ng-mouseover="getfacetinfo(facet.FacetName,facet.FacetLayer)" ng-click="jumpFragment(facet.FacetName,facet.FacetLayer)" ondragstart="drag(event)">{{facet.FacetName}}</div>
+                                <div ng-repeat="facet in facets" id={{facet.FacetName}}_add class="btn btn-primary" style="width:40%;margin:5px;overflow: hide;" draggable="true" ng-click="getfacetinfo(facet.FacetName,facet.FacetLayer)" ng-dblclick="jumpFragment(facet.FacetName,facet.FacetLayer)" ondragstart="drag(event)">{{facet.FacetName}}</div>
                               </div>
                           </div>
                         
