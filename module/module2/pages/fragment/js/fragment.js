@@ -1,9 +1,6 @@
 // 自适应程序
 var zidingyi_height;
 $(document).ready(function(){
-    var userinfo=getCookie('userinfo');
-    username=userinfo.slice(userinfo.indexOf(':')+2,userinfo.indexOf(',')-1);
-    console.log(username);
  var header=$(".content-header").offset().top+$(".content-header").height()
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
@@ -26,6 +23,8 @@ var nowOperateFacet2;
 
 var modify_add_flag;
 var now_modify_id;
+// var userinfo=getCookie('userinfo');
+var username=getCookie('userinfo').slice(getCookie('userinfo').indexOf(':')+2,getCookie('userinfo').indexOf(',')-1);
 
 function choosetype(){
     $("#fragmentModal").modal();
@@ -44,7 +43,8 @@ app.controller('myCon',function($scope,$http,$sce){
             $scope.getfacet1fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
 
         }else if(getCookie("NowFacetLayer")==2){
-            $scope.getfacet2fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet1"),getCookie("NowFacet"));
+            console.log(getCookie("NowFacet"));
+            $scope.getfacet2fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
 
         }else{
             $scope.getfacet3(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
@@ -52,7 +52,7 @@ app.controller('myCon',function($scope,$http,$sce){
         }
     });
 
-    $http.get(ip+'/SpiderAPI/getFragment').success(function(response){
+    $http.get(ip+'/SpiderAPI/getFragment',{params:{"UserName":username}}).success(function(response){
         $scope.unaddfragments=response;
         $scope.getTopic(getCookie("NowClass"));
         for(var i=0;i<$scope.unaddfragments.length;i++){
@@ -65,7 +65,7 @@ app.controller('myCon',function($scope,$http,$sce){
     $scope.isCollapsedchildren2=true;
 
     $scope.getUnaddFragment=function(){
-      $http.get(ip+'/SpiderAPI/getFragment').success(function(response){
+      $http.get(ip+'/SpiderAPI/getFragment',{params:{"UserName":username}}).success(function(response){
         $scope.unaddfragments=response;
         for(var i=0;i<$scope.unaddfragments.length;i++){
             $scope.unaddfragments[i].FragmentContent=$sce.trustAsHtml($scope.unaddfragments[i].FragmentContent);
@@ -145,7 +145,7 @@ app.controller('myCon',function($scope,$http,$sce){
             $http({
                 method:'POST',
                 url:ip+"/SpiderAPI/createFragment",
-                data : $.param( {FragmentContent : html}),
+                data : $.param( {FragmentContent : html, UserName:username}),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             }).then(function successCallback(response){
                 alert("添加碎片成功");
@@ -386,6 +386,7 @@ app.controller('myCon',function($scope,$http,$sce){
         nowOperateClass=a;
         nowOperateTopic=b;
         nowOperateFacet2=c;
+        console.log(c);
 
         $http({
             method:'GET',
