@@ -14,12 +14,13 @@ function updateTopicName(){
 function deleteTopic(){
     $.ajax({
         type: "GET",
-        url: ip+"/DomainTopicAPI/deleteTermName",
-        data: {ClassName:nowOperateSubject,TermName:nowOperateTopic},
+        url: ip+"/topic/deleteTopicByNameAndDomainName",
+        data: {domainName:nowOperateSubject,topicName:nowOperateTopic},
         dataType: "json",
-        success: function(data){
+        success: function(response){
+            data = response["data"];
             // console.log(data);
-            alert(data.success);
+            alert(nowOperateTopic+data.data);
         }
     });
 }

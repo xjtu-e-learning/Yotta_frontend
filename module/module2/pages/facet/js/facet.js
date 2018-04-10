@@ -24,7 +24,8 @@ var app=angular.module('myApp',[
     'ui.bootstrap'
 ]);
 app.controller('myCon',function($scope,$http){
-    $http.get(ip+'/DomainAPI/getDomainManage').success(function(response){
+    $http.get(ip+'/domain/getDomains').success(function(response){
+        response = response["data"];
         $scope.subjects=response;
         // $scope.getTopic(getCookie("NowClass"));
         // $scope.gettopicfacet(getCookie("NowClass"),getCookie("NowTopic"));
@@ -142,9 +143,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/getDomainInfo",
-            params:{ClassName:nowOperateClass}
+            url:ip+"/facet/getFacetTreeByDomainName",
+            params:{domainName:nowOperateClass}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.classInfo=response.data;
         }, function errorCallback(response){
 
@@ -160,9 +162,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/getDomainInfo",
-            params:{ClassName:a}
+            url:ip+"/facet/getFacetTreeByDomainName",
+            params:{domainName:a}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.classInfo=response.data;
         }, function errorCallback(response){
 
@@ -176,23 +179,15 @@ app.controller('myCon',function($scope,$http){
         $.ajax({
 
             type: "POST",
-            url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
             data: $.param( {
-                ClassName:className,
-                TermName:subjectName,
-                HasFragment:false
+                domainName:className,
+                topicName:subjectName,
+                hasFragment:false
             }),
-            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-
-            // type: "GET",
-            // url: ip+"/AssembleAPI/getTreeByTopicForFragment",
-            // data: {
-            //     ClassName:className,
-            //     TermName:subjectName
-            // },
-            // dataType: "json",
-            
-            success: function(data){
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},            
+            success: function(response){
+                data = response["data"];
                 //console.log(data);
                 //DisplayTrunk(data);
                 DisplayBranch(data);
@@ -239,9 +234,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/getTermFacet",
-            params:{ClassName:a,TermName:b}
+            url:ip+"/facet/getFacetsByDomainNameAndTopicName",
+            params:{domainName:a,topicName:b}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.facets=response.data;
             $("#nowtype").text("主题");
             $("#getfacet").text(" "+b+" 下分面");
@@ -328,53 +324,19 @@ app.controller('myCon',function($scope,$http){
     }
 
     $scope.getfacetinfo=function(a,b){
-        if(b=="1"){
-
-            $http({
+        $http({
             method:'GET',
-            url:ip+"/FacetAPI/getTermFacet1Fragment",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:a}
+            url:ip+"/facet/getAssembleNumberInFacet",
+            params:{domainName:nowOperateClass,topicName:nowOperateTopic,facetName:a,facetLayer:b}
         }).then(function successCallback(response){
-            $("#facet_name").text(response.data.FacetName);
-            $("#facet_layer").text(response.data.FacetLayer);
-            $("#facet_fragment_num").text(response.data.FragmentNum);
+            response = response["data"];
+            $("#facet_name").text(response.data.facetName);
+            $("#facet_layer").text(response.data.facetLayer);
+            $("#facet_fragment_num").text(response.data.assembleNumber);
             $("#choseFacet").text(a+" 信息");
         }, function errorCallback(response){
 
         });
-        }
-        else if(b=="2"){
-
-            $http({
-            method:'GET',
-            url:ip+"/FacetAPI/getTermFacet2Fragment",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:a}
-        }).then(function successCallback(response){
-            $("#facet_name").text(response.data.FacetName);
-            $("#facet_layer").text(response.data.FacetLayer);
-            $("#facet_fragment_num").text(response.data.FragmentNum);
-            $("#choseFacet").text(a+" 信息");
-        }, function errorCallback(response){
-
-        });
-
-        }
-        else{
-
-            $http({
-            method:'GET',
-            url:ip+"/FacetAPI/getTermFacet3Fragment",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:a}
-        }).then(function successCallback(response){
-            $("#facet_name").text(response.data.FacetName);
-            $("#facet_layer").text(response.data.FacetLayer);
-            $("#facet_fragment_num").text(response.data.FragmentNum);
-            $("#choseFacet").text(a+" 信息");
-        }, function errorCallback(response){
-
-        });
-        }
-        
     }
 
     $scope.deleteFacet=function(){

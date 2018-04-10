@@ -280,20 +280,20 @@
               </div>
               <div class="row">
                 <div id="Select_result" style="margin-left: 10%;margin-top: 5%;border:1px solid gray;width:80%;overflow-y: auto">
-              <div ng-repeat="querysubject in querysubjects" class="queryResult" ng-click="jumpClass(querysubject.Name)"><span>></span>{{querysubject.Name}}</div>
-              <div ng-repeat="querytopic in querytopics" class="queryResult" ng-click="jumpTopic(querytopic.Class,querytopic.Name)">
+              <div ng-repeat="querysubject in querysubjects" class="queryResult" ng-click="jumpClass(querysubject.name)"><span>></span>{{querysubject.name}}</div>
+              <div ng-repeat="querytopic in querytopics" class="queryResult" ng-click="jumpTopic(querytopic.domainName,querytopic.name)">
                 <span>></span>
-                <span>{{querytopic.Class}}</span>
+                <span>{{querytopic.domainName}}</span>
                 <span>></span>
-                {{querytopic.Name}}
+                {{querytopic.name}}
               </div>
-              <div ng-repeat="queryfacet in queryfacets" class="queryResult" ng-click="jumpFacet(queryfacet.Class,queryfacet.Term,queryfacet.Name,queryfacet.Layer)">
+              <div ng-repeat="queryfacet in queryfacets" class="queryResult" ng-click="jumpFacet(queryfacet.domainName,queryfacet.topicName,queryfacet.name,queryfacet.layer)">
                 <span>></span>
-                <span>{{queryfacet.Class}}</span>
+                <span>{{queryfacet.domainName}}</span>
                 <span>></span>
-                <span>{{queryfacet.Term}}</span>
+                <span>{{queryfacet.topicName}}</span>
                 <span>></span>
-                {{queryfacet.Name}}
+                {{queryfacet.name}}
               </div>
                 </div>
                 

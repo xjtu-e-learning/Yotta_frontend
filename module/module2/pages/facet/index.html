@@ -124,7 +124,7 @@
       <div ng-app="myApp" ng-controller="myCon">
             <div class="row" style="margin-top: 30px">
 
-                  <div class="col-md-4"  style="margin-left: 10px">
+          <div class="col-md-4"  style="margin-left: 10px">
             <div class="box box-primary box-solid" style="width:95%">
               <div class="box-header with-border">
                 <h3 class="box-title" id="class_name"></h3>
@@ -142,38 +142,29 @@
                 <ul class="" style="background-color: ">
                   <li class=" list-group-item" ng-repeat="x in classInfo " style="margin-left: -10%;background-color: ">
                     <div class=" list-group-item" style="background-color:#4682B4;">
-                     <a id={{x.TermName}}_choose ng-click="gettopicfacet(x.ClassName,x.TermName);showFacetTreeWithoutLeaves(x.ClassName,x.TermName);" ondrop="dropFacet1(event,this.id)" ondragover="allowDrop(event)" style="color:white;cursor:pointer">{{x.TermName}}</a>
-                     <a id={{x.TermName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.Facet1.length==0"></a>
+                     <a id={{x.topicName}}_choose ng-click="gettopicfacet(x.domainName,x.topicName);showFacetTreeWithoutLeaves(x.domainName,x.topicName);" ondrop="dropFacet1(event,this.id)" ondragover="allowDrop(event)" style="color:white;cursor:pointer">{{x.topicName}}</a>
+                     <a id={{x.topicName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.firstLayerFacets.length==0"></a>
                    </div>
-                   <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.Facet1">
+                   <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.firstLayerFacets">
                     <div class="list-group-item " style="background-color: #3c8dbc;margin:2px 0;">
-                     <a id={{x.TermName}}_{{y.Facet1Name}}_choose style="color:white;cursor:pointer"
-                     ng-click="getfacet1facet(x.ClassName,x.TermName,y.Facet1Name);showFacetTreeWithoutLeaves(x.ClassName,x.TermName);"  ondrop="dropFacet2(event,this.id)" ondragover="allowDrop(event)">{{y.Facet1Name}}</a>
-                     <a id={{x.TermName}}_{{y.Facet1Name}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;" ng-hide="y.Facet2.length==0"></a>
+                     <a id={{x.topicName}}_{{y.firstLayerFacetName}}_choose style="color:white;cursor:pointer"
+                     ng-click="getfacet1facet(x.domainName,x.topicName,y.firstLayerFacetName);showFacetTreeWithoutLeaves(x.domainName,x.topicName);"  ondrop="dropFacet2(event,this.id)" ondragover="allowDrop(event)">{{y.firstLayerFacetName}}</a>
+                     <a id={{x.topicName}}_{{y.firstLayerFacetName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;" ng-hide="y.secondLayerFacets.length==0"></a>
                    </div>
 
                    <ul uib-collapse="isCollapsedchildren" class="level3"
-                   ng-repeat="z in y.Facet2">
-                   <div class="list-group-item " style="background-color: #6495ED;margin:2px 0;">
-                     <a id={{x.TermName}}_{{y.Facet1Name}}_{{z.Facet2Name}}_choose style="color:white;cursor:pointer" ng-click="getfacet2facet(x.ClassName,x.TermName,y.Facet1Name,z.Facet2Name);showFacetTreeWithoutLeaves(x.ClassName,x.TermName);" ondrop="dropFacet3(event,this.id)" ondragover="allowDrop(event)">{{z.Facet2Name}}</a>
-                     <i class="fa fa-fw fa-chevron-left" style="float:right;color:white" id={{x.TermName}}_{{y.Facet1Name}}_{{z.Facet2Name}}_a ng-hide="z.Facet3.length==0"></i>
-                   </div>
-                 </ul>
-               </ul>
-             </li>
-           </ul>
-
-
-
-
-
-
+                   ng-repeat="z in y.secondLayerFacets">
+                     <div class="list-group-item " style="background-color: #6495ED;margin:2px 0;">
+                       <a id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_choose style="color:white;cursor:pointer" ng-click="getfacet2facet(x.domainName,x.topicName,y.firstLayerFacetName,z.secondLayerFacetName);showFacetTreeWithoutLeaves(x.domainName,x.topicName);" ondrop="dropFacet3(event,this.id)" ondragover="allowDrop(event)">{{z.secondLayerFacetName}}</a>
+                       <i class="fa fa-fw fa-chevron-left" style="float:right;color:white" id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_a ng-hide="z.thirdLayerFacets.length==0"></i>
+                     </div>
+                    </ul>
+                  </ul>
+                  </li>
+              </ul>
               </div>
             </div>
           </div>
-
-
-
 
                   <div class="col-md-4" style="margin-left: -20px;">
                     <div class="row" style="">
@@ -264,7 +255,7 @@
                                   <span id="nowtype"></span><span id="getfacet">已选课程主题/分面下分面</span></h3>
                               </div>
                               <div id="facetFacetDiv" class="box-body" style="display: block;overflow-y: auto">
-                                <div ng-repeat="facet in facets" id={{facet.FacetName}}_add class="btn btn-primary" style="width:40%;margin:5px;overflow: hide;" draggable="true" ng-mouseover="getfacetinfo(facet.FacetName,facet.FacetLayer)" ng-click="jumpFragment(facet.FacetName,facet.FacetLayer)" ondragstart="drag(event)">{{facet.FacetName}}</div>
+                                <div ng-repeat="facet in facets" id={{facet.facetName}}_add class="btn btn-primary" style="width:40%;margin:5px;overflow: hide;" draggable="true" ng-mouseover="getfacetinfo(facet.facetName,facet.facetLayer)" ng-click="jumpFragment(facet.facetName,facet.facetLayer)" ondragstart="drag(event)">{{facet.facetName}}</div>
                               </div>
                           </div>
                         

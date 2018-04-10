@@ -68,11 +68,12 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/DomainTopicAPI/getDomainTermInfo",
-            params:{ClassName:nowOperateSubject,TermName:a}
+            url:ip+"/topic/getTopicInformationByDomainNameAndTopicName",
+            params:{domainName:nowOperateSubject,topicName:a}
         }).then(function successCallback(response){
-            $("#topic_name").text(response.data[0].TermName);
-            $("#topic_facet_num").text(response.data[0].FacetNum);
+            response = response["data"];
+            $("#topic_name").text(response.data.topicName);
+            $("#topic_facet_num").text(response.data.facetNumber);
         }, function errorCallback(response){
 
         });
@@ -123,10 +124,11 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/DomainTopicAPI/deleteTermName",
-            params:{ClassName:nowOperateSubject,TermName:nowOperateTopic}
+            url:ip+"/topic/deleteTopicByNameAndDomainName",
+            params:{domainName:nowOperateSubject,topicName:nowOperateTopic}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(nowOperateTopic+response.data);
             $scope.chooseSubject(nowOperateSubject);
         }, function errorCallback(response){
 
@@ -175,9 +177,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/DomainTopicAPI/getDomainTermInfo",
-            params:{ClassName:nowOperateSubject,TermName:nowOperateTopic}
+            url:ip+"/topic/getTopicInformationByDomainNameAndTopicName",
+            params:{domainName:nowOperateSubject,topicName:nowOperateTopic}
         }).then(function successCallback(response){
+            response = response["data"];
             var myChartFacet = echarts.init(document.getElementById("InfoChart"));
 
             optionFacet = {
@@ -213,7 +216,7 @@ app.controller('myCon',function($scope,$http){
                                 name:'数量',
                                 type:'bar',
                                 barWidth: '60%',
-                                data:[response.data[0].FirstLayerFacetNum, response.data[0].SecondLayerFacetNum,response.data[0].ThirdLayerFacetNum]
+                                data:[response.data.firstLayerFacetNumber, response.data.secondLayerFacetNumber,response.data.thirdLayerFacetNumber]
                             }
                             ]
                         };

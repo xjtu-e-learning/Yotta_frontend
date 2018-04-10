@@ -48,7 +48,8 @@ app.controller('myCon',function($scope,$http){
             method:'POST',
             url:ip+"/statistics/getDomainDistribution"
         }).then(function successCallback(response){
-            data = response["data"];
+            response = response["data"];
+            console.log(response);
             $scope.kechengs=response.data;
         }, function errorCallback(response){
 
@@ -85,10 +86,11 @@ app.controller('myCon',function($scope,$http){
     $scope.updataClassName=function(){
         $http({
             method:'GET',
-            url:ip+"/DomainAPI/updateClassName",
-            params:{ClassName:nowOperateClass,NewClassName:$("input[name='NewClassName']").val()}
+            url:ip+"/domain/updateDomainByDomainName",
+            params:{oldDomainName:nowOperateClass,newDomainName:$("input[name='NewClassName']").val()}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
             $scope.showClass();
         }, function errorCallback(response){
 
@@ -98,18 +100,19 @@ app.controller('myCon',function($scope,$http){
     $scope.queryByKeyword=function(){
         $http({
             method:'GET',
-            url:ip+"/DomainAPI/queryKeyword",
-            params:{Keyword:$("input[name='KeyWord']").val()}
+            url:ip+"/statistics/queryKeyword",
+            params:{keyword:$("input[name='KeyWord']").val()}
         }).then(function successCallback(response){
+            response = response["data"];
             var subjectArray=[];
             var topicArray=[];
             var facetArray=[];
             for(var i=0;i<response.data.length;i++){
-                if(response.data[i].Type=="Class"){
+                if(response.data[i].type=="domain"){
 
                     subjectArray.push(response.data[i]);
                 }
-                else if(response.data[i].Type=="Term"){
+                else if(response.data[i].type=="topic"){
                     topicArray.push(response.data[i]);
                 }
                 else{

@@ -15,7 +15,7 @@ function jumpClass(){
     // console.log("success");
 }
 
-function tianjiaClass(){
+/*function tianjiaClass(){
     var newclass=$("#newclass").val();
     // console.log(newclass);
 
@@ -29,18 +29,17 @@ function tianjiaClass(){
             alert(data.success);
         }
     });
-}
+}*/
 
 function updataClassName(){
     $.ajax({
         type: "GET",
-        url: ip+"/DomainAPI/updateClassName",
-        data: {ClassName:nowOperateClass,NewClassName:$("input[name='NewClassName']").val()},
+        url: ip+"/domain/updateDomainByDomainName",
+        data: {oldDomainName:nowOperateClass,newDomainName:$("input[name='NewClassName']").val()},
         dataType: "json",
         async:false,
         success: function(data){
-            // console.log(data);
-            alert(data.success);
+            alert(data.data);
         }
     });
 }
