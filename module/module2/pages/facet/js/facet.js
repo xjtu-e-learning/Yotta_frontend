@@ -27,9 +27,12 @@ app.controller('myCon',function($scope,$http){
     $http.get(ip+'/domain/getDomains').success(function(response){
         response = response["data"];
         $scope.subjects=response;
-        // $scope.getTopic(getCookie("NowClass"));
-        // $scope.gettopicfacet(getCookie("NowClass"),getCookie("NowTopic"));
-        // $scope.getfacetinfo(getCookie("NowFacet"),getCookie("NowFacetLayer"));
+
+        $scope.getTopic(getCookie("NowClass"));
+        $scope.gettopicfacet(getCookie("NowClass"),getCookie("NowTopic"));
+        $scope.getfacetinfo(getCookie("NowFacet"),getCookie("NowFacetLayer"));
+        $scope.showFacetTreeWithoutLeaves(getCookie("NowClass"),getCookie("NowTopic"))
+
         $("#class_name").text(nowOperateClass);
     });
 
@@ -47,13 +50,16 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/createFacet1",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:facetname}
+            url:ip+"/facet/insertFirstLayerFacet",
+            params:{domainName:nowOperateClass,topicName:nowOperateTopic,facetName:facetname}
         }).then(function successCallback(response){
-            alert(response.data.success);            
+            response = response["data"];
+            alert(response.data);            
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
         }, function errorCallback(response){
+            response = response["data"];
+            alert(response.msg);
 
         });
     }
@@ -61,13 +67,17 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/createFacet2",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,Facet1Name:nowOperateFacet1,Facet2Name:facetname}
+            url:ip+"/facet/insertSecondLayerFacet",
+            params:{domainName:nowOperateClass,topicName:nowOperateTopic
+                ,firstLayerFacetName:nowOperateFacet1,secondLayerFacetName:facetname}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
             $scope.getfacet1facet(nowOperateClass,nowOperateTopic,nowOperateFacet1);
             $scope.getInfo();
         }, function errorCallback(response){
+            response = response["data"];
+            alert(response.msg);
 
         });
     }
@@ -75,13 +85,19 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/createFacet3",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,Facet1Name:nowOperateFacet1,Facet2Name:nowOperateFacet2,Facet3Name:facetname}
+            url:ip+"/facet/insertThirdLayerFacet",
+            params:{domainName:nowOperateClass,topicName:nowOperateTopic
+                ,firstLayerFacetName:nowOperateFacet1
+                ,secondLayerFacetName:nowOperateFacet2
+                ,thirdLayerFacetName:facetname}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
             $scope.getfacet2facet(nowOperateClass,nowOperateTopic,nowOperateFacet1,nowOperateFacet2);
             $scope.getInfo();
         }, function errorCallback(response){
+            response = response["data"];
+            alert(response.msg);
 
         });
     }
@@ -194,7 +210,7 @@ app.controller('myCon',function($scope,$http){
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 //通常情况下textStatus和errorThrown只有其中一个包含信息
-                alert(textStatus);
+                //alert(textStatus);
             }
         });
  
@@ -234,7 +250,7 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/facet/getFacetsByDomainNameAndTopicName",
+            url:ip+"/facet/getFacetsInTopic",
             params:{domainName:a,topicName:b}
         }).then(function successCallback(response){
             response = response["data"];
@@ -289,9 +305,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/getTermFacet1",
-            params:{ClassName:a,TermName:b,Facet1Name:c}
+            url:ip+"/facet/getFacetsInFirstLayerFacet",
+            params:{domainName:a,topicName:b,firstLayerFacetName:c}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.facets=response.data;
             $("#nowtype").text("一级分面");
             $("#getfacet").text(" "+c+" 下分面");
@@ -310,9 +327,10 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/getDomainTermFacet3",
-            params:{ClassName:a,TermName:b,Facet2Name:d}
+            url:ip+"/facet/getFacetsInSecondLayerFacet",
+            params:{domainName:a,topicName:b,secondLayerFacetName:d}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.facets=response.data;
             $("#nowtype").text("二级分面");
             $("#getfacet").text(" "+d+" 下分面");

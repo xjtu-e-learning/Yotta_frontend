@@ -16,7 +16,7 @@ function DisplayTrunk(dataset){
                 .attr("height",$("#facetTreeDiv").height() * multiple);
     //分面树的位置
     $("svg").draggable();   
-    var seed = {x: $("#facetTreeDiv").width()*0.5* multiple, y:($("#facetTreeDiv").height()-60)* multiple, name:dataset.name}; 
+    var seed = {x: $("#facetTreeDiv").width()*0.5* multiple, y:($("#facetTreeDiv").height()-60)* multiple, name:dataset.topicName}; 
     var tree = buildTree(dataset, seed4, multiple);
     draw_trunk(tree, seed, svg, multiple);    
 }
@@ -33,7 +33,7 @@ function DisplayBranch(dataset){
                 .attr("height",$("#facetTreeDiv").height());
     //分面树的位置    
     $("svg").draggable();
-    var seed = {x: $("#facetTreeDiv").width()*0.5, y: $("#facetTreeDiv").height()-30, name:dataset.name}; 
+    var seed = {x: $("#facetTreeDiv").width()*0.5, y: $("#facetTreeDiv").height()-30, name:dataset.topicName}; 
     var tree = buildBranch(dataset, seed, multiple);
     draw_tree(tree, seed, svg, multiple);
     //对分面树进行缩放
