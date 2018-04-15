@@ -23,6 +23,7 @@ var nowOperateFacet2;
 
 var modify_add_flag;
 var now_modify_id;
+var username=getCookie('userinfo').slice(getCookie('userinfo').indexOf(':')+2,getCookie('userinfo').indexOf(',')-1);
 
 function choosetype(){
     $("#fragmentModal").modal();
@@ -33,7 +34,8 @@ var app=angular.module('myApp',[
     'ui.bootstrap','ngDraggable'
     ]);
 app.controller('myCon',function($scope,$http,$sce){
-    $http.get(ip+'/DomainAPI/getDomainManage').success(function(response){
+    $http.get(ip+'/domain/getDomains').success(function(response){
+        response = response["data"];
         $scope.subjects=response;
         // console.log(nowOperateClass);
         $("#class_name").text(nowOperateClass);
@@ -49,11 +51,12 @@ app.controller('myCon',function($scope,$http,$sce){
         }
     });
 
-    $http.get(ip+'/SpiderAPI/getFragment').success(function(response){
+    $http.get(ip+'/assemble/getTemporaryAssemblesByUserName',{params:{"userName":username}}).success(function(response){
+        response = response["data"];
         $scope.unaddfragments=response;
         $scope.getTopic(getCookie("NowClass"));
         for(var i=0;i<$scope.unaddfragments.length;i++){
-            $scope.unaddfragments[i].FragmentContent=$sce.trustAsHtml($scope.unaddfragments[i].FragmentContent);
+            $scope.unaddfragments[i].assembleContent=$sce.trustAsHtml($scope.unaddfragments[i].assembleContent);
         }
     });
 
@@ -62,17 +65,17 @@ app.controller('myCon',function($scope,$http,$sce){
     $scope.isCollapsedchildren2=true;
 
     $scope.getUnaddFragment=function(){
-      $http.get(ip+'/SpiderAPI/getFragment').success(function(response){
+      $http.get(ip+'/assemble/getTemporaryAssemblesByUserName',{params:{"userName":username}}).success(function(response){
+        response = response["data"];
         $scope.unaddfragments=response;
         for(var i=0;i<$scope.unaddfragments.length;i++){
-            $scope.unaddfragments[i].FragmentContent=$sce.trustAsHtml($scope.unaddfragments[i].FragmentContent);
+            $scope.unaddfragments[i].assembleContent=$sce.trustAsHtml($scope.unaddfragments[i].assembleContent);
         }
     });  
     }
 
 
     $scope.dropFacetFragment=function(data,evt){
-        // console.log(data.FragmentID);
         var str=$("#fragmenttopic").text();
         var arr=str.split(" ");
         if((arr.length!=3)||(arr[1]=="")||(arr[0]=="主题")){
@@ -82,10 +85,15 @@ app.controller('myCon',function($scope,$http,$sce){
             // console.log("1"+arr[1]);
 
             $http({
-                method:'GET',
-                url:ip+"/SpiderAPI/addFacetFragment",
-                params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:arr[1],FacetLayer:1,FragmentID:data.FragmentID}
+                method:'POST',
+                url:ip+"/assemble/insertAssemble",
+                params:{domainName:nowOperateClass
+                    ,topicName:nowOperateTopic
+                    ,facetName:arr[1]
+                    ,facetLayer:1
+                    ,temporaryAssembleId:data.assembleId}
             }).then(function successCallback(response){
+                response = response["data"];
                 alert("添加碎片成功");
                 $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,arr[1]);
                 $scope.getUnaddFragment();
@@ -98,10 +106,15 @@ app.controller('myCon',function($scope,$http,$sce){
             // console.log("2"+arr[1]);
 
             $http({
-                method:'GET',
-                url:ip+"/SpiderAPI/addFacetFragment",
-                params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:arr[1],FacetLayer:2,FragmentID:data.FragmentID}
+                method:'POST',
+                url:ip+"/assemble/insertAssemble",
+                params:{domainName:nowOperateClass
+                    ,topicName:nowOperateTopic
+                    ,facetName:arr[1]
+                    ,facetLayer:2
+                    ,temporaryAssembleId:data.assembleId}
             }).then(function successCallback(response){
+                response = response["data"];
                 alert("添加碎片成功");
                 $scope.getfacet2fragment(nowOperateClass,nowOperateTopic,arr[1]);
                 $scope.getUnaddFragment();
@@ -113,10 +126,15 @@ app.controller('myCon',function($scope,$http,$sce){
             // console.log("3"+arr[1]);
 
             $http({
-                method:'GET',
-                url:ip+"/SpiderAPI/addFacetFragment",
-                params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:arr[1],FacetLayer:3,FragmentID:data.FragmentID}
+                method:'POST',
+                url:ip+"/assemble/insertAssemble",
+                params:{domainName:nowOperateClass
+                    ,topicName:nowOperateTopic
+                    ,facetName:arr[1]
+                    ,facetLayer:3
+                    ,temporaryAssembleId:data.assembleId}
             }).then(function successCallback(response){
+                response = response["data"];
                 alert("添加碎片成功");
                 $scope.getfacet3(nowOperateClass,nowOperateTopic,arr[1]);
                 $scope.getUnaddFragment();
@@ -141,10 +159,11 @@ app.controller('myCon',function($scope,$http,$sce){
             console.log("addFragment");
             $http({
                 method:'POST',
-                url:ip+"/SpiderAPI/createFragment",
-                data : $.param( {FragmentContent : html}),
+                url:ip+"/assemble/insertTemporaryAssemble",
+                data : $.param({assembleContent : html, userName:username}),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             }).then(function successCallback(response){
+                response = response["data"];
                 alert("添加碎片成功");
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
@@ -156,12 +175,13 @@ app.controller('myCon',function($scope,$http,$sce){
             console.log("modifyFragment_"+now_modify_id);
             $http({
                 method:'POST',
-                url:ip+"/SpiderAPI/updateFragment",
-                data : $.param({FragmentID:now_modify_id,
-                                 FragmentContent : html
+                url:ip+"/assemble/updateTemporaryAssemble",
+                data : $.param({assembleId:now_modify_id,
+                                 assembleContent : html
                              }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             }).then(function successCallback(response){
+                response = response["data"];
                 alert("更新碎片成功");
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
@@ -179,11 +199,11 @@ app.controller('myCon',function($scope,$http,$sce){
         $.ajax({
 
             type: "POST",
-            url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            url: ip+"/topic/getCompleteTopicByNameAndDomainNameWithHasFragment",
             data: $.param( {
-                ClassName:className,
-                TermName:subjectName,
-                HasFragment:false
+                domainName:className,
+                topicName:subjectName,
+                hasFragment:false
             }),
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
@@ -195,7 +215,8 @@ app.controller('myCon',function($scope,$http,$sce){
             // },
             // dataType: "json",
             
-            success: function(dataset){
+            success: function(response){
+                dataset = response["data"];
                 displayTree(dataset);
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -211,9 +232,10 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/getDomainInfo",
-            params:{ClassName:nowOperateClass}
+            url:ip+"/domain/getDomainTreeByDomainName",
+            params:{domainName:nowOperateClass}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.classInfo=response.data;
         }, function errorCallback(response){
 
@@ -255,9 +277,10 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/getDomainInfo",
-            params:{ClassName:nowOperateClass}
+            url:ip+"/domain/getDomainTreeByDomainName",
+            params:{domainName:nowOperateClass}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.classInfo=response.data;
         }, function errorCallback(response){
 
@@ -298,12 +321,13 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/SpiderAPI/getDomainTermFragment",
-            params:{ClassName:a,TermName:b}
+            url:ip+"/assemble/getAssemblesInTopic",
+            params:{domainName:a,topicName:b}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.fragments=response.data;
             for(var i=0;i<$scope.fragments.length;i++){
-               $scope.fragments[i].FragmentContent=$sce.trustAsHtml($scope.fragments[i].FragmentContent);
+               $scope.fragments[i].assembleContent=$sce.trustAsHtml($scope.fragments[i].assembleContent);
            }
            $("#fragmenttopic").text("主题 "+b+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
@@ -351,12 +375,13 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/SpiderAPI/getDomainTermFacet1Fragment",
-            params:{ClassName:a,TermName:b,FacetName:c}
+            url:ip+"/assemble/getAssemblesInFirstLayerFacet",
+            params:{domainName:a,topicName:b,firstLayerFacetName:c}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.fragments=response.data;
             for(var i=0;i<$scope.fragments.length;i++){
-               $scope.fragments[i].FragmentContent=$sce.trustAsHtml($scope.fragments[i].FragmentContent);
+               $scope.fragments[i].assembleContent=$sce.trustAsHtml($scope.fragments[i].assembleContent);
            }
            $("#fragmenttopic").text("一级分面 "+c+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
@@ -386,12 +411,13 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/SpiderAPI/getDomainTermFacet2Fragment",
-            params:{ClassName:a,TermName:b,FacetName:c}
+            url:ip+"/assemble/getAssemblesInSecondLayerFacet",
+            params:{domainName:a,topicName:b,secondLayerFacetName:c}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.fragments=response.data;
             for(var i=0;i<$scope.fragments.length;i++){
-               $scope.fragments[i].FragmentContent=$sce.trustAsHtml($scope.fragments[i].FragmentContent);
+               $scope.fragments[i].assembleContent=$sce.trustAsHtml($scope.fragments[i].assembleContent);
            }
            $("#fragmenttopic").text("二级分面 "+c+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
@@ -404,12 +430,13 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/SpiderAPI/getDomainTermFacet3Fragment",
-            params:{ClassName:a,TermName:b,FacetName:c}
+            url:ip+"/assemble/getAssemblesInThirdLayerFacet",
+            params:{domainName:a,topicName:b,thirdLayerFacetName:c}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.fragments=response.data;
             for(var i=0;i<$scope.fragments.length;i++){
-               $scope.fragments[i].FragmentContent=$sce.trustAsHtml($scope.fragments[i].FragmentContent);
+               $scope.fragments[i].assembleContent=$sce.trustAsHtml($scope.fragments[i].assembleContent);
            }
            $("#fragmenttopic").text("三级分面 "+c+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
@@ -425,11 +452,12 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/SpiderAPI/getFragmentByID",
-            params:{FragmentID:a}
+            url:ip+"/assemble/getTemporaryAssembleById",
+            params:{assembleId:a}
         }).then(function successCallback(response){
+            response = response["data"];
             // console.log(response.data[0].FragmentContent);
-            $("#wang").html(response.data[0].FragmentContent);
+            $("#wang").html(response.data.assembleContent);
         }, function errorCallback(response){
 
         });
@@ -440,10 +468,11 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/SpiderAPI/deleteUnaddFragment",
-            params:{FragmentID:a}
+            url:ip+"/assemble/deleteTemporaryAssemble",
+            params:{assembleId:a}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
         }, function errorCallback(response){
 
         });
@@ -453,10 +482,11 @@ app.controller('myCon',function($scope,$http,$sce){
 
         $http({
             method:'GET',
-            url:ip+"/SpiderAPI/deleteFragment",
-            params:{FragmentID:a}
+            url:ip+"/assemble/deleteAssemble",
+            params:{assembleId:a}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
         }, function errorCallback(response){
 
         });

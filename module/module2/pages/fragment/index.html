@@ -165,7 +165,7 @@
                 <form  style="display:inline-block;float:right">
                   选择课程:
                   <select id="nameofclass" style="color:black">
-                    <option ng-repeat="subject in subjects" value={{subject.ClassName}} >{{subject.ClassName}}</option>
+                    <option ng-repeat="subject in subjects" value={{subject.domainName}} >{{subject.domainName}}</option>
                   </select>
                   <input type="button" value="确定" style="color:#3c8dbc" ng-click="getInfo();">
                 </form>
@@ -175,27 +175,30 @@
                 <ul class="" style="background-color: ">
                   <li class=" list-group-item" ng-repeat="x in classInfo " style="margin-left: -10%;background-color: ">
                     <div class=" list-group-item" style="background-color:#4682B4;">
-                     <a id={{x.TermName}}_choose ng-click="gettopicfragment(x.ClassName,x.TermName);" style="color:white;cursor:pointer">{{x.TermName}}</a>
-                     <a id={{x.TermName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.Facet1.length==0"></a>
+                     <a id={{x.topicName}}_choose ng-click="gettopicfragment(x.domainName,x.topicName);" style="color:white;cursor:pointer">{{x.topicName}}</a>
+                     <a id={{x.topicName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.firstLayerFacets.length==0"></a>
                    </div>
-                   <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.Facet1">
+                   <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.firstLayerFacets">
                     <div class="list-group-item " style="background-color:#3c8dbc;margin:2px 0;">
-                     <a id={{x.TermName}}_{{y.Facet1Name}}_choose style="color:white;cursor:pointer"
-                     ng-click="getfacet1fragment(x.ClassName,x.TermName,y.Facet1Name);showFacetTreeWithLeaves(x.ClassName,x.TermName);">{{y.Facet1Name}}</a>
-                     <a id={{x.TermName}}_{{y.Facet1Name}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;" ng-hide="y.Facet2.length==0"></a>
+                     <a id={{x.topicName}}_{{y.firstLayerFacetName}}_choose style="color:white;cursor:pointer"
+                     ng-click="getfacet1fragment(x.domainName,x.topicName,y.firstLayerFacetName)
+                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);">{{y.firstLayerFacetName}}</a>
+                     <a id={{x.topicName}}_{{y.firstLayerFacetName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;" ng-hide="y.secondLayerFacets.length==0"></a>
                    </div>
 
 
                    <ul uib-collapse="isCollapsedchildren" class="level3"
-                   ng-repeat="z in y.Facet2">
+                   ng-repeat="z in y.secondLayerFacets">
                    <div class="list-group-item " style="background-color: #6495ED ;margin:2px 0;">
-                     <a  id={{x.TermName}}_{{y.Facet1Name}}_{{z.Facet2Name}}_choose style="color:white;cursor:pointer" ng-click="getfacet2fragment(x.ClassName,x.TermName,z.Facet2Name);showFacetTreeWithLeaves(x.ClassName,x.TermName);">{{z.Facet2Name}}</a>
-                     <a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" id={{x.TermName}}_{{y.Facet1Name}}_{{z.Facet2Name}}_a ng-click="isCollapsedchildren2 = !isCollapsedchildren2;" ng-hide="z.Facet3.length==0"></a>
+                     <a  id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_choose style="color:white;cursor:pointer" ng-click="getfacet2fragment(x.domainName,x.topicName,z.secondLayerFacetName)
+                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);">{{z.secondLayerFacetName}}</a>
+                     <a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_a ng-click="isCollapsedchildren2 = !isCollapsedchildren2;" ng-hide="z.thirdLayerFacets.length==0"></a>
                    </div>
                    <ul uib-collapse="isCollapsedchildren2" class="level4"
                    ng-repeat="w in z.Facet3">
                    <div class="list-group-item " style="background-color:#5CACEE ;margin:2px 0;color:white;cursor:pointer">
-                     <div  id={{x.TermName}}_{{y.Facet1Name}}_{{z.Facet2Name}}_{{w.Facet3Name}}_a style="cursor: pointer" ng-click="getfacet3(x.ClassName,x.TermName,w.Facet3Name);showFacetTreeWithLeaves(x.ClassName,x.TermName);">{{w.Facet3Name}}</div>
+                     <div  id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_{{w.thirdLayerFacetName}}_a style="cursor: pointer" ng-click="getfacet3(x.domainName,x.topicName,w.thirdLayerFacetName)
+                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);">{{w.thirdLayerFacetName}}</div>
                    </div>
                    </ul>
 
@@ -253,13 +256,13 @@
                     </div>
                   </div>
 
-                  <div ng-repeat="unaddfragment in unaddfragments"  id={{unaddfragment.FragmentID}}_unadd>
+                  <div ng-repeat="unaddfragment in unaddfragments"  id={{unaddfragment.assembleId}}_unadd>
                   <div class="box box-primary drag-object"  style="border:2px solid #428bca;width:20%;float:left;margin:5px;overflow-y: auto;cursor:move;" ng-drag="true" ng-drag-data="unaddfragment" ng-drag-success="dragFragment($data,$event)">
-                    <div class="box-body" style="height:150px;overflow: auto" ng-bind-html="unaddfragment.FragmentContent">
+                    <div class="box-body" style="height:150px;overflow: auto" ng-bind-html="unaddfragment.assembleContent">
                     </div>
                     <div class="box-footer">
-                      <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteUnaddFragment(unaddfragment.FragmentID)"><i class="fa fa-times"></i></button>
-                      <button class="btn btn-primary" style="float: right" ng-click="modifyFragment(unaddfragment.FragmentID)">修改</button>
+                      <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteUnaddFragment(unaddfragment.assembleId)"><i class="fa fa-times"></i></button>
+                      <button class="btn btn-primary" style="float: right" ng-click="modifyFragment(unaddfragment.assembleId)">修改</button>
                     </div>
                   </div>
                 </div>
@@ -275,10 +278,10 @@
             <div id="fragmentInfoDiv" class="box-body" style="display: block;overflow-y: auto" >
               <div ng-drop="true" ng-drop-success="dropFacetFragment($data,$event)" style="overflow-y: auto">
                 <div class="box box-primary" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:20%;float:left;margin:1%" >
-                  <div class="box-body" style="height:150px;overflow:auto" ng-bind-html="fragment.FragmentContent">
+                  <div class="box-body" style="height:150px;overflow:auto" ng-bind-html="fragment.assembleContent">
                   </div>
                   <div class="box-footer">
-                    <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteFragment(fragment.FragmentID)"><i class="fa fa-times"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteFragment(fragment.assembleId)"><i class="fa fa-times"></i></button>
                   </div>
                 </div>
               </div>

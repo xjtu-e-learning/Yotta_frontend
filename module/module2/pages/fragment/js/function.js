@@ -14,7 +14,7 @@ function displayTree(dataset){
                 .attr("height",$("#fragmentTreeDiv").height());
     //分面树的位置    
     $("svg").draggable();
-    var seed = {x: $("#fragmentTreeDiv").width()*0.5, y: $("#fragmentTreeDiv").height()-30, name:dataset.name}; 
+    var seed = {x: $("#fragmentTreeDiv").width()*0.5, y: $("#fragmentTreeDiv").height()-30, name:dataset.topicName}; 
     var tree = buildTree(dataset, seed, multiple);
     draw_tree(tree, seed, svg, multiple);
 }   

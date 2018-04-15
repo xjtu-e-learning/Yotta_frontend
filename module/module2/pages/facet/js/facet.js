@@ -159,7 +159,7 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/facet/getFacetTreeByDomainName",
+            url:ip+"/domain/getDomainTreeByDomainName",
             params:{domainName:nowOperateClass}
         }).then(function successCallback(response){
             response = response["data"];
@@ -178,7 +178,7 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/facet/getFacetTreeByDomainName",
+            url:ip+"/domain/getDomainTreeByDomainName",
             params:{domainName:a}
         }).then(function successCallback(response){
             response = response["data"];
