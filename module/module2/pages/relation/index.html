@@ -135,7 +135,7 @@ text-align: center;
           <form  style="font-size: 25px;padding-top: 5%">
               选择课程:
               <select id="nameofclass" style="color:white;background-color: #4682B4">
-                <option ng-repeat="subject in subjects" value={{subject.ClassName}}>{{subject.ClassName}}</option>
+                <option ng-repeat="subject in subjects" value={{subject.domainName}}>{{subject.domainName}}</option>
               </select>
               <input type="button" value="确定" style="color:#3c8dbc;height:35px" ng-click="getDependence()">
             </form>
@@ -169,13 +169,13 @@ text-align: center;
                         <form action="" style="margin:5px;" >
                          主题1：
                          <select id="Topic1" style="width:30%">
-                           <option ng-repeat="topic1 in topics" vaule={{topic1.TermName}}>{{topic1.TermName}}</option>
+                           <option ng-repeat="topic1 in topics" vaule={{topic1.topicName}}>{{topic1.topicName}}</option>
                          </select>
                         </form>
                         <form action="" style="margin:5px" >
                          主题2：
                          <select id="Topic2"  style="width:30%">
-                           <option ng-repeat="topic2 in topics" vaule={{topic2.TermName}}>{{topic2.TermName}}</option>
+                           <option ng-repeat="topic2 in topics" vaule={{topic2.topicName}}>{{topic2.topicName}}</option>
                          </select>
                         </form>
                       </div>
@@ -202,10 +202,10 @@ text-align: center;
                     <th>Delete</th>
                   </tr>
                   <tr ng-repeat="dependence in dependences">
-                    <td>{{dependence.Start}}</td>
-                    <td>{{dependence.End}}</td>
+                    <td>{{dependence.startTopicName}}</td>
+                    <td>{{dependence.endTopicName}}</td>
                     <td>
-                      <a href="" ng-click="deleteDependence(dependence.StartID,dependence.EndID)">X删除</a>
+                      <a href="" ng-click="deleteDependence(dependence.startTopicId,dependence.endTopicId)">X删除</a>
                     </td>
                   </tr>
                 </table>

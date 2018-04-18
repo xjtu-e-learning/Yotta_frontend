@@ -23,7 +23,8 @@ var nowOperateClass;
 var app=angular.module('myApp',[]);
 app.controller('myCon',function($scope,$http){
     // 获取课程信息
-    $http.get(ip+'/DependencyAPI/getDomain').success(function(response){
+    $http.get(ip+'/domain/getDomains').success(function(response){
+        response = response["data"];
         $scope.subjects=response;
     });
 
@@ -33,9 +34,10 @@ app.controller('myCon',function($scope,$http){
         init(); // 知识森林初始化
         $http({
             method:'GET',
-            url:ip+"/DependencyAPI/getDependencyByDomain",
-            params:{ClassName:nowOperateClass}
+            url:ip+"/dependency/getDependenciesByDomainName",
+            params:{domainName:nowOperateClass}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.dependences=response.data;
             $("#DependenceNum").text(nowOperateClass+"共有"+response.data.length+"条认知关系");
         }, function errorCallback(response){
@@ -43,9 +45,10 @@ app.controller('myCon',function($scope,$http){
         });
         $http({
             method:'GET',
-            url:ip+"/DependencyAPI/getDomainTerm",
-            params:{ClassName:nowOperateClass}
+            url:ip+"/topic/getTopicsByDomainName",
+            params:{domainName:nowOperateClass}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.topics=response.data;
         }, function errorCallback(response){
 
@@ -54,11 +57,11 @@ app.controller('myCon',function($scope,$http){
     // 删除认知关系
     $scope.deleteDependence=function(a,b){
         $http({
-            method:'GET',
-            url:ip+"/DependencyAPI/deleteDependence",
-            params:{ClassName:nowOperateClass,StartID:a,EndID:b}
+            method:'POST',
+            url:ip+"/dependency/deleteDependency",
+            params:{domainName:nowOperateClass,startTopicId:a,endTopicId:b}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            alert(response.data.data);
             $scope.getDependence();
         }, function errorCallback(response){
 
@@ -68,9 +71,10 @@ app.controller('myCon',function($scope,$http){
     $scope.queryByKeyword=function(){
         $http({
             method:'GET',
-            url:ip+"/DependencyAPI/getDependenceByKeyword",
-            params:{ClassName:nowOperateClass,Keyword:$("input[name='chaxun']").val()}
+            url:ip+"/dependency/getDependenciesByKeyword",
+            params:{domainName:nowOperateClass,keyword:$("input[name='chaxun']").val()}
         }).then(function successCallback(response){
+            response = response["data"];
             $scope.dependences=response.data;
         }, function errorCallback(response){
 
@@ -81,11 +85,12 @@ app.controller('myCon',function($scope,$http){
         var topic1=document.getElementById("Topic1").value;
         var topic2=document.getElementById("Topic2").value;
         $http({
-            method:'GET',
-            url:ip+"/DependencyAPI/createDependence",
-            params:{ClassName:nowOperateClass,StartName:topic1,EndName:topic2}
+            method:'POST',
+            url:ip+"/dependency/insertDependency",
+            params:{domainName:nowOperateClass,startTopicName:topic1,endTopicName:topic2}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
             $scope.getDependence();
         }, function errorCallback(response){
 
@@ -109,12 +114,13 @@ function init() {
         // api获取图数据
         var xml;
         $.ajax({
-            type :"GET",
-            url :ip + "/DependencyAPI/getGexfByClassName?ClassName=" + nowOperateClass,
+            type :"POST",
+            url :ip + "/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=" + nowOperateClass,
             datatype :"json",
             async:false,
-            success : function(data, status){
-                xml = data.success;
+            success : function(response, status){
+                data = response["data"];
+                xml = data;
             }
         });
         //画力关系图

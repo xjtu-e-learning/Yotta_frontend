@@ -10,35 +10,37 @@ $(document).ready(function(){
     var domainStatistics; // 课程所有统计数据
     $.ajax({
         type : "GET",
-        url : ip + "/StatisticsAPI/getDomainInfo",
+        url : ip + "/statistics/getStatisticalInformation",
         datatype : "json",
         async : false,
-        success : function(data, status){
+        success : function(response, status){
+            data = response["data"];
             domainStatistics = data;
             // console.log(domainStatistics);
         }
     });
 
     // 计算不同维度的y轴的最大值
+    //分别是 主题 上下位关系 分面 分面关系 依赖关系 碎片
     var maxNumber = [0, 0, 0, 0, 0, 0]; 
-    for (var i = 1, len = domainStatistics.topicList.length; i < len; i++) {
-        if (maxNumber[0] < domainStatistics.topicList[i]) {
-            maxNumber[0] = domainStatistics.topicList[i];
+    for (var i = 1, len = domainStatistics.topicNumbers.length; i < len; i++) {
+        if (maxNumber[0] < domainStatistics.topicNumbers[i]) {
+            maxNumber[0] = domainStatistics.topicNumbers[i];
         }
-        if (maxNumber[1] < domainStatistics.topicRelationList[i]) {
-            maxNumber[1] = domainStatistics.topicRelationList[i];
+        if (maxNumber[1] < domainStatistics.relationNumbers[i]) {
+            maxNumber[1] = domainStatistics.relationNumbers[i];
         }
-        if (maxNumber[2] < domainStatistics.facetList[i]) {
-            maxNumber[2] = domainStatistics.facetList[i];
+        if (maxNumber[2] < domainStatistics.facetNumbers[i]) {
+            maxNumber[2] = domainStatistics.facetNumbers[i];
         }
-        if (maxNumber[3] < domainStatistics.facetRelationList[i]) {
-            maxNumber[3] = domainStatistics.facetRelationList[i];
+        if (maxNumber[3] < domainStatistics.facetRelationNumbers[i]) {
+            maxNumber[3] = domainStatistics.facetRelationNumbers[i];
         }
-        if (maxNumber[4] < domainStatistics.dependencyList[i]) {
-            maxNumber[4] = domainStatistics.dependencyList[i];
+        if (maxNumber[4] < domainStatistics.dependencyNumbers[i]) {
+            maxNumber[4] = domainStatistics.dependencyNumbers[i];
         }
-        if (maxNumber[5] < domainStatistics.fragmentList[i]) {
-            maxNumber[5] = domainStatistics.fragmentList[i];
+        if (maxNumber[5] < domainStatistics.assembleNumbers[i]) {
+            maxNumber[5] = domainStatistics.assembleNumbers[i];
         }
     }
     // 将最大值转化为靠近它的最小整数，如：2126 -> 3000
@@ -55,8 +57,8 @@ $(document).ready(function(){
         // console.log(maxNumber[k]);
     }
     // 获取坐标轴x轴的领域名格式
-    var domainListX = domainStatistics.domainList; 
-    for (var i = 0, len = domainStatistics.domainList.length; i < len; i++) {
+    var domainListX = domainStatistics.domainNames; 
+    for (var i = 0, len = domainStatistics.domainNames.length; i < len; i++) {
         if (i % 2 == 1) {
             domainListX[i] = '\n' + domainListX[i];
         }
@@ -67,7 +69,7 @@ $(document).ready(function(){
     // 指定图表的配置项和数据
     dataMap = {};
     function dataFormatter(obj) {
-        var pList = domainStatistics.domainList;
+        var pList = domainStatistics.domainNames;
         var temp;
         for (var month = 1; month <= 6; month++) {
             temp = obj[month.toString()];
@@ -85,12 +87,12 @@ $(document).ready(function(){
     // 设置数据为api返回的数据
     dataMap.dataMonth = dataFormatter({
         //max : 60000,
-        '1': domainStatistics.topicList, 
-        '2': domainStatistics.topicRelationList, 
-        '3': domainStatistics.facetList, 
-        '4': domainStatistics.facetRelationList, 
-        '5': domainStatistics.dependencyList,
-        '6': domainStatistics.fragmentList,
+        '1': domainStatistics.topicNumbers, 
+        '2': domainStatistics.relationNumbers, 
+        '3': domainStatistics.facetNumbers, 
+        '4': domainStatistics.facetRelationNumbers, 
+        '5': domainStatistics.dependencyNumbers,
+        '6': domainStatistics.assembleNumbers,
     });
     // 开始画图
     option = {

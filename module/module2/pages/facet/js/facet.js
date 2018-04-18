@@ -365,10 +365,11 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/deleteFacet1",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name}
+            url:ip+"/facet/deleteFirstLayerFacet",
+            params:{domainName:nowOperateClass,topicName:nowOperateTopic,firstLayerFacetName:name}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
         }, function errorCallback(response){
@@ -379,10 +380,11 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/deleteFacet2",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name}
+            url:ip+"/facet/deleteSecondLayerFacet",
+            params:{domainName:nowOperateClass,topicName:nowOperateTopic,secondLayerFacetName:name}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
         }, function errorCallback(response){
@@ -393,10 +395,11 @@ app.controller('myCon',function($scope,$http){
 
         $http({
             method:'GET',
-            url:ip+"/FacetAPI/deleteFacet3",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name}
+            url:ip+"/facet/deleteThirdLayerFacet",
+            params:{domainName:nowOperateClass,topicName:nowOperateTopic,thirdLayerFacetName:name}
         }).then(function successCallback(response){
-            alert(response.data.success);
+            response = response["data"];
+            alert(response.data);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
             $scope.getInfo();
         }, function errorCallback(response){

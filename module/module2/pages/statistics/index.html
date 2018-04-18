@@ -243,7 +243,7 @@
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-primary btn-flat">选择课程</button>
                   </span>
-                  <select class="form-control" ng-model="domain" ng-options="domain.className for domain in subject2.domains">
+                  <select class="form-control" ng-model="domain" ng-options="domain.domainName for domain in subject2.domains">
                     <option value="">-- 请选择课程 --</option> 
                   </select>
                   <!-- <span class="input-group-btn">
@@ -256,11 +256,11 @@
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-primary btn-flat">选择主题</button>
                   </span>
-                  <select class="form-control" ng-model="topic" ng-options="topic.termName for topic in domain.domainTopics">
+                  <select class="form-control" ng-model="topic" ng-options="topic.topicName for topic in domain.topics">
                     <option value="">-- 请选择主题 --</option> 
                   </select>
                   <span class="input-group-btn">
-                    <button type="button" class="btn btn-primary " ng-click='viewByTopic(subject2.subjectName, domain.className); viewByTopicDetail(subject2.subjectName, domain.className, topic.termName)'>Go</button>
+                    <button type="button" class="btn btn-primary " ng-click='viewByTopic(subject2.subjectName, domain.domainName); viewByTopicDetail(subject2.subjectName, domain.domainName, topic.topicName)'>Go</button>
                   </span>
                 </div>
               </div>
