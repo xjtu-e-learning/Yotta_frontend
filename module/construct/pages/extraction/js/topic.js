@@ -39,15 +39,15 @@ function init() {
         //set overridable=true for styling individual
         //nodes or edges
         Node: {
-            height: 40,
-            width: 170,
+            height: 60,//40
+            width: 260,//170
             type: 'rectangle',
-            color: '#87CEEB', 
+            color: '#80CEEB', 
             overridable: true
         },
         
         Edge: {
-            type: 'bezier',
+            type: 'bezier',      //zd:the edges of the topic
             overridable: true,
             color: '#87CEEB',
         },
@@ -67,13 +67,13 @@ function init() {
             };
             //set label styles
             var style = label.style;
-            style.width = 170 + 'px';
-            style.height = 50 + 'px';            
+            style.width = 260 + 'px';    //170
+            style.height = 25 + 'px';     //50     
             style.cursor = 'pointer';
             style.color = 'black';
-            style.fontSize = '1.5em';
-            style.textAlign= 'center';
-            style.paddingTop = '2px';
+            style.fontSize = '1.3em';   //1.5
+            style.textAlign= 'center';//center
+            style.paddingTop = '8px';  //2px
         },
         
         //This method is called right before plotting
