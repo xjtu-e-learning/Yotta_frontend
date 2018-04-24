@@ -81,29 +81,24 @@ $(document).ready(function(){
                     method : 'get'
                 }).success(function(response) {
                     alert(response.success);
+
+                    /**
+                     * 删除一个问题碎片后，刷新页面得到最新结果
+                     */
+                    if (getCookie("topicName") == "") {
+                        // alert("请选择主题！");
+                    } else if (getCookie("sourceName") == "") {
+                        // 主题
+                        getQuestionsByTopic(getCookie("topicName"));
+                    } else {
+                        // 主题 + 数据源
+                        getQuestionsByTopicAndSource(getCookie("topicName"), getCookie("sourceName"));
+                    }
+
                 }).error(function(response){
                     alert("删除失败");
                     console.log('根据问题ID删除问题失败...');
                 });
-
-                /**
-                 * 删除一个问题碎片后，刷新页面得到最新结果
-                 */
-                if (getCookie("topicName") == "") {
-                    // alert("请选择主题！");
-                } else if (getCookie("facetName") == "" && getCookie("sourceName") == "") {
-                    // 主题
-                    getQuestionsByTopic(getCookie("topicName"));
-                } else if (getCookie("facetName") == "") {
-                    // 主题 + 数据源
-                    getQuestionsByTopicAndSource(getCookie("topicName"), getCookie("sourceName"));
-                } else if (getCookie("sourceName") == "") {
-                    // 主题 + 分面
-                    getQuestionsByTopicAndFacet(getCookie("topicName"), getCookie("facetName"));
-                } else {
-                    // 主题 + 数据源 + 分面
-                    getQuestionsByTopicAndFacetAndSource(getCookie("topicName"), getCookie("facetName"), getCookie("sourceName"));
-                }
 
             }
             
@@ -117,18 +112,12 @@ $(document).ready(function(){
          */
         if (getCookie("topicName") == "") {
             // alert("请选择主题！");
-        } else if (getCookie("facetName") == "" && getCookie("sourceName") == "") {
+        } else if (getCookie("sourceName") == "") {
             // 主题
             getQuestionsByTopic(getCookie("topicName"));
-        } else if (getCookie("facetName") == "") {
+        } else {
             // 主题 + 数据源
             getQuestionsByTopicAndSource(getCookie("topicName"), getCookie("sourceName"));
-        } else if (getCookie("sourceName") == "") {
-            // 主题 + 分面
-            getQuestionsByTopicAndFacet(getCookie("topicName"), getCookie("facetName"));
-        } else {
-            // 主题 + 数据源 + 分面
-            getQuestionsByTopicAndFacetAndSource(getCookie("topicName"), getCookie("facetName"), getCookie("sourceName"));
         }
 
 
@@ -141,18 +130,12 @@ $(document).ready(function(){
         $scope.getQuestions = function(topicName, facetName, sourceName) {
             if (typeof topicName === "undefined") {
                 alert("请选择主题！");
-            } else if (typeof facetName === "undefined" && typeof sourceName === "undefined") {
+            } else if (typeof sourceName === "undefined") {
                 // 主题
                 getQuestionsByTopic(topicName);
-            } else if (typeof facetName === "undefined") {
+            } else {
                 // 主题 + 数据源
                 getQuestionsByTopicAndSource(topicName, sourceName);
-            } else if (typeof sourceName === "undefined") {
-                // 主题 + 分面
-                getQuestionsByTopicAndFacet(topicName, facetName);
-            } else {
-                // 主题 + 数据源 + 分面
-                getQuestionsByTopicAndFacetAndSource(topicName, facetName, sourceName);
             }
         }
 
@@ -164,7 +147,7 @@ $(document).ready(function(){
             setCookie("topicName", topicName, "h1");
             setCookie("sourceName", "", "h1");
             setCookie("facetName", "", "h1");
-            // 根据主题查询
+            // 根据主题，返回问题信息
             $http({
                 url : ip + "/QuestionQualityAPI/getFragmentByTopic",
                 method : 'post',
@@ -218,73 +201,6 @@ $(document).ready(function(){
                 $scope.topicName = topicName;
             }).error(function(response){
                 console.log('根据主题和数据源，获取问题碎片api出错...');
-            });
-        }
-
-        /**
-         * 根据主题和分面，返回问题信息
-         */
-        function getQuestionsByTopicAndFacet(topicName, facetName) {
-            // 设置cookie
-            setCookie("topicName", topicName, "h1");
-            setCookie("facetName", facetName, "h1");
-            setCookie("sourceName", "", "h1");
-            // 根据主题、分面查询
-            $http({
-                url : ip + "/QuestionQualityAPI/getFragmentByTopicAndFacet",
-                method : 'post',
-                data: {
-                    className: $scope.NowClass,
-                    topicName: topicName,
-                    facetName: facetName
-                },
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {  
-                    var str = [];  
-                    for(var p in obj){  
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
-                    }  
-                    return str.join("&");  
-                }
-            }).success(function(response) {
-                processQuestions(response);
-                $scope.topicName = topicName;
-            }).error(function(response){
-                console.log('根据主题和分面名，获取问题碎片api出错...');
-            });
-        }
-
-        /**
-         * 根据主题、分面和数据源，返回问题信息
-         */
-        function getQuestionsByTopicAndFacetAndSource(topicName, facetName, sourceName) {
-            // 设置cookie
-            setCookie("topicName", topicName, "h1");
-            setCookie("facetName", facetName, "h1");
-            setCookie("sourceName", sourceName, "h1");
-            // 根据主题、分面、数据源查询
-            $http({
-                url : ip + "/QuestionQualityAPI/getFragmentByTopicAndFacetAndSource",
-                method : 'post',
-                data: {
-                    className: $scope.NowClass,
-                    topicName: topicName,
-                    facetName: facetName,
-                    sourceName: sourceName
-                },
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {  
-                    var str = [];  
-                    for(var p in obj){  
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
-                    }  
-                    return str.join("&");  
-                }
-            }).success(function(response) {
-                processQuestions(response);
-                $scope.topicName = topicName;
-            }).error(function(response){
-                console.log('根据主题/分面名/数据源名，获取问题碎片api出错...');
             });
         }
 
@@ -349,18 +265,12 @@ $(document).ready(function(){
         $scope.getQuestionsQuality = function(topicName, facetName, sourceName) {
             if (typeof topicName === "undefined") {
                 alert("请选择主题！");
-            } else if (typeof facetName === "undefined" && typeof sourceName === "undefined") {
+            } else if (typeof sourceName === "undefined") {
                 // 主题
                 getQuestionsQualityByTopic(topicName);
-            } else if (typeof facetName === "undefined") {
+            } else {
                 // 主题 + 数据源
                 getQuestionsQualityByTopicAndSource(topicName, sourceName);
-            } else if (typeof sourceName === "undefined") {
-                // 主题 + 分面
-                getQuestionsQualityByTopicAndFacet(topicName, facetName);
-            } else {
-                // 主题 + 数据源 + 分面
-                getQuestionsQualityByTopicAndFacetAndSource(topicName, facetName, sourceName);
             }
         }
 
@@ -432,75 +342,6 @@ $(document).ready(function(){
         }
 
         /**
-         * 根据主题和分面，计算问题标签，返回问题信息
-         */
-        function getQuestionsQualityByTopicAndFacet(topicName, facetName) {
-            // 设置cookie
-            setCookie("topicName", topicName, "h1");
-            setCookie("facetName", facetName, "h1");
-            setCookie("sourceName", "", "h1");
-            // 根据主题、分面查询
-            $http({
-                url : ip + "/QuestionQualityAPI/getQuestionLabelByTopicAndFacet",
-                method : 'post',
-                data: {
-                    className: $scope.NowClass,
-                    topicName: topicName,
-                    facetName: facetName
-                },
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {  
-                    var str = [];  
-                    for(var p in obj){  
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
-                    }  
-                    return str.join("&");  
-                }
-            }).success(function(response) {
-                processQuestionsQuality(response);
-                alert("质量评估成功！");
-            }).error(function(response){
-                console.log('根据主题和分面名，计算问题标签，获取问题碎片api出错...');
-                alert("质量评估失败！");
-            });
-        }
-
-        /**
-         * 根据主题、分面和数据源，计算问题标签，返回问题信息
-         */
-        function getQuestionsQualityByTopicAndFacetAndSource(topicName, facetName, sourceName) {
-            // 设置cookie
-            setCookie("topicName", topicName, "h1");
-            setCookie("facetName", facetName, "h1");
-            setCookie("sourceName", sourceName, "h1");
-            // 根据主题、分面、数据源查询
-            $http({
-                url : ip + "/QuestionQualityAPI/getQuestionLabelByTopicAndFacetAndSource",
-                method : 'post',
-                data: {
-                    className: $scope.NowClass,
-                    topicName: topicName,
-                    facetName: facetName,
-                    sourceName: sourceName
-                },
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {  
-                    var str = [];  
-                    for(var p in obj){  
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
-                    }  
-                    return str.join("&");  
-                }
-            }).success(function(response) {
-                processQuestionsQuality(response);
-                alert("质量评估成功！");
-            }).error(function(response){
-                console.log('根据主题/分面名/数据源名，计算问题标签，获取问题碎片api出错...');
-                alert("质量评估失败！");
-            });
-        }
-
-        /**
          * 处理得到的问题碎片集合：问题集合带标签
          * page_website_logo ：控制问题的网站logo
          * page_search_url ：控制点击问题的topic和facet的跳转搜索网页的链接
@@ -553,25 +394,15 @@ $(document).ready(function(){
         $scope.deleteLowQualityQuestions = function(topicName, facetName, sourceName) {
             if (typeof topicName === "undefined") {
                 alert("请选择主题！");
-            } else if (typeof facetName === "undefined" && typeof sourceName === "undefined") {
+            } else if (typeof sourceName === "undefined") {
                 // 主题
                 if(confirm("确认删除吗")){
                     deleteLowQualityQuestionsByTopic(topicName);
                 }
-            } else if (typeof facetName === "undefined") {
+            } else {
                 // 主题 + 数据源
                 if(confirm("确认删除吗")){
                     deleteLowQualityQuestionsByTopicAndSource(topicName, sourceName);
-                }
-            } else if (typeof sourceName === "undefined") {
-                // 主题 + 分面
-                if(confirm("确认删除吗")){
-                    deleteLowQualityQuestionsByTopicAndFacet(topicName, facetName);
-                }
-            } else {
-                // 主题 + 数据源 + 分面
-                if(confirm("确认删除吗")){
-                    deleteLowQualityQuestionsByTopicAndFacetAndSource(topicName, facetName, sourceName);
                 }
             }
         }
@@ -584,7 +415,7 @@ $(document).ready(function(){
             setCookie("topicName", topicName, "h1");
             setCookie("sourceName", "", "h1");
             setCookie("facetName", "", "h1");
-            // 根据主题查询
+            // 根据主题，删除低质量问题
             $http({
                 url : ip + "/QuestionQualityAPI/deleteQuestionsByTopic",
                 method : 'post',
@@ -640,75 +471,6 @@ $(document).ready(function(){
                 getQuestionsByTopicAndSource(topicName, sourceName);
             }).error(function(response){
                 console.log('根据主题和数据源，删除低质量问题，获取问题碎片api出错...');
-            });
-        }
-
-        /**
-         * 根据主题和分面，删除低质量问题
-         */
-        function deleteLowQualityQuestionsByTopicAndFacet(topicName, facetName) {
-            // 设置cookie
-            setCookie("topicName", topicName, "h1");
-            setCookie("facetName", facetName, "h1");
-            setCookie("sourceName", "", "h1");
-            // 根据主题、分面查询
-            $http({
-                url : ip + "/QuestionQualityAPI/deleteQuestionsByTopicAndFacet",
-                method : 'post',
-                data: {
-                    className: $scope.NowClass,
-                    topicName: topicName,
-                    facetName: facetName
-                },
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {  
-                    var str = [];  
-                    for(var p in obj){  
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
-                    }  
-                    return str.join("&");  
-                }
-            }).success(function(response) {
-               alert(response.success);
-               // 删除完显示碎片
-               getQuestionsByTopicAndFacet(topicName, facetName);
-            }).error(function(response){
-                console.log('根据主题和分面名，删除低质量问题，获取问题碎片api出错...');
-            });
-        }
-
-        /**
-         * 根据主题、分面和数据源，删除低质量问题
-         */
-        function deleteLowQualityQuestionsByTopicAndFacetAndSource(topicName, facetName, sourceName) {
-            // 设置cookie
-            setCookie("topicName", topicName, "h1");
-            setCookie("facetName", facetName, "h1");
-            setCookie("sourceName", sourceName, "h1");
-            // 根据主题、分面、数据源查询
-            $http({
-                url : ip + "/QuestionQualityAPI/deleteQuestionsByTopicAndFacetAndSource",
-                method : 'post',
-                data: {
-                    className: $scope.NowClass,
-                    topicName: topicName,
-                    facetName: facetName,
-                    sourceName: sourceName
-                },
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {  
-                    var str = [];  
-                    for(var p in obj){  
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
-                    }  
-                    return str.join("&");  
-                }
-            }).success(function(response) {
-                alert(response.success);
-                // 删除完显示碎片
-                getQuestionsByTopicAndFacetAndSource(topicName, facetName, sourceName);
-            }).error(function(response){
-                console.log('根据主题/分面名/数据源名，删除低质量问题，获取问题碎片api出错...');
             });
         }
 

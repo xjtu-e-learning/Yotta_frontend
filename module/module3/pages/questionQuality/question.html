@@ -33,14 +33,14 @@
   <![endif]-->
 </head>
 <body class="hold-transition skin-blue layout-top-nav">
-<div class="wrapper">
+<div class="wrapper" ng-app="app" ng-controller="controller">
 
   <header class="main-header">
     <!-- 抬头栏 -->
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="index.html" class="navbar-brand"><i class="fa fa-backward"></i> <strong> back</strong></a>
+          <a href="index.html#q_{{ fragment.question_id }}" class="navbar-brand"><i class="fa fa-backward"></i> <strong> back</strong></a>
         </div>
         <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
           <ul class="nav navbar-nav">
@@ -52,7 +52,7 @@
   </header>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" ng-app="app" ng-controller="controller">
+  <div class="content-wrapper">
     
     <!-- Main content -->
     <section class="content">
@@ -65,7 +65,8 @@
           <small>{{ fragment.asker_best_answer_rate }}</small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="../../index.html"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a href="../../../construct/pages/spider/index.html"><i class="fa fa-dashboard"></i> Knowledge Forest: Data Collection</a></li>
+          <li><a href="../../index.html">Search and Navigation</a></li>
           <li><a href="index.html">CQA Question Quality Prediction</a></li>
           <li class="active">Question Details</li>
         </ol>
@@ -84,7 +85,7 @@
                 Q: {{ fragment.question_title_pure }}
               </b>
             </span>
-            <div class="box-tools pull-right">
+            <div class="box-tools pull-right" id="q_body">
               <!-- 问题质量 -->
               <span class="badge bg-red">
                 <em>Quality: {{ fragment.question_quality_label }}</em>
@@ -133,7 +134,7 @@
 
 
         <!-- 答案 -->
-        <div class="box box-default">
+        <div class="box box-default" id="q_best_answer">
           <!-- 答案数目 -->
           <div class="box-header with-border">
             <h2 class="box-title"><em>Best Answer!</em></h2>

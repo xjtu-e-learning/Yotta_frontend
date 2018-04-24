@@ -84,14 +84,14 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" ng-app="app" ng-controller="controller">
     <!-- Content Header (Page header) -->
-    
     <section class="content-header">
       <h1>
         CQA问题质量预测分析
         <small>当前学科：<a ng-bind="NowSubject"></a>，课程：<a ng-bind="NowClass"></a></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="../../index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="../../../construct/pages/spider/index.html"><i class="fa fa-dashboard"></i> 知识森林：碎片知识采集</a></li>
+        <li><a href="../../index.html">检索与导航首页</a></li>
         <li class="active">CQA问题质量预测分析</li>
       </ol>
     </section>
@@ -109,15 +109,6 @@
         <select class="form-control" ng-model="topic" ng-options="topic.TermName for topic in topics">
           <option value="">-- 请选择主题 --</option> 
         </select>
-        <!-- 空格 -->
-        <span class="input-group-btn"></span>
-        <!-- 选择分面 -->
-        <!-- <span class="input-group-btn">
-          <button type="button" class="btn btn-primary btn-flat">选择分面</button>
-        </span>
-        <select class="form-control" ng-model="facet" ng-options="facet.Facet1Name for facet in topic.Facet1">
-          <option value="">-- 请选择分面 --</option> 
-        </select> -->
         <!-- 空格 -->
         <span class="input-group-btn"></span>
         <!-- 选择数据源 -->
@@ -170,7 +161,7 @@
           <!-- <div class="box box-solid box-warning" ng-repeat="fragment in fragments"> -->
 
             <!-- 问题碎片的主题、分面和数据源信息 -->
-            <div class="box-header with-border">
+            <div class="box-header with-border" id="q_{{ fragment.question_id }}" >
 
               <!-- stackoverflow网站logo -->
               <i class="{{ fragment.page_website_logo }}"></i>
@@ -187,11 +178,6 @@
                     <a style="color: white" href="{{ fragment.page_search_url }}{{ topicName }}" target="_blank">{{ topicName }}</a>
                   </span>
                   &nbsp;&nbsp;&nbsp;
-                  <!-- facet:
-                  <span class="badge bg-purple">
-                    <a style="color: white" href="{{ fragment.page_search_url }}{{ fragment.termName }} {{ fragment.facetName }}" target="_blank">{{ fragment.facetName }}</a>
-                  </span>
-                  &nbsp;&nbsp;&nbsp; -->
                   source:
                   <span class="badge bg-yellow">
                     <a style="color: white" href="https://www.{{ fragment.asker_best_answer_rate }}.com/" target="_blank">{{ fragment.asker_best_answer_rate }}</a>
@@ -227,7 +213,7 @@
               <!-- 问题正文 -->
               <p class="text-black">
                 {{ fragment.question_body_pure }}
-                ...<a style="color: light-blue" href="question.html" ng-click='setFragmentCookie(fragment.question_id)'><span>(more)</span></a>
+                ...<a style="color: light-blue" href="question.html#q_body" ng-click='setFragmentCookie(fragment.question_id)'><span>(more)</span></a>
               </p>
               
               <!-- 问题特征 -->
@@ -255,7 +241,7 @@
               <p class="text-black">
                 <b><em>Best Answer:</em></b> 
                 {{ fragment.question_best_answer_pure }}
-                ...<a style="color: light-blue" href="question.html" ng-click='setFragmentCookie(fragment.question_id)'><span>(more)</span></a>
+                ...<a style="color: light-blue" href="question.html#q_best_answer" ng-click='setFragmentCookie(fragment.question_id)'><span>(more)</span></a>
               </p>
 
             </div>
