@@ -27,7 +27,7 @@ app.controller('menu', function($scope, $http) {
     })
 
     // 获取学科和课程数据
-    $http.get(ip+"/domain/getDomainsBySubject").success(
+    $http.get(ip+"/domain/getDomainsGroupBySubject").success(
         function(response) { 
             //响应response相对，增加状态信息和编码
             data = response["data"];
