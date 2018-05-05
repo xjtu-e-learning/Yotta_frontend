@@ -30,7 +30,6 @@ app.controller('menu', function($scope, $http) {
     $http.get(ip+"/DomainAPI/getDomainsBySubject").success(
         function(data) { 
             $scope.subjects = data;
-            // console.log(data);
             var classSum = 0;
             // 切回导航页面时，读取现有课程并更新两个框的值
             for(i = 0; i < data.length; i++) {
