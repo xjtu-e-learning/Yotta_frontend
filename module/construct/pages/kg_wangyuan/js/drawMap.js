@@ -147,7 +147,7 @@ function init() {
         })
         option = {
             title: {
-                text: getCookie("NowClass"),
+                text: domainName,  // 课程名
                 subtext: 'Default layout',
                 top: 'bottom',
                 left: 'right'
@@ -162,7 +162,7 @@ function init() {
             animationEasingUpdate: 'quinticInOut',
 
             series: [{
-                name: getCookie("NowClass"),
+                name: domainName,
                 type: 'graph',
                 layout: 'none',
                 data: graph.nodes,
@@ -207,7 +207,7 @@ function init() {
                     headers:{'Content-Type': 'application/x-www-form-urlencoded'},
 
                     // type: "GET",
-                    // url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie("NowClass") + "&TermName=" + params.name,
+                    // url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + domainName + "&TermName=" + params.name,
                     // data: {},
                     // dataType: "json",
 
