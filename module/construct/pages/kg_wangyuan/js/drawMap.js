@@ -11,6 +11,7 @@ var domainName = "";//课程名
 
 $(document).ready(function () {
     getClassName();
+    document.getElementById("domainName").innerHTML=domainName;
 });
 
 //获取地址栏里（URL）传递的课程名参数  
