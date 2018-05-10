@@ -7,7 +7,10 @@ var graph; // 课程的图数据
 var categories = []; // 社团的类别
 var showNodeSymbolSize = 15; // 展示的标签的节点大小
 var domainName = "";//课程名
-
+var CourseWareName = "";
+var CourseCode = "";
+var studentcode = "";
+var coursewareid = "";
 
 $(document).ready(function () {
     getClassName();
@@ -16,13 +19,32 @@ $(document).ready(function () {
 
 //获取地址栏里（URL）传递的课程名参数  
 function getClassName() {  
-    //url例子：http://localhost:1103/Yotta_frontend/module/construct/pages/kg_wangyuan/index.html?className=数据结构
+    //url例子：http://yotta.xjtushilei.com:888/Yotta/module/construct/pages/kg_wangyuan/index.html?
+    // courseid=16
+    // &CourseWareName=%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86(yotta)
+    // &CourseCode=JS008
+    // &studentcode=1069800109030205
+    // &coursewareid=2681
     var url = decodeURI(location.search); //?className=数据结构;
     
-    if(url.indexOf("?") != -1)//url中存在问号，也就说有参数。  
-    {   
-      var str = url.substr(1);  //得到?后面的字符串
-      domainName = str.split("=")[1];
+    if(url.indexOf("?") != -1){//url中存在问号，也就说有参数。     
+        var str = url.substr(1);  //得到?后面的字符串
+        var args = str.split("&");
+        domainId = args[0].split("=")[1];
+        CourseWareName = args[1].split("=")[1];
+        CourseCode = args[2].split("=")[1];
+        studentcode = args[3].split("=")[1];
+        coursewareid = args[4].split("=")[1];
+        $.ajax({
+            type: "GET",
+            url:  ip + "/DomainAPI/getDomainByCourseId?courseId=" + domainId,
+            data: {},
+            async:false,
+            dataType: "json",
+            success: function (response) {
+                domainName = response[0].courseWiki;
+            }
+        });
 　　}
 }  
 
@@ -39,6 +61,7 @@ function init() {
             type: "GET",
             url:  ip + "/AssembleAPI/getTreeByDomain?ClassName=" + domainName,
             data: {},
+            async:false,
             dataType: "json",
             success: function (data) {
                 d3.selectAll("svg").remove();
