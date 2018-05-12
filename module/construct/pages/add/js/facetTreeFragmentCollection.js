@@ -180,7 +180,7 @@ ykapp.controller('subjectController', function($scope, $http) {
     function appendFragment(content,time){
         var div2=d3.select("#fragmentDiv").append("div");
         div2.attr("class","box box-primary box-solid")
-        div2.style("width","45%");
+        div2.style("width","48%");
         div2.style("border","2px solid #428bca");
         div2.style("float","left");
         div2.style("margin","1%");
@@ -188,10 +188,13 @@ ykapp.controller('subjectController', function($scope, $http) {
         contentDiv.attr("class","box-body");
         contentDiv.style("height","200px");
         contentDiv.style("overflow","hidden");
+        contentDiv.style("margin","10px")
         contentDiv.html(content);
         var timeDiv=div2.append("div");
         timeDiv.attr("class","box-body");
-        timeDiv.text(time);
+        // timeDiv.text(time);
+        // var moreDiv=div2.append("div");
+        // moreDiv
     }
 
 });

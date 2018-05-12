@@ -137,7 +137,7 @@
           <div class="col-md-4"></div>
           <div class="col-md-4">
           <div id="classNumDiv" style="width:100%;background-color:#3c8dbc;border-radius: 30px;text-align: center;color:white;">
-            <p style="padding-top:20px;font-size: 20px" id="ClassNum"></p>
+            <p style="padding-top:15px;font-size: 20px" id="ClassNum"></p>
           </div>
           </div>
           <div class="col-md-4"></div>
@@ -151,11 +151,22 @@
             </div>
             <!-- /.box-header -->
             <div id="classInfoDiv" class="box-body" style="display: block;overflow-y: auto">
+           
+            <!--   页表框显示内容 -->
+                <table border="1px" width="98%" style="margin-left: 10px;margin-top: 5px"> 
+                 <tr>
+                    <th style="width:22%;text-align: center">ClassName</th>
+                    <th style="width:65%;text-align: center">Content</th>
+                    <th style="width:22%;text-align: center">Operation</th>
+                 </tr>
+                </table>
               <div ng-repeat="kecheng in kechengs">
-                <table border="1" width="95%" style="margin-left: 10px;margin-top: 5px">
-                  <tr>
-                    <th style="width:15%;text-align: center">ClassName</th>
-                    <th style="width:15%;text-align: center;color:#3c8dbc;cursor:pointer" ng-click="openModal(kecheng.ClassName)" data-toggle="modal" data-target="#nameModal">{{kecheng.ClassName}}</th>
+
+                <table border="1px" width="98%" style="margin-left: 10px;margin-top: 5px">
+                
+                 <tr>
+                    <!-- <th style="width:15%;text-align: center">ClassName</th> -->
+                    <th style="width:22%;text-align: center;color:#3c8dbc;cursor:pointer" ng-click="openModal(kecheng.ClassName)" data-toggle="modal" data-target="#nameModal">{{kecheng.ClassName}}</th>
 
                     <div class="modal fade" id="nameModal" tabindex="-1" role="dialog" aria-labelledby="nameModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -181,7 +192,9 @@
                         </div><!-- /.modal -->
                       </div>
 
-                    <th style="width:60%;padding-left: 20px" >
+                 <!--  中间框部分 -->
+
+                    <th style="width:65%;padding-left: 20px" >
                       <div class="row" style="margin-bottom: -10px">   
 <!--                          <div class="progress-group" style="width: 95%;margin:0px">
  -->           
@@ -221,8 +234,11 @@
                          </div>
                       </div>
                     </th>
-                    <th style="width:30%;text-align: center">
-                      <button style="width:90%;" data-toggle="modal" ng-click="getDetailInfo(kecheng.ClassName)" id={{kecheng.ClassName}}count>详细统计信息</button>
+
+                 <!--    右侧框部分 -->
+
+                    <th style="width:22%;text-align: center">
+                      <button style="width:90%;" data-toggle="modal" ng-click="getDetailInfo(kecheng.ClassName)" id={{kecheng.ClassName}}count>详细信息</button>
 
                       <div class="modal fade" id={{kecheng.ClassName}}modal tabindex="-1" role="dialog" aria-labelledby={{kecheng.ClassName}}modalTitle aria-hidden="true">
                         <div class="modal-dialog">
@@ -279,7 +295,7 @@
             <!-- /.box-header -->
             <div id="classQueryDiv" class="box-body" style="display: block;">
               <div class="row">
-                <form action="" style="padding-top: 5%;padding-left: 10%;" >
+                <form action="" style="padding-top: 5%;padding-left: 12%;" >
                 关键词：<input type="text" name="KeyWord">
               <input type="button" value="确定" ng-click="queryByKeyword()">
               </form>
