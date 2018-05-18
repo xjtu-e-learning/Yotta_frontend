@@ -5,9 +5,13 @@ var svg2;
 var layer = 1; // 当前的层级
 var graph; // 课程的图数据
 var categories = []; // 社团的类别
-var showNodeSymbolSize = 15; // 展示的标签的节点大小
+var topics; // 主题状态
+var showNodeSymbolSize = 0; // 展示的标签的节点大小
 var domainName = "";//课程名
-
+var CourseWareName = "";
+var CourseCode = "";
+var studentcode = "";
+var coursewareid = "";
 
 $(document).ready(function () {
     getClassName();
@@ -16,13 +20,32 @@ $(document).ready(function () {
 
 //获取地址栏里（URL）传递的课程名参数  
 function getClassName() {  
-    //url例子：http://localhost:1103/Yotta_frontend/module/construct/pages/kg_wangyuan/index.html?className=数据结构
+    //url例子：http://yotta.xjtushilei.com:888/Yotta/module/construct/pages/kg_wangyuan/index.html?
+    // courseid=16
+    // &CourseWareName=%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86(yotta)
+    // &CourseCode=JS008
+    // &studentcode=1069800109030205
+    // &coursewareid=2681
     var url = decodeURI(location.search); //?className=数据结构;
     
-    if(url.indexOf("?") != -1)//url中存在问号，也就说有参数。  
-    {   
-      var str = url.substr(1);  //得到?后面的字符串
-      domainName = str.split("=")[1];
+    if(url.indexOf("?") != -1){//url中存在问号，也就说有参数。     
+        var str = url.substr(1);  //得到?后面的字符串
+        var args = str.split("&");
+        domainId = args[0].split("=")[1];
+        CourseWareName = args[1].split("=")[1];
+        CourseCode = args[2].split("=")[1];
+        studentcode = args[3].split("=")[1];
+        coursewareid = args[4].split("=")[1];
+        $.ajax({
+            type: "GET",
+            url:  ip + "/DomainAPI/getDomainByCourseId?courseId=" + domainId,
+            data: {},
+            async:false,
+            dataType: "json",
+            success: function (response) {
+                domainName = response[0].courseWiki;
+            }
+        });
 　　}
 }  
 
@@ -30,15 +53,13 @@ function getClassName() {
 //初始化界面
 function init() {
     $(document).ready(function () {
+
+        // 获取页面的第一颗默认主题分面树
         $.ajax({
-            statusCode: {
-                200: function () {
-                    // console.log("获取主题分面树数据...");
-                }
-            },
             type: "GET",
             url:  ip + "/AssembleAPI/getTreeByDomain?ClassName=" + domainName,
             data: {},
+            async:false,
             dataType: "json",
             success: function (data) {
                 d3.selectAll("svg").remove();
@@ -86,6 +107,16 @@ function init() {
             }
         });
 
+        // 获取主题的状态信息：后期由田老师组提供
+        $.ajax({
+            type :"GET",
+            url :ip + "/DomainTopicAPI/getDomainTopicForWangyuanTest?ClassName=" + domainName,
+            datatype :"json",
+            async:false,
+            success : function(data, status){
+                topics = data;
+            }
+        });
 
         // api获取图数据
         var xml;
@@ -98,171 +129,149 @@ function init() {
                 xml = data.success;
             }
         });
+
         //画力关系图
         var dom = document.getElementById("echarts1");
         var myChart = echarts.init(dom);
         var option = null;
         graph = echarts.dataTool.gexf.parse(xml);
-        var communitySize = [];
         // 获取社团数量
-        communityCount = 0;
         if (graph == null) {
             console.log("没有认知路径");
         } else {
+            categories[0] = {name: '已学习'};
+            categories[1] = {name: '正在学习'};
+            categories[2] = {name: '未学习'};
+            // 设置节点格式
             graph.nodes.forEach(function (node) {
-            communityCount = Math.max(communityCount, node.attributes.modularity_class);
-        });
-        // 设置社团初始名字，设置节点size最大的节点为社团名字
-        for (var i = 0; i <= communityCount; i++) {
-            categories[i] = {name: '社团' + (i+1)};
-            communitySize[i] = 0;
-        }
-        graph.nodes.forEach(function (node) {
-            size = node.symbolSize;
-            community = node.attributes.modularity_class;
-            for (var i = 0; i <= communityCount; i++) {
-                if (community == i) {
-                    if (size > communitySize[i]) {
-                        communitySize[i] = size;
-                        categories[i] = {name: node.name};
-                    }
-                }
-            }
-        });
-        // 设置节点格式
-        graph.nodes.forEach(function (node) {
-            node.itemStyle = null;
-            node.value = node.symbolSize;
-            node.symbol = "path://M537.804,174.688c0-44.772-33.976-81.597-77.552-86.12c-12.23-32.981-43.882-56.534-81.128-56.534   c-16.304,0-31.499,4.59-44.514,12.422C319.808,17.949,291.513,0,258.991,0c-43.117,0-78.776,31.556-85.393,72.809   c-3.519-0.43-7.076-0.727-10.71-0.727c-47.822,0-86.598,38.767-86.598,86.598c0,2.343,0.172,4.638,0.354,6.933   c-24.25,15.348-40.392,42.333-40.392,73.153c0,27.244,12.604,51.513,32.273,67.387c-0.086,1.559-0.239,3.107-0.239,4.686   c0,47.822,38.767,86.598,86.598,86.598c14.334,0,27.817-3.538,39.723-9.696c16.495,11.848,40.115,26.67,51.551,23.715   c0,0,4.255,65.905,3.337,82.64c-1.75,31.843-11.303,67.291-18.025,95.979h104.117c0,0-15.348-63.954-16.018-85.307   c-0.669-21.354,6.675-60.675,6.675-60.675l36.118-37.36c13.903,9.505,30.695,14.908,48.807,14.908   c44.771,0,81.597-34.062,86.12-77.639c32.98-12.23,56.533-43.968,56.533-81.214c0-21.994-8.262-41.999-21.765-57.279   C535.71,195.926,537.804,185.561,537.804,174.688z M214.611,373.444c6.942-6.627,12.766-14.372,17.212-22.969l17.002,35.62   C248.816,386.096,239.569,390.179,214.611,373.444z M278.183,395.438c-8.798,1.597-23.782-25.494-34.416-47.517   c11.791,6.015,25.102,9.477,39.254,9.477c3.634,0,7.201-0.296,10.72-0.736C291.006,374.286,286.187,393.975,278.183,395.438z    M315.563,412.775c-20.35,5.651-8.167-36.501-2.334-60.904c4.218-1.568,8.301-3.413,12.183-5.604   c2.343,17.786,10.069,33.832,21.516,46.521C337.011,401.597,325.593,409.992,315.563,412.775z";
-            node.symbolOffset = [0, '-100%'];
-            node.label = {
-                normal: {
-                    show: node.symbolSize > showNodeSymbolSize
-                }
-            };
-            node.category = node.attributes.modularity_class;
-        });
-        graph.links.forEach(function (link) {
-
-        })
-        option = {
-            title: {
-                text: domainName,  // 课程名
-                subtext: 'Default layout',
-                top: 'bottom',
-                left: 'right'
-            },
-            tooltip: {},
-            legend: [{
-                data: categories.map(function (a) {
-                    return a.name;
-                })
-            }],
-            animationDuration: 1500,
-            animationEasingUpdate: 'quinticInOut',
-
-            series: [{
-                name: domainName,
-                type: 'graph',
-                layout: 'none',
-                data: graph.nodes,
-                links: graph.links,
-                edgeSymbol: ['circle', 'arrow'],
-                edgeSymbolSize: [2, 5],
-                categories: categories,
-                roam: true,
-                focusNodeAdjacency: true,
-                label: {
+                node.itemStyle = null;
+                node.value = node.symbolSize;
+                node.symbol = "path://M537.804,174.688c0-44.772-33.976-81.597-77.552-86.12c-12.23-32.981-43.882-56.534-81.128-56.534   c-16.304,0-31.499,4.59-44.514,12.422C319.808,17.949,291.513,0,258.991,0c-43.117,0-78.776,31.556-85.393,72.809   c-3.519-0.43-7.076-0.727-10.71-0.727c-47.822,0-86.598,38.767-86.598,86.598c0,2.343,0.172,4.638,0.354,6.933   c-24.25,15.348-40.392,42.333-40.392,73.153c0,27.244,12.604,51.513,32.273,67.387c-0.086,1.559-0.239,3.107-0.239,4.686   c0,47.822,38.767,86.598,86.598,86.598c14.334,0,27.817-3.538,39.723-9.696c16.495,11.848,40.115,26.67,51.551,23.715   c0,0,4.255,65.905,3.337,82.64c-1.75,31.843-11.303,67.291-18.025,95.979h104.117c0,0-15.348-63.954-16.018-85.307   c-0.669-21.354,6.675-60.675,6.675-60.675l36.118-37.36c13.903,9.505,30.695,14.908,48.807,14.908   c44.771,0,81.597-34.062,86.12-77.639c32.98-12.23,56.533-43.968,56.533-81.214c0-21.994-8.262-41.999-21.765-57.279   C535.71,195.926,537.804,185.561,537.804,174.688z M214.611,373.444c6.942-6.627,12.766-14.372,17.212-22.969l17.002,35.62   C248.816,386.096,239.569,390.179,214.611,373.444z M278.183,395.438c-8.798,1.597-23.782-25.494-34.416-47.517   c11.791,6.015,25.102,9.477,39.254,9.477c3.634,0,7.201-0.296,10.72-0.736C291.006,374.286,286.187,393.975,278.183,395.438z    M315.563,412.775c-20.35,5.651-8.167-36.501-2.334-60.904c4.218-1.568,8.301-3.413,12.183-5.604   c2.343,17.786,10.069,33.832,21.516,46.521C337.011,401.597,325.593,409.992,315.563,412.775z";
+                node.symbolOffset = [0, '-100%'];
+                node.label = {
                     normal: {
-                        position: 'right',
-                        formatter: '{b}'
+                        show: node.symbolSize > showNodeSymbolSize
                     }
-                },
-                lineStyle: {
-                    normal: {
-                        curveness: 0.3,
-                        color: 'source',
-                    }
-                }
-            }]
-        };
-        myChart.setOption(option);
-        // 点击节点跳转到社团结构
-        myChart.on('click', function (params) {
-            if (params.dataType == 'node') {
-                $.ajax({
-                    statusCode: {
-                        200: function () {
-                            // console.log("跳转社团结构页面...");
-                        }
-                    },
-
-                    type: "POST",
-                    url: ip+"/AssembleAPI/getTreeByTopicForFragment",
-                    data: $.param( {
-                        ClassName:domainName,
-                        TermName:params.name,
-                        HasFragment:true
-                    }),
-                    headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-
-                    // type: "GET",
-                    // url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + domainName + "&TermName=" + params.name,
-                    // data: {},
-                    // dataType: "json",
-
-                    success: function (data) {
-                        d3.selectAll("svg").remove();
-                        svg2 = d3.select("div#mysvg2")
-                                        .append("svg")
-                                        .attr("width", "100%")
-                                        .attr("height", "100%");
-                        //分面树根的位置   
-                        var root_x=$("#mysvg2").width()/2;
-                        var root_y=$("#mysvg2").height()*7/8; //
-                        var seed4 = {
-                            x: root_x,
-                            y: root_y,
-                            name: data.name
-                        };
-                        var tree4 = buildTree(data, seed4, 0.8);
-                        draw_tree(tree4, seed4, svg2, 0.8);
-                        /*****************************************************/
-                        //对分面树进行缩放
-                        multiple = 1;
-                        $("div#mydiv1").bind('mousewheel', function(evt) {
-                            var temp = multiple;//判断是保持0.25或者1.25不变
-                            if( 0.3< multiple && multiple<1){
-                                multiple+=evt.originalEvent.wheelDelta/5000;
-                            }else if(multiple < 0.3){
-                                if(evt.originalEvent.wheelDelta>0){
-                                    multiple+=evt.originalEvent.wheelDelta/5000;
-                                }
-                            }else{
-                                if(evt.originalEvent.wheelDelta<0){
-                                    multiple+=evt.originalEvent.wheelDelta/5000;
-                                }
-                            }
-                            //if(multiple<0.25){return;}
-                            d3.selectAll("svg").remove(); //删除之前的svg
-                            svg = d3.select("div#mysvg2")
-                                        .append("svg")
-                                        .attr("width", "100%")
-                                        .attr("height", "100%");
-                            var seed0 = {x: root_x, y: root_y, name:data.name};
-                            var tree0 = buildTree(data, seed0, multiple);
-                            draw_tree(tree0, seed0, svg, multiple);
-                        }); 
-                    /*****************************************************/ 
+                };
+                // 遍历主题，判断相同主题名的设置其结点状态
+                topics.forEach(function (topic){ 
+                    if (topic.TermName == node.name) {
+                        node.attributes.modularity_class = parseInt(topic.status);
                     }
                 });
-                // 当前层数加1，将当前社团编号传到下一层
-                layer++;
-                category = params.data.category; // 社团编号
-                // console.log('社团category: ' + category + ', 社团name: ' + categories[category].name);
-                secondLayer(category);
-            }
-        });
+                node.category = node.attributes.modularity_class;
+                // console.log(node);
+            });
+            graph.links.forEach(function (link) {
+
+            })
+            option = {
+                title: {
+                    text: domainName,  // 课程名
+                    subtext: 'Default layout',
+                    top: 'bottom',
+                    left: 'right'
+                },
+                tooltip: {},
+                legend: [{
+                    data: categories.map(function (a) {
+                        return a.name;
+                    })
+                }],
+                animationDuration: 1500,
+                animationEasingUpdate: 'quinticInOut',
+
+                series: [{
+                    name: domainName,
+                    type: 'graph',
+                    layout: 'none',
+                    data: graph.nodes,
+                    links: graph.links,
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [2, 5],
+                    categories: categories,
+                    roam: true,
+                    focusNodeAdjacency: true,
+                    label: {
+                        normal: {
+                            position: 'right',
+                            formatter: '{b}'
+                        }
+                    },
+                    lineStyle: {
+                        normal: {
+                            curveness: 0.3,
+                            color: 'source',
+                        }
+                    }
+                }]
+            };
+            myChart.setOption(option);
+            // 点击节点跳转到社团结构
+            myChart.on('click', function (params) {
+                if (params.dataType == 'node') {
+                    $.ajax({
+                        type: "POST",
+                        url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+                        data: $.param( {
+                            ClassName:domainName,
+                            TermName:params.name,
+                            HasFragment:true
+                        }),
+                        headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+                        success: function (data) {
+                            d3.selectAll("svg").remove();
+                            svg2 = d3.select("div#mysvg2")
+                                            .append("svg")
+                                            .attr("width", "100%")
+                                            .attr("height", "100%");
+                            //分面树根的位置   
+                            var root_x=$("#mysvg2").width()/2;
+                            var root_y=$("#mysvg2").height()*7/8; //
+                            var seed4 = {
+                                x: root_x,
+                                y: root_y,
+                                name: data.name
+                            };
+                            var tree4 = buildTree(data, seed4, 0.8);
+                            draw_tree(tree4, seed4, svg2, 0.8);
+                            /*****************************************************/
+                            //对分面树进行缩放
+                            multiple = 1;
+                            $("div#mydiv1").bind('mousewheel', function(evt) {
+                                var temp = multiple;//判断是保持0.25或者1.25不变
+                                if( 0.3< multiple && multiple<1){
+                                    multiple+=evt.originalEvent.wheelDelta/5000;
+                                }else if(multiple < 0.3){
+                                    if(evt.originalEvent.wheelDelta>0){
+                                        multiple+=evt.originalEvent.wheelDelta/5000;
+                                    }
+                                }else{
+                                    if(evt.originalEvent.wheelDelta<0){
+                                        multiple+=evt.originalEvent.wheelDelta/5000;
+                                    }
+                                }
+                                //if(multiple<0.25){return;}
+                                d3.selectAll("svg").remove(); //删除之前的svg
+                                svg = d3.select("div#mysvg2")
+                                            .append("svg")
+                                            .attr("width", "100%")
+                                            .attr("height", "100%");
+                                var seed0 = {x: root_x, y: root_y, name:data.name};
+                                var tree0 = buildTree(data, seed0, multiple);
+                                draw_tree(tree0, seed0, svg, multiple);
+                            }); 
+                        /*****************************************************/ 
+                        }
+                    });
+                    // 当前层数加1，将当前社团编号传到下一层
+                    layer++;
+                    category = params.data.category; // 社团编号
+                    // console.log('社团category: ' + category + ', 社团name: ' + categories[category].name);
+                    secondLayer(category);
+                }
+            });
         }
         
     })
@@ -292,6 +301,11 @@ function secondLayer(category) {
                 show: node.symbolSize > 0
             }
         };
+        topics.forEach(function (topic){ 
+            if (topic.TermName == node.name) {
+                node.attributes.modularity_class = parseInt(topic.status);
+            }
+        });
         node.category = node.attributes.modularity_class;
     });
     cluster.links.forEach(function (link) {
@@ -305,6 +319,11 @@ function secondLayer(category) {
             left: 'right'
         },
         tooltip: {},
+        legend: [{
+            data: categories.map(function (a) {
+                return a.name;
+            })
+        }],
         animationDuration: 1500,
         animationEasingUpdate: 'quinticInOut',
 
@@ -316,32 +335,13 @@ function secondLayer(category) {
             links: cluster.links,
             edgeSymbol: ['circle', 'arrow'],
             edgeSymbolSize: [4, 10],
-            //categories: categories,
+            categories: categories,
             roam: true,
             focusNodeAdjacency: true,
             label: {
                 normal: {
                     position: 'right',
                     formatter: '{b}'
-                }
-            },
-            itemStyle: {
-                normal: {
-                    color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 0,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0,
-                            color: 'green' // 0% 处的颜色
-                        }, {
-                            offset: 1,
-                            color: 'brown' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
                 }
             },
             lineStyle: {
@@ -356,12 +356,6 @@ function secondLayer(category) {
     myChart.on('click', function (params) {
         if (params.dataType == 'node') {
             $.ajax({
-                statusCode: {
-                    200: function () {
-                        // console.log("success");
-                    }
-                },
-
                 type: "POST",
                 url: ip+"/AssembleAPI/getTreeByTopicForFragment",
                 data: $.param( {
@@ -370,12 +364,6 @@ function secondLayer(category) {
                     HasFragment:true
                 }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-
-                // type: "GET",
-                // url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie('NowClass') + "&TermName=" + params.name,
-                // data: {},
-                // dataType: "json",
-
                 success: function (data) {
                     d3.selectAll("svg").remove();
                     svg2 = d3.select("div#mysvg2")
@@ -454,6 +442,11 @@ function thirdLayer(name, id) {
                 show: node.symbolSize > 0
             }
         };
+        topics.forEach(function (topic){ 
+            if (topic.TermName == node.name) {
+                node.attributes.modularity_class = parseInt(topic.status);
+            }
+        });
         node.category = node.attributes.modularity_class;
     });
     cluster.links.forEach(function (link) {
@@ -462,12 +455,6 @@ function thirdLayer(name, id) {
     myChart.on('click', function (params) {
         if (params.dataType == 'node') {
             $.ajax({
-                statusCode: {
-                    200: function () {
-                        // console.log("success");
-                    }
-                },
-
                 type: "POST",
                 url: ip+"/AssembleAPI/getTreeByTopicForFragment",
                 data: $.param( {
@@ -476,12 +463,6 @@ function thirdLayer(name, id) {
                     HasFragment:true
                 }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-
-                // type: "GET",
-                // url:  ip + "/AssembleAPI/getTreeByTopicForFragment?ClassName=" + getCookie('NowClass') + "&TermName=" + params.name,
-                // data: {},
-                // dataType: "json",
-                
                 success: function (data) {
                     d3.selectAll("svg").remove();
                     svg2 = d3.select("div#mysvg2")
@@ -538,6 +519,11 @@ function thirdLayer(name, id) {
             left: 'right'
         },
         tooltip: {},
+        legend: [{
+            data: categories.map(function (a) {
+                return a.name;
+            })
+        }],
         animationDuration: 1500,
         animationEasingUpdate: 'quinticInOut',
 
@@ -549,7 +535,7 @@ function thirdLayer(name, id) {
             links: cluster.links,
             edgeSymbol: ['circle', 'arrow'],
             edgeSymbolSize: [4, 10],
-            //categories: categories,
+            categories: categories,
             roam: true,
             focusNodeAdjacency: true,
             label: {
@@ -558,25 +544,25 @@ function thirdLayer(name, id) {
                     formatter: '{b}'
                 }
             },
-            itemStyle: {
-                normal: {
-                    color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 0,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0,
-                            color: 'green' // 0% 处的颜色
-                        }, {
-                            offset: 1,
-                            color: 'brown' // 100% 处的颜色
-                        }],
-                        globalCoord: false // 缺省为 false
-                    }
-                }
-            },
+            // itemStyle: {
+            //     normal: {
+            //         color: {
+            //             type: 'linear',
+            //             x: 0,
+            //             y: 0,
+            //             x2: 0,
+            //             y2: 1,
+            //             colorStops: [{
+            //                 offset: 0,
+            //                 color: 'green' // 0% 处的颜色
+            //             }, {
+            //                 offset: 1,
+            //                 color: 'brown' // 100% 处的颜色
+            //             }],
+            //             globalCoord: false // 缺省为 false
+            //         }
+            //     }
+            // },
             lineStyle: {
                 normal: {
                     curveness: 0.3,
