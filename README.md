@@ -5,4 +5,4 @@
 ![](shortcuts/HLD.png)
 
 ## 地铁提示配色
-![](shortcuts/METRO.PNG)
+![](shortcuts/METRO.png)
