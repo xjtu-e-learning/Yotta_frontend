@@ -7,7 +7,7 @@ var graph; // 课程的图数据
 var categories = []; // 社团的类别
 var topics; // 主题状态
 var showNodeSymbolSize = 0; // 展示的标签的节点大小
-var domainName = "";//课程名
+var domainName = "数据结构";//课程名
 var CourseWareName = "";
 var CourseCode = "";
 var studentcode = "";
@@ -164,7 +164,7 @@ function init() {
             });
             graph.links.forEach(function (link) {
 
-            })
+            });
             option = {
                 title: {
                     text: domainName,  // 课程名
@@ -180,7 +180,10 @@ function init() {
                 }],
                 animationDuration: 1500,
                 animationEasingUpdate: 'quinticInOut',
-
+                // 绿色、金色、猩红（红绿灯版本）
+                // color:['#008000','#FFD700','#DC143C'],
+                // 绿色、金色、深灰色 （地铁版本）
+                color:['#008000','#FFD700','#A9A9A9'],
                 series: [{
                     name: domainName,
                     type: 'graph',
@@ -191,7 +194,7 @@ function init() {
                     edgeSymbolSize: [2, 5],
                     categories: categories,
                     roam: true,
-                    focusNodeAdjacency: true,
+                    // focusNodeAdjacency: true,
                     label: {
                         normal: {
                             position: 'right',
@@ -200,7 +203,7 @@ function init() {
                     },
                     lineStyle: {
                         normal: {
-                            curveness: 0.3,
+                            curveness: 0.25,
                             color: 'source',
                         }
                     }
@@ -266,10 +269,10 @@ function init() {
                         }
                     });
                     // 当前层数加1，将当前社团编号传到下一层
-                    layer++;
-                    category = params.data.category; // 社团编号
-                    // console.log('社团category: ' + category + ', 社团name: ' + categories[category].name);
-                    secondLayer(category);
+                    // layer++;
+                    // category = params.data.category; // 社团编号
+                    // // console.log('社团category: ' + category + ', 社团name: ' + categories[category].name);
+                    // secondLayer(category);
                 }
             });
         }
@@ -526,7 +529,6 @@ function thirdLayer(name, id) {
         }],
         animationDuration: 1500,
         animationEasingUpdate: 'quinticInOut',
-
         series: [{
             name: category,
             type: 'graph',
@@ -544,6 +546,7 @@ function thirdLayer(name, id) {
                     formatter: '{b}'
                 }
             },
+            
             // itemStyle: {
             //     normal: {
             //         color: {
@@ -644,23 +647,24 @@ function removeNodesBySelected(arrLink, arrNode) {
     }
 }
 
-$(document).ready(function () {
-    $("#mydiv2").dblclick(function () {
-        //init();
-        if (layer > 1) {
-            layer--;
-        }
-        if (layer == 1) {
-            init()
-        }
-        if (layer == 2) {
-            secondLayer(category);
-        }
-        if (layer == 3) {
+//双击返回上一层
+// $(document).ready(function () {
+//     $("#mydiv2").dblclick(function () {
+//         //init();
+//         if (layer > 1) {
+//             layer--;
+//         }
+//         if (layer == 1) {
+//             init()
+//         }
+//         if (layer == 2) {
+//             secondLayer(category);
+//         }
+//         if (layer == 3) {
 
-        }
-    });
-})
+//         }
+//     });
+// })
 
 
 init();
