@@ -20,25 +20,23 @@ var nowOperateClass;
 var nowOperateTopic;
 var nowOperateFacet1;
 var nowOperateFacet2;
+var nowOperateFacet3;
 
 var modify_add_flag;
+// var modify_assemble_flag;
 var now_modify_id;
-
-var fragmentUrl;
-var fragmentSource;
-
 // var userinfo=getCookie('userinfo');
-var username = getCookie('userinfo').slice(getCookie('userinfo').indexOf(':')+2,getCookie('userinfo').indexOf(',')-1);
+var username=getCookie('userinfo').slice(getCookie('userinfo').indexOf(':')+2,getCookie('userinfo').indexOf(',')-1);
 
 function choosetype(){
     $("#fragmentModal").modal();
     modify_add_flag=0;
 }
 
-var app=angular.module('myApp',['ui.bootstrap','ngDraggable']);
-
-app.controller('myCon',function($scope, $http, $sce){
-
+var app=angular.module('myApp',[
+    'ui.bootstrap','ngDraggable'
+    ]);
+app.controller('myCon',function($scope,$http,$sce){
     $http.get(ip+'/DomainAPI/getDomainManage').success(function(response){
         $scope.subjects=response;
         // console.log(nowOperateClass);
@@ -69,16 +67,12 @@ app.controller('myCon',function($scope, $http, $sce){
     $scope.isCollapsedchildren2=true;
 
     $scope.getUnaddFragment=function(){
-        $http.get(
-            ip + '/SpiderAPI/getFragment',
-            {
-                params:{"UserName":username}
-            }).success(function(response){
-                $scope.unaddfragments = response;
-                for(var i=0;i<$scope.unaddfragments.length;i++){
-                    $scope.unaddfragments[i].FragmentContent=$sce.trustAsHtml($scope.unaddfragments[i].FragmentContent);
-                }
-            });  
+      $http.get(ip+'/SpiderAPI/getFragment',{params:{"UserName":username}}).success(function(response){
+        $scope.unaddfragments=response;
+        for(var i=0;i<$scope.unaddfragments.length;i++){
+            $scope.unaddfragments[i].FragmentContent=$sce.trustAsHtml($scope.unaddfragments[i].FragmentContent);
+        }
+    });  
     }
 
 
@@ -90,6 +84,8 @@ app.controller('myCon',function($scope, $http, $sce){
             alert("添加无效");
         }
         else if(arr[0]=="一级分面"){
+            // console.log("1"+arr[1]);
+
             $http({
                 method:'GET',
                 url:ip+"/SpiderAPI/addFacetFragment",
@@ -99,11 +95,13 @@ app.controller('myCon',function($scope, $http, $sce){
                 $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,arr[1]);
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
-                console.log(response);
-                alert("添加碎片失败"); 
+
             });
+
         }
         else if(arr[0]=="二级分面"){
+            // console.log("2"+arr[1]);
+
             $http({
                 method:'GET',
                 url:ip+"/SpiderAPI/addFacetFragment",
@@ -113,11 +111,12 @@ app.controller('myCon',function($scope, $http, $sce){
                 $scope.getfacet2fragment(nowOperateClass,nowOperateTopic,arr[1]);
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
-                console.log(response);
-                alert("添加碎片失败"); 
+
             });
         }
         else if(arr[0]=="三级分面"){
+            // console.log("3"+arr[1]);
+
             $http({
                 method:'GET',
                 url:ip+"/SpiderAPI/addFacetFragment",
@@ -127,72 +126,126 @@ app.controller('myCon',function($scope, $http, $sce){
                 $scope.getfacet3(nowOperateClass,nowOperateTopic,arr[1]);
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
-                console.log(response);
-                alert("添加碎片失败"); 
+
             });
         }
         else{
             alert("添加无效");
         }
     }
-
-
-    $scope.dragFragment = function(data, evt){
+    $scope.dragFragment=function(data,evt){
         // console.log("success");
     }
 
-    $scope.addFrag = function(){
 
-        fragmentUrl = document.getElementById("fragmentUrl").value;
-        fragmentSource = document.getElementById("fragmentSource").value;
-
+    $scope.addFrag=function(){
+        
+        
         var html = editor.$txt.html() + "";
-        if(modify_add_flag == 0){
+        if(modify_add_flag==0){
             console.log("addFragment");
             $http({
                 method:'POST',
                 url:ip+"/SpiderAPI/createFragment",
-                data : $.param({
-                    UserName: username,
-                    FragmentContent: html,
-                    FragmentUrl: fragmentUrl,
-                    SourceName: fragmentSource,
-                }),
+                data : $.param( {FragmentContent : html, UserName:username}),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             }).then(function successCallback(response){
                 alert("添加碎片成功");
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
-                console.log(response);
-                alert("添加碎片失败");
-            });
-        } else if(modify_add_flag == 1){
-            console.log("modifyFragment_" + now_modify_id);
+            // console.log(html);
+            alert("添加碎片失败");
+        });
+        }
+        else if(modify_add_flag==1){
+            console.log("modifyFragment_"+now_modify_id);
             $http({
                 method:'POST',
                 url:ip+"/SpiderAPI/updateFragment",
-                data : $.param({
-                    FragmentID: now_modify_id,
-                    UserName: username,
-                    FragmentContent: html,
-                    FragmentUrl: fragmentUrl,
-                    SourceName: fragmentSource,
-                }),
+                data : $.param({FragmentID:now_modify_id,
+                                 FragmentContent : html
+                             }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             }).then(function successCallback(response){
                 alert("更新碎片成功");
                 $scope.getUnaddFragment();
+                // modify_add_flag=0;
             }, function errorCallback(response){
-                console.log(response);
-                alert("更新碎片失败");
-            });
+            console.log(response);
+            alert("更新碎片失败");
+            // modify_add_flag=0;
+        });
+        }
+        else if(modify_add_flag==2){
+            console.log("modifyAssemble_"+now_modify_id);
+            $http({
+                method:'POST',
+                url:ip+"/SpiderAPI/updateAssemble",
+                data : $.param({FragmentID:now_modify_id,
+                                 FragmentContent : html
+                             }),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            }).then(function successCallback(response){
+                alert("更新碎片成功");
+                var type=document.getElementById("fragmenttopic").innerText.split(" ")[0];
+                console.log(type);
+                if(type=="主题"){
+                    $scope.gettopicfragment(nowOperateClass,nowOperateTopic);
+                }
+                else if(type=="一级分面"){
+                    $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,nowOperateFacet1);
+                }
+                else if(type=="二级分面"){
+                    $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,nowOperateFacet2);
+                }
+                else if(type=="三级分面"){
+                    $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,nowOperateFacet3);
+                }
+                // modify_add_flag=0;
+            }, function errorCallback(response){
+            console.log(response);
+            alert("更新碎片失败");
+            // modify_add_flag=0;
+        });
         }
 
         
     }
 
+    
+    //杨宽添加,显示分面树函数
+    $scope.showFacetTreeWithLeaves=function(className,subjectName){
+        $.ajax({
+
+            type: "POST",
+            url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            data: $.param( {
+                ClassName:className,
+                TermName:subjectName,
+                HasFragment:false
+            }),
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+
+            // type: "GET",
+            // url: ip+"/AssembleAPI/getTreeByTopicForFragment",
+            // data: {
+            //     ClassName:className,
+            //     TermName:subjectName
+            // },
+            // dataType: "json",
+            
+            success: function(dataset){
+                displayTree(dataset);
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                //通常情况下textStatus和errorThrown只有其中一个包含信息
+                alert(textStatus);
+            }
+        });
+    }
+
     $scope.getInfo=function(){
-        nowOperateClass = document.getElementById("nameofclass").value;
+        nowOperateClass=document.getElementById("nameofclass").value;
         $("#class_name").text(nowOperateClass);
 
         $http({
@@ -202,12 +255,39 @@ app.controller('myCon',function($scope, $http, $sce){
         }).then(function successCallback(response){
             $scope.classInfo=response.data;
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
         });
     }
 
 
+
+
+    // $scope.getTerm=function(){
+    //     nowOperateClass=document.getElementById("nameofclass").value;
+
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/SpiderAPI/getDomainTerm",
+    //         params:{ClassName:nowOperateClass}
+    //     }).then(function successCallback(response){
+    //         for(var i=0;i<response.data.length;i++){
+
+    //             $http({
+    //                 method:'GET',
+    //                 url:ip+"/DomainTopicAPI/getDomainTermInfo",
+    //                 params:{ClassName:nowOperateClass,TermName:response.data[i].TermName}
+    //             }).then(function successCallback(response1){
+    //                 if(response1.data[0].FacetNum==0){
+    //                      $("#"+response1.data[0].TermName+"_a").hide();
+    //                  }
+    //             }, function errorCallback(response1){
+
+    //             });
+    //         }
+    //     }, function errorCallback(response){
+
+    //     });
+    // }
 
     $scope.getTopic=function(a){
         nowOperateClass=a;
@@ -219,11 +299,37 @@ app.controller('myCon',function($scope, $http, $sce){
         }).then(function successCallback(response){
             $scope.classInfo=response.data;
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
         });
     }
 
+
+    // $scope.gettopichref=function(a,b){
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/SpiderAPI/getDomainTermFacet1",
+    //         params:{ClassName:a,TermName:b}
+    //     }).then(function successCallback(response){
+    //         for(var i=0;i<response.data.length;i++){
+
+    //             $http({
+    //                 method:'GET',
+    //                 url:ip+"/FacetAPI/getFacet1Facet2Num",
+    //                 params:{ClassName:a,TermName:b,Facet1Name:response.data[i].FacetName}
+    //             }).then(function successCallback(response1){
+    //                 if(response1.data.Facet2Num==0){
+    //                            $("#"+b+"_"+response1.data.Facet1Name+"_a").hide();
+    //                                                            }
+    //             }, function errorCallback(response1){
+
+    //             });
+    //         }
+    //     }, function errorCallback(response){
+
+    //     });
+
+        
+    // }
 
     $scope.gettopicfragment=function(a,b){
         nowOperateClass=a;
@@ -241,10 +347,41 @@ app.controller('myCon',function($scope, $http, $sce){
            $("#fragmenttopic").text("主题 "+b+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
         });
     }
+
+    // $scope.getfacet1href=function(a,b,c){
+        
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/SpiderAPI/getDomainTermFacet2",
+    //         params:{ClassName:a,TermName:b,Facet1Name:c}
+    //     }).then(function successCallback(response){
+    //         if(response.data.length!=0){
+    //             for(var i=0;i<response.data.length;i++){
+
+    //             $http({
+    //                 method:'GET',
+    //                 url:ip+"/FacetAPI/getFacet2Facet3Num",
+    //                 params:{ClassName:a,TermName:b,Facet2Name:response.data[i].ChildFacet}
+    //             }).then(function successCallback(response1){
+    //                 if(response1.data.Facet3Num==0){
+    //                            $("#"+b+"_"+c+"_"+response1.data.Facet2Name+"_a").hide();
+    //                                                            }
+    //             }, function errorCallback(response1){
+
+    //             });
+    //         }}else{
+    //                 $("#"+b+"_"+c+"_info").remove();
+                    
+    //             }
+    //     }, function errorCallback(response){
+
+    //     });
+
+        
+    // }
 
     $scope.getfacet1fragment=function(a,b,c){
         nowOperateClass=a;
@@ -263,11 +400,24 @@ app.controller('myCon',function($scope, $http, $sce){
            $("#fragmenttopic").text("一级分面 "+c+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
         });
     }
 
+    // $scope.getfacet2href=function(a,b,c,d){
+    //     $http({
+    //         method:'GET',
+    //         url:ip+"/SpiderAPI/getDomainTermFacet3",
+    //         params:{ClassName:a,TermName:b,Facet2Name:d}
+    //     }).then(function successCallback(response){
+    //         if(response.data.length!=0){
+    //             }else{
+    //                 $("#"+b+"_"+c+"_"+d+"_info").remove();
+    //             }
+    //     }, function errorCallback(response){
+
+    //     });
+    // }
     $scope.getfacet2fragment=function(a,b,c){
         nowOperateClass=a;
         nowOperateTopic=b;
@@ -286,12 +436,14 @@ app.controller('myCon',function($scope, $http, $sce){
            $("#fragmenttopic").text("二级分面 "+c+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
         });
     }
 
     $scope.getfacet3=function(a,b,c){
+        nowOperateClass=a;
+        nowOperateTopic=b;
+        nowOperateFacet3=c;
 
         $http({
             method:'GET',
@@ -305,12 +457,11 @@ app.controller('myCon',function($scope, $http, $sce){
            $("#fragmenttopic").text("三级分面 "+c+" 下碎片");
            $("#topictree").text("主题 "+b+" 主题树");
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
         });
     }
 
-    $scope.modifyFragment = function(a){
+    $scope.modifyFragment=function(a){
         modify_add_flag=1;
         now_modify_id=a;
         $("#fragmentModal").modal();
@@ -322,11 +473,25 @@ app.controller('myCon',function($scope, $http, $sce){
         }).then(function successCallback(response){
             // console.log(response.data[0].FragmentContent);
             $("#wang").html(response.data[0].FragmentContent);
-            $scope.fragmentUrlNg = response.data[0].FragmentUrl;
-            $scope.fragmentSourceNg = response.data[0].SourceName;
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
+        });
+    }
+
+    $scope.modifyAssemble=function(a){
+        modify_add_flag=2;
+        now_modify_id=a;
+        $("#fragmentModal").modal();
+
+        $http({
+            method:'GET',
+            url:ip+"/SpiderAPI/getAssembleByID",
+            params:{FragmentID:a}
+        }).then(function successCallback(response){
+            console.log(response.data[0].FragmentContent);
+            $("#wang").html(response.data[0].FragmentContent);
+        }, function errorCallback(response){
+
         });
     }
 
@@ -340,8 +505,7 @@ app.controller('myCon',function($scope, $http, $sce){
         }).then(function successCallback(response){
             alert(response.data.success);
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
         });
     }
 
@@ -352,11 +516,15 @@ app.controller('myCon',function($scope, $http, $sce){
             url:ip+"/SpiderAPI/deleteFragment",
             params:{FragmentID:a}
         }).then(function successCallback(response){
-            $scope.getUnaddFragment();
             alert(response.data.success);
         }, function errorCallback(response){
-            console.log(response);
-            // alert("添加碎片失败");
+
         });
+    }
+    // 每个碎片的内容
+    $scope.getFragmentDetail=function(obj){
+        console.log(obj);
+        $('#fragmentDetail').modal('show');
+        document.getElementById("fragmentDetailContent").innerHTML=obj.FragmentContent;
     }
 });
