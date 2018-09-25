@@ -21,6 +21,72 @@ $(document).ready(function(){
     $scope.NowSubject = getCookie("NowSubject");
     $scope.NowClass = getCookie("NowClass");
 
+
+    /**
+     * 根据课程，计算问题质量
+     */
+    $scope.getQuestionQuality = function() {
+
+        // 根据课程，计算问题质量并写回数据库
+        $http({
+            url : ip + "/QuestionQualityAPI/getQuestionLabelByClass",
+            method : 'post',
+            data: {
+                className: getCookie("NowClass")
+            },
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function(obj) {  
+                var str = [];  
+                for(var p in obj){  
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
+                }  
+                return str.join("&");  
+            }
+        }).success(function(response) {
+            alert("质量评估成功！");
+        }).error(function(response){
+            console.log('根据课程，计算问题标签，获取问题碎片api出错...');
+            alert("质量评估失败！");
+        });
+
+    }
+
+    /**
+     * 根据课程，删除低质量问题
+     */
+    $scope.deleteLowQualityQuestion = function() {
+
+        // 弹框确认
+        if(confirm("确认删除吗")){
+            // 根据课程，删除低质量问题
+            $http({
+                url : ip + "/QuestionQualityAPI/deleteQuestionsByClass",
+                method : 'post',
+                data: {
+                    className: getCookie("NowClass")
+                },
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {  
+                    var str = [];  
+                    for(var p in obj){  
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));  
+                    }  
+                    return str.join("&");  
+                }
+            }).success(function(response) {
+                alert(response.success);
+            }).error(function(response){
+                console.log('根据课程，删除低质量问题，获取问题碎片api出错...');
+            });
+        }
+
+    }
+
+
+
+
+    
+
     $scope.getinfo = function(sourceName) {
         $("#get").text("正在获取...");
         var num = 0;//计算主题是否全选要用
@@ -40,7 +106,7 @@ $(document).ready(function(){
 
         // 根据是否选择数据源调用不同的api返回数据
         // console.log(sourceName);
-        var url = ip + "/SpiderAPI/getFragmentByTopicArrayAndSource";
+        var url = ip + "/SpiderAPI/getFragmentQuestionByTopicArrayAndSource";
         var postData = $.param( {
             className:getCookie("NowClass"),
             topicNames:checked_topicsArray,
@@ -61,8 +127,8 @@ $(document).ready(function(){
         });
         if (typeof sourceName === "undefined") {
             // 没有选择数据源展示所有数据源的
-            $("#fragmentSource").text("中文维基、知乎、百度知道、csdn、人工、英文维基、Quora、Stackoverflow、Yahoo、Twitter");
-            var url = ip + "/SpiderAPI/getFragmentByTopicArray";
+            $("#fragmentSource").text("中文维基、知乎、百度知道、csdn、人工、英文维基、Stackoverflow、Yahoo");
+            var url = ip + "/SpiderAPI/getFragmentQuestionByTopicArray";
             postData = $.param( {
                 className:getCookie("NowClass"),
                 topicNames:checked_topicsArray
@@ -91,6 +157,15 @@ $(document).ready(function(){
                 $scope.fragments = data;
                 for(var i = 0; i < $scope.fragments.length; i++){
                     $scope.fragments[i].fragmentContent = $sce.trustAsHtml($scope.fragments[i].fragmentContent);
+                    // console.log($scope.fragments[i].sourceName);
+                    if ($scope.fragments[i].sourceName === "Stackoverflow") {
+                      $scope.fragments[i].sourceName = "SO";
+                    }
+                    console.log($scope.fragments[i].question_quality_label);
+                    if ($scope.fragments[i].question_quality_label === null || $scope.fragments[i].question_quality_label === "") {
+                      $scope.fragments[i].question_quality_label = "unknown";
+                    }
+
                 }
             }
         });
@@ -245,7 +320,7 @@ $(document).ready(function(){
                 type: 'pie',
                 selectedMode: 'single',
                 radius: ['25%', '58%'],
-                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140','#915872', '#3077b7', '#9a8169', '#3f8797', '#5b8144'],
+                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140','#915872', '#3077b7', '#9a8169'],
 
                 label: {
                     normal: {
@@ -445,7 +520,7 @@ $(document).ready(function(){
                 type: 'pie',
                 selectedMode: 'single',
                 radius: ['25%', '58%'],
-                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140','#915872', '#3077b7', '#9a8169', '#3f8797', '#5b8144'],
+                color: ['#86D560', '#AF89D6', '#59ADF3', '#FF999A', '#deb140','#915872', '#3077b7', '#9a8169'],
 
                 label: {
                     normal: {
@@ -478,12 +553,12 @@ $(document).ready(function(){
         });
 
         // 碎片显示：默认加载时候显示第一个主题的碎片信息
-        var url = ip + "/SpiderAPI/getFragmentByTopicArray";
+        var url = ip + "/SpiderAPI/getFragmentQuestionByTopicArray";
         var postData = $.param( {
             className:getCookie("NowClass"),
             topicNames:$scope.tops[0].TermName
         });
-        // var url = ip + "/SpiderAPI/getFragmentByTopicArrayAndSource";
+        // var url = ip + "/SpiderAPI/getFragmentQuestionByTopicArrayAndSource";
         // var postData = $.param( {
         //     className:getCookie("NowClass"),
         //     topicNames:$scope.tops[0].TermName,
@@ -501,6 +576,14 @@ $(document).ready(function(){
                 $scope.fragments=data;
                 for(var i=0;i<$scope.fragments.length;i++){
                     $scope.fragments[i].fragmentContent = $sce.trustAsHtml($scope.fragments[i].fragmentContent);
+                    // console.log($scope.fragments[i].sourceName);
+                    if ($scope.fragments[i].sourceName === "Stackoverflow") {
+                      $scope.fragments[i].sourceName = "SO";
+                    }
+                    console.log($scope.fragments[i].question_quality_label);
+                    if ($scope.fragments[i].question_quality_label === null || $scope.fragments[i].question_quality_label === "") {
+                      $scope.fragments[i].question_quality_label = "unknown";
+                    }
                 }
             }
         });
