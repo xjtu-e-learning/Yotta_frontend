@@ -148,7 +148,7 @@
               <div ng-repeat="kecheng in kechengs">
                 <table border="1" width="95%" style="margin-left: 10px;margin-top: 5px">
                   <tr>
-                    <th style="width:15%;text-align: center">ClassName</th>
+                    <!-- <th style="width:15%;text-align: center">ClassName</th> -->
                     <th style="width:15%;text-align: center;color:#3c8dbc;cursor:pointer" ng-click="openModal(kecheng.ClassName)" data-toggle="modal" data-target="#nameModal">{{kecheng.ClassName}}</th>
 
                     <div class="modal fade" id="nameModal" tabindex="-1" role="dialog" aria-labelledby="nameModalLabel" aria-hidden="true">
@@ -175,7 +175,7 @@
                         </div><!-- /.modal -->
                       </div>
 
-                    <th style="width:60%;padding-left: 20px" >
+                    <th style="width:70%;padding-left: 20px" >
                       <div class="row" style="margin-bottom: -10px">   
 <!--                          <div class="progress-group" style="width: 95%;margin:0px">
  -->           
@@ -215,7 +215,7 @@
                          </div>
                       </div>
                     </th>
-                    <th style="width:30%;text-align: center">
+                    <th style="width:15%;text-align: center">
                       <button style="width:90%;" data-toggle="modal" ng-click="getDetailInfo(kecheng.ClassName)" id={{kecheng.ClassName}}count>详细统计信息</button>
 
                       <div class="modal fade" id={{kecheng.ClassName}}modal tabindex="-1" role="dialog" aria-labelledby={{kecheng.ClassName}}modalTitle aria-hidden="true">

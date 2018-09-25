@@ -20,8 +20,10 @@ var nowOperateClass;
 var nowOperateTopic;
 var nowOperateFacet1;
 var nowOperateFacet2;
+var nowOperateFacet3;
 
 var modify_add_flag;
+// var modify_assemble_flag;
 var now_modify_id;
 // var userinfo=getCookie('userinfo');
 var username=getCookie('userinfo').slice(getCookie('userinfo').indexOf(':')+2,getCookie('userinfo').indexOf(',')-1);
@@ -167,9 +169,43 @@ app.controller('myCon',function($scope,$http,$sce){
             }).then(function successCallback(response){
                 alert("更新碎片成功");
                 $scope.getUnaddFragment();
+                // modify_add_flag=0;
             }, function errorCallback(response){
             console.log(response);
             alert("更新碎片失败");
+            // modify_add_flag=0;
+        });
+        }
+        else if(modify_add_flag==2){
+            console.log("modifyAssemble_"+now_modify_id);
+            $http({
+                method:'POST',
+                url:ip+"/SpiderAPI/updateAssemble",
+                data : $.param({FragmentID:now_modify_id,
+                                 FragmentContent : html
+                             }),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            }).then(function successCallback(response){
+                alert("更新碎片成功");
+                var type=document.getElementById("fragmenttopic").innerText.split(" ")[0];
+                console.log(type);
+                if(type=="主题"){
+                    $scope.gettopicfragment(nowOperateClass,nowOperateTopic);
+                }
+                else if(type=="一级分面"){
+                    $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,nowOperateFacet1);
+                }
+                else if(type=="二级分面"){
+                    $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,nowOperateFacet2);
+                }
+                else if(type=="三级分面"){
+                    $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,nowOperateFacet3);
+                }
+                // modify_add_flag=0;
+            }, function errorCallback(response){
+            console.log(response);
+            alert("更新碎片失败");
+            // modify_add_flag=0;
         });
         }
 
@@ -405,6 +441,9 @@ app.controller('myCon',function($scope,$http,$sce){
     }
 
     $scope.getfacet3=function(a,b,c){
+        nowOperateClass=a;
+        nowOperateTopic=b;
+        nowOperateFacet3=c;
 
         $http({
             method:'GET',
@@ -439,6 +478,23 @@ app.controller('myCon',function($scope,$http,$sce){
         });
     }
 
+    $scope.modifyAssemble=function(a){
+        modify_add_flag=2;
+        now_modify_id=a;
+        $("#fragmentModal").modal();
+
+        $http({
+            method:'GET',
+            url:ip+"/SpiderAPI/getAssembleByID",
+            params:{FragmentID:a}
+        }).then(function successCallback(response){
+            console.log(response.data[0].FragmentContent);
+            $("#wang").html(response.data[0].FragmentContent);
+        }, function errorCallback(response){
+
+        });
+    }
+
     $scope.deleteUnaddFragment=function(a){
         // console.log(a);
 
@@ -464,5 +520,11 @@ app.controller('myCon',function($scope,$http,$sce){
         }, function errorCallback(response){
 
         });
+    }
+    // 每个碎片的内容
+    $scope.getFragmentDetail=function(obj){
+        console.log(obj);
+        $('#fragmentDetail').modal('show');
+        document.getElementById("fragmentDetailContent").innerHTML=obj.FragmentContent;
     }
 });

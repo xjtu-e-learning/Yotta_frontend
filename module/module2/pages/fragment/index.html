@@ -279,12 +279,39 @@
                   </div>
                   <div class="box-footer">
                     <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteFragment(fragment.FragmentID)"><i class="fa fa-times"></i></button>
+                    <button class="btn btn-primary" style="float: right" ng-click="modifyAssemble(fragment.FragmentID)">修改</button>
+                    <button type="button" class="btn btn-primary" style="float:right" ng-click="getFragmentDetail(fragment)">
+                    详情
+                  </button>
                   </div>
                 </div>
               </div>
 
             </div>
           </div>
+
+          <div class="modal fade" id="fragmentDetail" tabindex="-1" role="dialog" aria-labelledby="fragmentDetailLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content" style="width:1000px;overflow-x: auto">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="fragmentDetailLabel">
+                    碎片内容
+                </h4>
+            </div>
+            <div class="modal-body" style="">
+                <div id="fragmentDetailContent">
+                </div>
+            </div>
+            <div class="modal-footer">
+            
+            </div>
+          </div>
+        </div>
+      </div>
+
           </div>
             
           </div>
