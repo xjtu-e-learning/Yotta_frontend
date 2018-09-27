@@ -44,7 +44,7 @@ app.controller('myCon',function($scope,$http){
 
     $scope.addFacet=function(){
     var nowtype=document.getElementById("nowtype").innerText;
-    var facetname=$("input[name='FacetName']").val().replace(/\s/g, "");
+    var facetname=$("input[name='FacetName']").val();
     // console.log(facetname);
     if(nowtype=="主题"){
 
@@ -112,7 +112,7 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/FacetAPI/updataFacet1",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val().replace(/\s/g, "")}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val()}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
@@ -127,7 +127,7 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/FacetAPI/updataFacet2",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val().replace(/\s/g, "")}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val()}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
@@ -141,7 +141,7 @@ app.controller('myCon',function($scope,$http){
         $http({
             method:'GET',
             url:ip+"/FacetAPI/updataFacet3",
-            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val().replace(/\s/g, "")}
+            params:{ClassName:nowOperateClass,TermName:nowOperateTopic,FacetName:name,NewFacetName:$("input[name='NewFacetName']").val()}
         }).then(function successCallback(response){
             alert(response.data.success);
             $scope.gettopicfacet(nowOperateClass,nowOperateTopic);
@@ -217,33 +217,6 @@ app.controller('myCon',function($scope,$http){
     }
     
 
-    // $scope.gettopichref=function(a,b){
-
-    //     $http({
-    //         method:'GET',
-    //         url:ip+"/FacetAPI/getDomainTermFacet1",
-    //         params:{ClassName:a,TermName:b}
-    //     }).then(function successCallback(response){
-    //         for(var i=0;i<response.data.length;i++){
-
-    //             $http({
-    //                 method:'GET',
-    //                 url:ip+"/FacetAPI/getFacet1Facet2Num",
-    //                 params:{ClassName:a,TermName:b,Facet1Name:response.data[i].FacetName}
-    //             }).then(function successCallback(response1){
-    //                 if(response1.data.Facet2Num==0){
-    //                            $("#"+b+"_"+response1.data.Facet1Name+"_a").hide();
-    //                                                            }
-    //             }, function errorCallback(response1){
-
-    //             });
-    //         }
-    //     }, function errorCallback(response){
-
-    //     });
-        
-    // }
-
     $scope.gettopicfacet=function(a,b){
         nowOperateClass=a;
         nowOperateTopic=b;
@@ -264,38 +237,6 @@ app.controller('myCon',function($scope,$http){
         });
     }
 
-    // $scope.getfacet1href=function(a,b,c){
-    //     $("#"+b+"_"+c+"_info").collapse();
-
-
-    //     $http({
-    //         method:'GET',
-    //         url:ip+"/FacetAPI/getDomainTermFacet2",
-    //         params:{ClassName:a,TermName:b,Facet1Name:c}
-    //     }).then(function successCallback(response){
-    //         if(response.data.length!=0){
-    //             for(var i=0;i<response.data.length;i++){
-
-    //             $http({
-    //                 method:'GET',
-    //                 url:ip+"/FacetAPI/getFacet2Facet3Num",
-    //                 params:{ClassName:a,TermName:b,Facet2Name:response.data[i].ChildFacet}
-    //             }).then(function successCallback(response1){
-    //                 if(response1.data.Facet3Num==0){
-    //                            $("#"+b+"_"+c+"_"+response1.data.Facet2Name+"_a").hide();
-    //                                                            }
-    //             }, function errorCallback(response1){
-
-    //             });
-    //         }}else{
-    //                 $("#"+b+"_"+c+"_info").remove();
-                    
-    //             }
-    //     }, function errorCallback(response){
-
-    //     });
-        
-    // }
 
     $scope.getfacet1facet=function(a,b,c){
         //console.log(this.id);

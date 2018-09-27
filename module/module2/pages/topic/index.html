@@ -216,7 +216,7 @@
                         
 
 
-                            <div class="top btn btn-primary" id={{topic.topicName}} style="width:30%;margin:1%;" draggable="true" ng-repeat="topic in topics" ng-mousemove="getTopicInfo(topic.topicName);detailCount()" ng-click="jumpFacet()" ondragstart="drag(event)" >{{topic.topicName}}
+                            <div class="top btn btn-primary" id={{topic.topicName}} style="width:30%;margin:1%;" draggable="true" ng-repeat="topic in topics" ng-click="getTopicInfo(topic.topicName);detailCount()" ng-dblclick="jumpFacet()" ondragstart="drag(event)" >{{topic.topicName}}
                             </div>
 
 

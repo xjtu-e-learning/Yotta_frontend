@@ -20,6 +20,10 @@ var nowOperateClass;
 var nowOperateTopic;
 var nowOperateFacet1;
 var nowOperateFacet2;
+var nowOperateFacet3;
+var nowOperateFacet1Id;
+var nowOperateFacet2Id;
+var nowOperateFacet3Id;
 
 var modify_add_flag;
 var now_modify_id;
@@ -95,7 +99,7 @@ app.controller('myCon',function($scope,$http,$sce){
             }).then(function successCallback(response){
                 response = response["data"];
                 alert("添加碎片成功");
-                $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,arr[1]);
+                $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,arr[1],nowOperateFacet1Id);
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
 
@@ -116,7 +120,7 @@ app.controller('myCon',function($scope,$http,$sce){
             }).then(function successCallback(response){
                 response = response["data"];
                 alert("添加碎片成功");
-                $scope.getfacet2fragment(nowOperateClass,nowOperateTopic,arr[1]);
+                $scope.getfacet2fragment(nowOperateClass,nowOperateTopic,arr[1],nowOperateFacet2Id);
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
 
@@ -136,7 +140,7 @@ app.controller('myCon',function($scope,$http,$sce){
             }).then(function successCallback(response){
                 response = response["data"];
                 alert("添加碎片成功");
-                $scope.getfacet3(nowOperateClass,nowOperateTopic,arr[1]);
+                $scope.getfacet3(nowOperateClass,nowOperateTopic,arr[1],nowOperateFacet3Id);
                 $scope.getUnaddFragment();
             }, function errorCallback(response){
 
@@ -190,6 +194,39 @@ app.controller('myCon',function($scope,$http,$sce){
         });
         }
 
+        else if(modify_add_flag==2){
+            console.log("modifyAssemble_"+now_modify_id);
+            $http({
+                method:'POST',
+                url:ip+"/assemble/updateAssemble",
+                data : $.param({assembleId:now_modify_id,
+                                 assembleContent : html
+                             }),
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+            }).then(function successCallback(response){
+                alert("更新碎片成功");
+                var type=document.getElementById("fragmenttopic").innerText.split(" ")[0];
+                console.log(type);
+                if(type=="主题"){
+                    $scope.gettopicfragment(nowOperateClass,nowOperateTopic);
+                }
+                else if(type=="一级分面"){
+                    $scope.getfacet1fragment(nowOperateClass,nowOperateTopic,nowOperateFacet1,nowOperateFacet1Id);
+                }
+                else if(type=="二级分面"){
+                    $scope.getfacet2fragment(nowOperateClass,nowOperateTopic,nowOperateFacet2,nowOperateFacet2Id);
+                }
+                else if(type=="三级分面"){
+                    $scope.getfacet3(nowOperateClass,nowOperateTopic,nowOperateFacet3,nowOperateFacet3Id);
+                }
+                // modify_add_flag=0;
+            }, function errorCallback(response){
+            console.log(response);
+            alert("更新碎片失败");
+            // modify_add_flag=0;
+        });
+        }
+
         
     }
 
@@ -206,14 +243,6 @@ app.controller('myCon',function($scope,$http,$sce){
                 hasFragment:false
             }),
             headers:{'Content-Type': 'application/x-www-form-urlencoded'},
-
-            // type: "GET",
-            // url: ip+"/AssembleAPI/getTreeByTopicForFragment",
-            // data: {
-            //     ClassName:className,
-            //     TermName:subjectName
-            // },
-            // dataType: "json",
             
             success: function(response){
                 dataset = response["data"];
@@ -236,41 +265,13 @@ app.controller('myCon',function($scope,$http,$sce){
             params:{domainName:nowOperateClass}
         }).then(function successCallback(response){
             response = response["data"];
+            console.log(response.data);
             $scope.classInfo=response.data;
         }, function errorCallback(response){
 
         });
     }
 
-
-
-
-    // $scope.getTerm=function(){
-    //     nowOperateClass=document.getElementById("nameofclass").value;
-
-    //     $http({
-    //         method:'GET',
-    //         url:ip+"/SpiderAPI/getDomainTerm",
-    //         params:{ClassName:nowOperateClass}
-    //     }).then(function successCallback(response){
-    //         for(var i=0;i<response.data.length;i++){
-
-    //             $http({
-    //                 method:'GET',
-    //                 url:ip+"/DomainTopicAPI/getDomainTermInfo",
-    //                 params:{ClassName:nowOperateClass,TermName:response.data[i].TermName}
-    //             }).then(function successCallback(response1){
-    //                 if(response1.data[0].FacetNum==0){
-    //                      $("#"+response1.data[0].TermName+"_a").hide();
-    //                  }
-    //             }, function errorCallback(response1){
-
-    //             });
-    //         }
-    //     }, function errorCallback(response){
-
-    //     });
-    // }
 
     $scope.getTopic=function(a){
         nowOperateClass=a;
@@ -287,33 +288,6 @@ app.controller('myCon',function($scope,$http,$sce){
         });
     }
 
-
-    // $scope.gettopichref=function(a,b){
-    //     $http({
-    //         method:'GET',
-    //         url:ip+"/SpiderAPI/getDomainTermFacet1",
-    //         params:{ClassName:a,TermName:b}
-    //     }).then(function successCallback(response){
-    //         for(var i=0;i<response.data.length;i++){
-
-    //             $http({
-    //                 method:'GET',
-    //                 url:ip+"/FacetAPI/getFacet1Facet2Num",
-    //                 params:{ClassName:a,TermName:b,Facet1Name:response.data[i].FacetName}
-    //             }).then(function successCallback(response1){
-    //                 if(response1.data.Facet2Num==0){
-    //                            $("#"+b+"_"+response1.data.Facet1Name+"_a").hide();
-    //                                                            }
-    //             }, function errorCallback(response1){
-
-    //             });
-    //         }
-    //     }, function errorCallback(response){
-
-    //     });
-
-        
-    // }
 
     $scope.gettopicfragment=function(a,b){
         nowOperateClass=a;
@@ -336,47 +310,17 @@ app.controller('myCon',function($scope,$http,$sce){
         });
     }
 
-    // $scope.getfacet1href=function(a,b,c){
-        
-    //     $http({
-    //         method:'GET',
-    //         url:ip+"/SpiderAPI/getDomainTermFacet2",
-    //         params:{ClassName:a,TermName:b,Facet1Name:c}
-    //     }).then(function successCallback(response){
-    //         if(response.data.length!=0){
-    //             for(var i=0;i<response.data.length;i++){
 
-    //             $http({
-    //                 method:'GET',
-    //                 url:ip+"/FacetAPI/getFacet2Facet3Num",
-    //                 params:{ClassName:a,TermName:b,Facet2Name:response.data[i].ChildFacet}
-    //             }).then(function successCallback(response1){
-    //                 if(response1.data.Facet3Num==0){
-    //                            $("#"+b+"_"+c+"_"+response1.data.Facet2Name+"_a").hide();
-    //                                                            }
-    //             }, function errorCallback(response1){
-
-    //             });
-    //         }}else{
-    //                 $("#"+b+"_"+c+"_info").remove();
-                    
-    //             }
-    //     }, function errorCallback(response){
-
-    //     });
-
-        
-    // }
-
-    $scope.getfacet1fragment=function(a,b,c){
+    $scope.getfacet1fragment=function(a,b,c,d){
         nowOperateClass=a;
         nowOperateTopic=b;
         nowOperateFacet1=c;
+        nowOperateFacet1Id=d;
 
         $http({
             method:'GET',
-            url:ip+"/assemble/getAssemblesInFirstLayerFacet",
-            params:{domainName:a,topicName:b,firstLayerFacetName:c}
+            url:ip+"/assemble/getAssemblesByFacetId",
+            params:{facetId:d}
         }).then(function successCallback(response){
             response = response["data"];
             $scope.fragments=response.data;
@@ -390,29 +334,17 @@ app.controller('myCon',function($scope,$http,$sce){
         });
     }
 
-    // $scope.getfacet2href=function(a,b,c,d){
-    //     $http({
-    //         method:'GET',
-    //         url:ip+"/SpiderAPI/getDomainTermFacet3",
-    //         params:{ClassName:a,TermName:b,Facet2Name:d}
-    //     }).then(function successCallback(response){
-    //         if(response.data.length!=0){
-    //             }else{
-    //                 $("#"+b+"_"+c+"_"+d+"_info").remove();
-    //             }
-    //     }, function errorCallback(response){
-
-    //     });
-    // }
-    $scope.getfacet2fragment=function(a,b,c){
+    
+    $scope.getfacet2fragment=function(a,b,c,d){
         nowOperateClass=a;
         nowOperateTopic=b;
         nowOperateFacet2=c;
+        nowOperateFacet2Id=d;
 
         $http({
             method:'GET',
-            url:ip+"/assemble/getAssemblesInSecondLayerFacet",
-            params:{domainName:a,topicName:b,secondLayerFacetName:c}
+            url:ip+"/assemble/getAssemblesByFacetId",
+            params:{facetId:d}
         }).then(function successCallback(response){
             response = response["data"];
             $scope.fragments=response.data;
@@ -426,12 +358,16 @@ app.controller('myCon',function($scope,$http,$sce){
         });
     }
 
-    $scope.getfacet3=function(a,b,c){
+    $scope.getfacet3=function(a,b,c,d){
+        nowOperateClass=a;
+        nowOperateTopic=b;
+        nowOperateFacet3=c;
+        nowOperateFacet3Id=d;
 
         $http({
             method:'GET',
-            url:ip+"/assemble/getAssemblesInThirdLayerFacet",
-            params:{domainName:a,topicName:b,thirdLayerFacetName:c}
+            url:ip+"/assemble/getAssemblesByFacetId",
+            params:{facetId:d}
         }).then(function successCallback(response){
             response = response["data"];
             $scope.fragments=response.data;
@@ -458,6 +394,23 @@ app.controller('myCon',function($scope,$http,$sce){
             response = response["data"];
             // console.log(response.data[0].FragmentContent);
             $("#wang").html(response.data.assembleContent);
+        }, function errorCallback(response){
+
+        });
+    }
+
+    $scope.modifyAssemble=function(a){
+        modify_add_flag=2;
+        now_modify_id=a;
+        $("#fragmentModal").modal();
+
+        $http({
+            method:'GET',
+            url:ip+"/assemble/getAssembleById",
+            params:{assembleId:a}
+        }).then(function successCallback(response){
+            console.log(response.data.data.assembleContent);
+            $("#wang").html(response.data.data.assembleContent);
         }, function errorCallback(response){
 
         });
@@ -490,5 +443,11 @@ app.controller('myCon',function($scope,$http,$sce){
         }, function errorCallback(response){
 
         });
+    }
+    // 每个碎片的内容
+    $scope.getFragmentDetail=function(obj){
+        console.log(obj);
+        $('#fragmentDetail').modal('show');
+        document.getElementById("fragmentDetailContent").innerHTML=obj.assembleContent;
     }
 });
