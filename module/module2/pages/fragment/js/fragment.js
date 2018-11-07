@@ -5,7 +5,7 @@ $(document).ready(function(){
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
  // console.log(zidingyi_height);
- $("#fragmentClassDiv").css("height",zidingyi_height*0.85+"px");
+ $("#fragmentClassDiv").css("height",zidingyi_height*0.87+"px");
  $("#fragmentUnaddDiv").css("height",zidingyi_height*0.4+"px");
  $("#fragmentInfoDiv").css("height",zidingyi_height*0.4+"px");
 })
@@ -34,25 +34,32 @@ function choosetype(){
     modify_add_flag=0;
 }
 
+setCookie("NowClass","数据结构","d900");
+setCookie("NowTopic","树状数组","d900");
+
 var app=angular.module('myApp',[
     'ui.bootstrap','ngDraggable'
     ]);
 app.controller('myCon',function($scope,$http,$sce){
     $http.get(ip+'/domain/getDomains').success(function(response){
+
+        $scope.getTopic(getCookie("NowClass"));
+        $scope.gettopicfragment(getCookie("NowClass"),getCookie("NowTopic"));
+
         response = response["data"];
         $scope.subjects=response;
         // console.log(nowOperateClass);
-        $("#class_name").text(nowOperateClass);
-        if(getCookie("NowFacetLayer")==1){
-            $scope.getfacet1fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
+        // $("#class_name").text(nowOperateClass);
+        // if(getCookie("NowFacetLayer")==1){
+        //     $scope.getfacet1fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
 
-        }else if(getCookie("NowFacetLayer")==2){
-            $scope.getfacet2fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet1"),getCookie("NowFacet"));
+        // }else if(getCookie("NowFacetLayer")==2){
+        //     $scope.getfacet2fragment(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet1"),getCookie("NowFacet"));
 
-        }else{
-            $scope.getfacet3(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
+        // }else{
+        //     $scope.getfacet3(getCookie("NowClass"),getCookie("NowTopic"),getCookie("NowFacet"));
 
-        }
+        // }
     });
 
     $http.get(ip+'/assemble/getTemporaryAssemblesByUserName',{params:{"userName":username}}).success(function(response){

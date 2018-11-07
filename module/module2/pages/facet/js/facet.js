@@ -5,7 +5,7 @@ $(document).ready(function(){
  var footer=$(".main-footer").offset().top
  zidingyi_height=footer-header;
  // console.log(zidingyi_height);
- $("#facetClassDiv").css("height",zidingyi_height*0.85+"px");
+ $("#facetClassDiv").css("height",zidingyi_height*0.86+"px");
  $("#facetAddDiv").css("height",zidingyi_height*0.15+"px");
  $("#facetTreeDiv").css("height",zidingyi_height*0.64+"px");
  $("#facetFacetDiv").css("height",zidingyi_height*0.64+"px");
@@ -18,6 +18,9 @@ var nowOperateClass;
 var nowOperateTopic;
 var nowOperateFacet1;
 var nowOperateFacet2;
+
+setCookie("NowClass","数据结构","d900");
+setCookie("NowTopic","树状数组","d900");
 
 
 var app=angular.module('myApp',[

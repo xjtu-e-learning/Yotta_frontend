@@ -10,7 +10,7 @@ $(document).ready(function(){
     // zidingyi_height=window.innerHeight-footer-header-mainheader;
     // console.log(zidingyi_height);
     $("#classNumDiv").css("height",zidingyi_height*0.07+"px");
-    $("#classInfoDiv").css("height",zidingyi_height*0.9+"px");
+    $("#classInfoDiv").css("height",zidingyi_height*0.92+"px");
     $("#classAddDiv").css("height",zidingyi_height*0.1+"px");
     $("#classQueryDiv").css("height",zidingyi_height*0.74+"px");
     $("#Select_result").css("height",zidingyi_height*0.58+"px");
