@@ -14,7 +14,7 @@ $(document).ready(function(){
  zidingyi_height=footer-header;
  // console.log(zidingyi_height);
  $("#relationClassDiv").css("height",zidingyi_height*0.1+"px");
- $("#relationInfoDiv").css("height",zidingyi_height*0.8+"px");
+ $("#relationInfoDiv").css("height",zidingyi_height*0.78+"px");
  $("#relationTreeDiv").css("height",zidingyi_height*0.8+"px");
 })
 
@@ -26,12 +26,40 @@ app.controller('myCon',function($scope,$http){
     $http.get(ip+'/domain/getDomains').success(function(response){
         response = response["data"];
         $scope.subjects=response;
+        $scope.getDependence_new("数据结构");
     });
+
+
+    // 获取认知关系和知识森林
+    $scope.getDependence_new=function(a){
+        init(a); // 知识森林初始化
+        $http({
+            method:'GET',
+            url:ip+"/dependency/getDependenciesByDomainName",
+            params:{domainName:a}
+        }).then(function successCallback(response){
+            response = response["data"];
+            $scope.dependences=response.data;
+            $("#DependenceNum").text(a+"共有"+response.data.length+"条认知关系");
+        }, function errorCallback(response){
+
+        });
+        $http({
+            method:'GET',
+            url:ip+"/topic/getTopicsByDomainName",
+            params:{domainName:a}
+        }).then(function successCallback(response){
+            response = response["data"];
+            $scope.topics=response.data;
+        }, function errorCallback(response){
+
+        });
+    }
 
     // 获取认知关系和知识森林
     $scope.getDependence=function(){
         nowOperateClass=document.getElementById("nameofclass").value;
-        init(); // 知识森林初始化
+        init(nowOperateClass); // 知识森林初始化
         $http({
             method:'GET',
             url:ip+"/dependency/getDependenciesByDomainName",
@@ -108,14 +136,14 @@ app.controller('myCon',function($scope,$http){
  * 知识森林程序
  */
 //初始化界面
-function init() {
+function init(a) {
     $(document).ready(function () {
-        nowOperateClass=document.getElementById("nameofclass").value;
+        // nowOperateClass=document.getElementById("nameofclass").value;
         // api获取图数据
         var xml;
         $.ajax({
             type :"POST",
-            url :ip + "/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=" + nowOperateClass,
+            url :ip + "/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=" + a,
             datatype :"json",
             async:false,
             success : function(response, status){
@@ -172,7 +200,7 @@ function init() {
         })
         option = {
             title: {
-                text: nowOperateClass,
+                text: a,
                 subtext: 'Default layout',
                 top: 'bottom',
                 left: 'right'
@@ -187,7 +215,7 @@ function init() {
             animationEasingUpdate: 'quinticInOut',
 
             series: [{
-                name: nowOperateClass,
+                name: a,
                 type: 'graph',
                 layout: 'none',
                 data: graph.nodes,

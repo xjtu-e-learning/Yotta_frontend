@@ -7,7 +7,7 @@ $(document).ready(function(){
  // console.log(zidingyi_height);
  $("#topicClassDiv").css("height",zidingyi_height*0.85+"px");
  $("#topicAddDiv").css("height",zidingyi_height*0.15+"px");
- $("#topicInfoDiv").css("height",zidingyi_height*0.64+"px");
+ $("#topicInfoDiv").css("height",zidingyi_height*0.62+"px");
  $("#InfoChart").css("height",zidingyi_height*0.5+"px");
  $("#topicAllDiv").css("height",zidingyi_height*0.85+"px");
            
@@ -16,11 +16,12 @@ $(document).ready(function(){
 var nowOperateSubject;
 var nowOperateTopic;
 
+setCookie("NowClass","数据结构","d900");
+
 var app=angular.module('myApp',[]);
 app.controller('myCon',function($scope,$http){
     $http.get(ip+'/domain/getDomains').success(function(response){
         data = response.data
-        //console.log(getCookie("NowTopic"));
         $scope.subjects=data;
         $scope.chooseSubject(getCookie("NowClass"));
         $scope.getTopicInfo(getCookie("NowTopic"));
